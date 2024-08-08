@@ -1,23 +1,19 @@
 ---
 layout: post
-title:  "Three.js 之 9 Light 光"
+title: "Three.js 之 9 Light 光"
 categories: Three.js
-tags:  Three.js WebGL
+tags: Three.js WebGL
 author: HyG
 ---
 
-* content
-{:toc}
+- content
+  {:toc}
 
 本系列为 [Three.js journey](https://threejs-journey.com/) 教程学习笔记。
 
 lights 光
 
 我们之前学习了简单的添加光源到场景中。接下来就详细讲讲各种各样的光源、参数以及如何使用。
-
-
-
-
 
 # 创建一组几何体
 
@@ -151,20 +147,20 @@ Object3D → Light → AmbientLight
 因此在构造函数的声明变量也可以直接在其示例上修改，如下
 
 ```js
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
-scene.add(ambientLight)
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambientLight);
 
 // Equals
-const ambientLight = new THREE.AmbientLight()
-ambientLight.color = new THREE.Color(0xffffff)
-ambientLight.intensity = 0.5
-scene.add(ambientLight)
+const ambientLight = new THREE.AmbientLight();
+ambientLight.color = new THREE.Color(0xffffff);
+ambientLight.intensity = 0.5;
+scene.add(ambientLight);
 ```
 
 可以在 gui 中增加一行观察环境光强度
 
 ```js
-gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001)
+gui.add(ambientLight, "intensity").min(0).max(1).step(0.001);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i2/O1CN01iUHdcG20AZZbt0QGL_!!6000000006809-1-tps-1008-464.gif)
@@ -178,8 +174,8 @@ gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001)
 我们在 demo 上增加平行光
 
 ```js
-const directionalLight = new THREE.DirectionalLight('#ffffaa', 0.5)
-scene.add(directionalLight)
+const directionalLight = new THREE.DirectionalLight("#ffffaa", 0.5);
+scene.add(directionalLight);
 ```
 
 效果如下
@@ -189,15 +185,14 @@ scene.add(directionalLight)
 默认平行光是从顶部直射的，我们可以使用 position 属性设置位置
 
 ```js
-const directionalLight = new THREE.DirectionalLight('#ffffaa', 0.5)
-directionalLight.position.set(1, 0.25, 0)
-scene.add(directionalLight)
+const directionalLight = new THREE.DirectionalLight("#ffffaa", 0.5);
+directionalLight.position.set(1, 0.25, 0);
+scene.add(directionalLight);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01P8yquT1XFxNANPibM_!!6000000002895-2-tps-1132-408.png)
 
-
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/15-lights/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/15-lights/)
 
 可扫码访问
 
@@ -216,13 +211,13 @@ scene.add(directionalLight)
 半球光不能投射阴影。
 
 ```js
-const hemisphereLight = new THREE.HemisphereLight('#B71C1C', '#004D40', 0.6)
-scene.add(hemisphereLight)
+const hemisphereLight = new THREE.HemisphereLight("#B71C1C", "#004D40", 0.6);
+scene.add(hemisphereLight);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01zJl8gV1F6BqD1NogD_!!6000000000437-1-tps-1008-464.gif)
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/15-lights/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/15-lights/)
 
 可扫码访问
 
@@ -235,9 +230,10 @@ scene.add(hemisphereLight)
 从一个点向各个方向发射的光源。一个常见的例子是模拟一个灯泡发出的光。该光源可以投射阴影。
 
 其特点是光源无线小，光线向各个方向传播。
+
 - 第一个参数 color 是颜色
 - intensity 是强度。
-- distance 这个距离表示从光源到光照强度为0的位置。当设置为0时，光永远不会消失(距离无穷大)。缺省值 0.
+- distance 这个距离表示从光源到光照强度为 0 的位置。当设置为 0 时，光永远不会消失(距离无穷大)。缺省值 0.
 - decay 沿着光照距离的衰退量。缺省值 1。 在 physically correct 模式中，decay = 2。
 
 ```js
@@ -245,9 +241,9 @@ PointLight( color : Integer, intensity : Float, distance : Number, decay : Float
 ```
 
 ```js
-const pointLight = new THREE.PointLight(0xff9000, 0.5)
-pointLight.position.set(1, 1, 1)
-scene.add(pointLight)
+const pointLight = new THREE.PointLight(0xff9000, 0.5);
+pointLight.position.set(1, 1, 1);
+scene.add(pointLight);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN011kUjGp1mGcAxbjTJc_!!6000000004927-1-tps-1008-532.gif)
@@ -255,8 +251,8 @@ scene.add(pointLight)
 gui 增加调节 distance 和 decay 的代码如下
 
 ```js
-pointLightFolder.add(pointLight, 'distance', 0, 100, 0.00001)
-pointLightFolder.add(pointLight, 'decay', 0, 10, 0.00001)
+pointLightFolder.add(pointLight, "distance", 0, 100, 0.00001);
+pointLightFolder.add(pointLight, "decay", 0, 10, 0.00001);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN013IgpOp1sTnGih2B0K_!!6000000005768-1-tps-1008-585.gif)
@@ -266,7 +262,6 @@ pointLightFolder.add(pointLight, 'decay', 0, 10, 0.00001)
 平面光光源从一个矩形平面上均匀地发射光线。这种光源可以用来模拟像明亮的窗户或者条状灯光光源。它混合了平行光与发散光。
 
 不支持阴影。只支持 MeshStandardMaterial 和 MeshPhysicalMaterial 两种材质。
-
 
 ```js
 RectAreaLight( color : Integer, intensity : Float, width : Float, height : Float )
@@ -278,10 +273,10 @@ RectAreaLight( color : Integer, intensity : Float, width : Float, height : Float
 - height - (可选参数) 光源高度。缺省值为 10。
 
 ```js
-const rectAreaLight = new THREE.RectAreaLight(0x4e00ff, 10, 1, 1)
-rectAreaLight.position.set(-1.5, 0, 1.5)
-rectAreaLight.lookAt(new THREE.Vector3())
-scene.add(rectAreaLight)
+const rectAreaLight = new THREE.RectAreaLight(0x4e00ff, 10, 1, 1);
+rectAreaLight.position.set(-1.5, 0, 1.5);
+rectAreaLight.lookAt(new THREE.Vector3());
+scene.add(rectAreaLight);
 ```
 
 效果如下
@@ -292,7 +287,7 @@ scene.add(rectAreaLight)
 
 ![](https://gw.alicdn.com/imgextra/i2/O1CN01TM012g1spJsuEe4zZ_!!6000000005815-1-tps-1124-616.gif)
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/15-lights/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/15-lights/)
 
 可扫码访问
 
@@ -313,14 +308,21 @@ SpotLight( color : Integer, intensity : Float, distance : Float, angle : Radians
 - color - (可选参数) 十六进制光照颜色。 缺省值 0xffffff (白色)。
 - intensity - (可选参数) 光照强度。 缺省值 1。
 - distance - 从光源发出光的最大距离，其强度根据光源的距离线性衰减。
-- angle - 光线散射角度，最大为Math.PI/2。
-- penumbra - 聚光锥的半影衰减百分比。在0和1之间的值。默认为0。
+- angle - 光线散射角度，最大为 Math.PI/2。
+- penumbra - 聚光锥的半影衰减百分比。在 0 和 1 之间的值。默认为 0。
 - decay - 沿着光照距离的衰减量。
 
 ```js
-const spotLight = new THREE.SpotLight(0x78ff00, 0.5, 10, Math.PI * 0.1, 0.25, 1)
-spotLight.position.set(0, 2, 3)
-scene.add(spotLight)
+const spotLight = new THREE.SpotLight(
+  0x78ff00,
+  0.5,
+  10,
+  Math.PI * 0.1,
+  0.25,
+  1
+);
+spotLight.position.set(0, 2, 3);
+scene.add(spotLight);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01KFCbUY1fhS4b5cuaK_!!6000000004038-2-tps-1129-617.png)
@@ -369,6 +371,3 @@ High cost:
 # 小结
 
 本节学习了 Three.js 内置的所有光效，并学习了其 Helper 的使用。了解了其性能的排序，以及光照烘焙的方案。下一节将学习投影。
-
-
-

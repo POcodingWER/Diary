@@ -1,28 +1,23 @@
 ---
 layout: post
-title:  "Three.js 之 8 炫酷的 3D Text"
+title: "Three.js 之 8 炫酷的 3D Text"
 categories: Three.js
-tags:  Three.js WebGL
+tags: Three.js WebGL
 author: HyG
 ---
 
-* content
-{:toc}
+- content
+  {:toc}
 
 本系列为 [Three.js journey](https://threejs-journey.com/) 教程学习笔记。
 
 本节将学习 3D Text，并做一个炫酷的 3D Text 展示页面。我们将使用 [TextGeometry](https://threejs.org/docs/#examples/zh/geometries/TextGeometry) 文本缓冲几何体来实现。
-
-
-
-
 
 # typeface font
 
 Three.js 内置了 [FontLoader](https://threejs.org/docs/#examples/zh/loaders/FontLoader) 来加载 json 格式字体。可以使用 [facetype.js](http://gero3.github.io/facetype.js/) 在线转换 json 字体。
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN016uvJVz1aMm75D04iV_!!6000000003316-2-tps-1786-1226.png)
-
 
 # Load the font
 
@@ -48,12 +43,12 @@ fontLoader.load(
 
 ```js
 // Load font
-const fontLoader = new FontLoader()
+const fontLoader = new FontLoader();
 fontLoader.load(
-  '../assets/fonts/Fira Code Medium_Regular.json',
+  "../assets/fonts/Fira Code Medium_Regular.json",
   // onLoad回调
   (font) => {
-    console.log('loaded', font)
+    console.log("loaded", font);
     const textGeometry = new TextGeometry("Joe CS's three.js world!", {
       font,
       size: 0.5,
@@ -64,13 +59,13 @@ fontLoader.load(
       bevelSize: 0.02,
       bevelOffset: 0,
       bevelSegments: 5,
-    })
+    });
 
-    const textMaterial = new THREE.MeshBasicMaterial()
-    const text = new THREE.Mesh(textGeometry, textMaterial)
-    scene.add(text)
-  },
-)
+    const textMaterial = new THREE.MeshBasicMaterial();
+    const text = new THREE.Mesh(textGeometry, textMaterial);
+    scene.add(text);
+  }
+);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01biVOtn29Rp1n3h48P_!!6000000008065-2-tps-1135-545.png)
@@ -84,8 +79,8 @@ fontLoader.load(
 使用 BoxHelper 可以观察 bounding box
 
 ```js
-const box = new THREE.BoxHelper(text, 0xffff00)
-scene.add(box)
+const box = new THREE.BoxHelper(text, 0xffff00);
+scene.add(box);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN013nOpwF21AP2YBRYLA_!!6000000006944-2-tps-1136-548.png)
@@ -93,13 +88,13 @@ scene.add(box)
 于是我们使用 `computeBoundingBox` 获取 box 的尺寸，再进行位移，代码如下
 
 ```js
-textGeometry.computeBoundingBox() // 计算 box 边界
+textGeometry.computeBoundingBox(); // 计算 box 边界
 if (textGeometry.boundingBox) {
   textGeometry.translate(
     -textGeometry.boundingBox.max.x * 0.5, // Subtract bevel size
     -textGeometry.boundingBox.max.y * 0.5, // Subtract bevel size
-    -textGeometry.boundingBox.max.z * 0.5, // Subtract bevel thickness
-  )
+    -textGeometry.boundingBox.max.z * 0.5 // Subtract bevel thickness
+  );
 }
 ```
 
@@ -110,7 +105,7 @@ if (textGeometry.boundingBox) {
 当然还可以直接使用
 
 ```js
-textGeometry.center()
+textGeometry.center();
 ```
 
 完整代码如下
@@ -203,14 +198,14 @@ tick()
 
 # Add a matcap material
 
-可以在 [https://github.com/nidorx/matcaps](https://github.com/nidorx/matcaps) 这里找到需要的纹理素材，如果商用，请确保版权。不需要特别高分辨率，256*256 足矣。
+可以在 [https://github.com/nidorx/matcaps](https://github.com/nidorx/matcaps) 这里找到需要的纹理素材，如果商用，请确保版权。不需要特别高分辨率，256\*256 足矣。
 
 ```js
-const textureLoader = new THREE.TextureLoader()
-const matcapTexture = textureLoader.load('../assets/textures/matcaps/1.png')
+const textureLoader = new THREE.TextureLoader();
+const matcapTexture = textureLoader.load("../assets/textures/matcaps/1.png");
 
-const textMaterial = new THREE.MeshMatcapMaterial()
-textMaterial.matcap = matcapTexture
+const textMaterial = new THREE.MeshMatcapMaterial();
+textMaterial.matcap = matcapTexture;
 ```
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01RMYToA24DYcAi1BDR_!!6000000007357-2-tps-1135-559.png)
@@ -220,27 +215,31 @@ textMaterial.matcap = matcapTexture
 我们在添加一些几何体悬浮在周围。可以在 for 循环中创建各种几何体。
 
 ```js
-const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 20, 45)
-const boxGeometry = new THREE.BoxGeometry(0.6, 0.6, 0.6)
+const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 20, 45);
+const boxGeometry = new THREE.BoxGeometry(0.6, 0.6, 0.6);
 
 for (let i = 0; i < 100; i += 1) {
-  let mesh
+  let mesh;
   if (i % 10 <= 2) {
-    mesh = new THREE.Mesh(boxGeometry, material)
+    mesh = new THREE.Mesh(boxGeometry, material);
   } else {
-    mesh = new THREE.Mesh(donutGeometry, material)
+    mesh = new THREE.Mesh(donutGeometry, material);
   }
   mesh.position.set(
     (Math.random() - 0.5) * 10,
     (Math.random() - 0.5) * 10,
     (Math.random() - 0.5) * 10
-  )
+  );
   mesh.setRotationFromEuler(
-    new THREE.Euler(Math.PI * Math.random(), Math.PI * Math.random(), Math.PI * Math.random())
-  )
-  const radomeScale = Math.random() * 0.5 + 0.5
-  mesh.scale.set(radomeScale, radomeScale, radomeScale)
-  scene.add(mesh)
+    new THREE.Euler(
+      Math.PI * Math.random(),
+      Math.PI * Math.random(),
+      Math.PI * Math.random()
+    )
+  );
+  const radomeScale = Math.random() * 0.5 + 0.5;
+  mesh.scale.set(radomeScale, radomeScale, radomeScale);
+  scene.add(mesh);
 }
 ```
 
@@ -251,16 +250,16 @@ for (let i = 0; i < 100; i += 1) {
 可以直接使用 OrbitControls 进行旋转
 
 ```js
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 ```
 
 添加如下代码
 
 ```js
-const controls = new OrbitControls(camera, canvas)
-controls.enableDamping = true
-controls.autoRotate = true
-controls.autoRotateSpeed = 0.4
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+controls.autoRotate = true;
+controls.autoRotateSpeed = 0.4;
 ```
 
 别忘了在 `requestAnimationFrame` 中 update
@@ -268,17 +267,17 @@ controls.autoRotateSpeed = 0.4
 ```js
 // Animations
 const tick = () => {
-  stats.begin()
+  stats.begin();
 
-  controls.update()
+  controls.update();
 
   // Render
-  renderer.render(scene, camera)
-  stats.end()
-  requestAnimationFrame(tick)
-}
+  renderer.render(scene, camera);
+  stats.end();
+  requestAnimationFrame(tick);
+};
 
-tick()
+tick();
 ```
 
 # GUI controls
@@ -295,7 +294,7 @@ tick()
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN013zENey1TXa95mkCWj_!!6000000002392-2-tps-200-200.png)
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/13-3DText/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/13-3DText/)
 
 [demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/13-3DText)
 

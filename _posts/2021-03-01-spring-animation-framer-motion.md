@@ -1,21 +1,19 @@
 ---
 layout: post
-title:  "前端弹性动画与 framer-motion 动画库初探"
+title: "前端弹性动画与 framer-motion 动画库初探"
 categories: JavaScript
 tags: 动画
 author: HyG
 mathjax: true
 ---
 
-* content
-{:toc}
+- content
+  {:toc}
 
 前端动画的开发一直是我所热衷探索与研究的内容，本文将描述什么是拟真的动画效果，目前所流行的 React 动画库，以及一些基于 framer-motion 动画库的 demos。
 
-
-
-
 {% raw %}
+
 ## 动画效果的真实体验
 
 ### `timing-function` 的不足
@@ -187,7 +185,7 @@ $$
     <video src="https://g.alicdn.com/ltao-fe/assets/damping.mp4" autoplay controls preload loop muted width="300px"></video>
   </td>
   <td>
-    <a href="https://gaohaoyang.github.io/framer-motion-practice/#/Spring">点击或扫码体验</a> <br />
+    <a href="https://pocodingwer.github.io/POcodingWER_Blog/framer-motion-practice/#/Spring">点击或扫码体验</a> <br />
     <img src="https://gw.alicdn.com/imgextra/i2/O1CN011yInSb1UIIRunzpdL_!!6000000002494-2-tps-200-200.png"/>
   </td>
 </tr>
@@ -197,22 +195,22 @@ $$
 
 ## 基于 React 的弹性动画库
 
-目前业内有3种基于 react 的弹性动画库，我们来分析对比一下：
+目前业内有 3 种基于 react 的弹性动画库，我们来分析对比一下：
 
 - [react-motion](https://github.com/chenglou/react-motion)
-  - spring 动画的提出者，不支持 hooks api，3年内未更新
+  - spring 动画的提出者，不支持 hooks api，3 年内未更新
 - [react-spring](https://www.react-spring.io/)
   - 灵感来源于 react-motion，支持 hooks，功能强大
 - [framer-motion](https://www.framer.com/motion/)
   - 支持 hooks，功能强大，同时增加了很多声明式属性，api 简洁友好
 
-再来对比一下3个库的 npm 下载情况，基本是差不多的
+再来对比一下 3 个库的 npm 下载情况，基本是差不多的
 
-name | download values
---- | ---
-react-motion | <img src="https://gw.alicdn.com/imgextra/i1/O1CN01jwQeCd21tHkxwg9h1_!!6000000007042-2-tps-528-110.png" width="300px"/>
-react-spring | <img src="https://gw.alicdn.com/imgextra/i1/O1CN01EZY4kL1zfswDwcpgZ_!!6000000006742-2-tps-510-114.png" width="300px"/>
-framer-motion | <img src="https://gw.alicdn.com/imgextra/i4/O1CN01RsV09s1abQgessyq0_!!6000000003348-2-tps-526-114.png" width="300px"/>
+| name          | download values                                                                                                        |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| react-motion  | <img src="https://gw.alicdn.com/imgextra/i1/O1CN01jwQeCd21tHkxwg9h1_!!6000000007042-2-tps-528-110.png" width="300px"/> |
+| react-spring  | <img src="https://gw.alicdn.com/imgextra/i1/O1CN01EZY4kL1zfswDwcpgZ_!!6000000006742-2-tps-510-114.png" width="300px"/> |
+| framer-motion | <img src="https://gw.alicdn.com/imgextra/i4/O1CN01RsV09s1abQgessyq0_!!6000000003348-2-tps-526-114.png" width="300px"/> |
 
 其中 framer-motion 可以说是异军突起，发展非常迅猛
 
@@ -220,7 +218,7 @@ framer-motion | <img src="https://gw.alicdn.com/imgextra/i4/O1CN01RsV09s1abQgess
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN017jtfSs1mRbaCrPZGb_!!6000000004951-2-tps-397-199.png)
 
-2020年10月的周下载量几乎是2019年同期的10倍，这大部分得益于其 api 的友好性。接下来将一起探索一下 framer-motion 的使用方式。
+2020 年 10 月的周下载量几乎是 2019 年同期的 10 倍，这大部分得益于其 api 的友好性。接下来将一起探索一下 framer-motion 的使用方式。
 
 ## framer-motion
 
@@ -232,7 +230,7 @@ framer motion 是一个生产级的 React 动画库，为他们自家原型工�
 
 官网强调了几个特性，这也是其极简 api 的一些特性
 
-- 声明式api
+- 声明式 api
 - 组件间共享布局动画
 - 手势支持
 
@@ -241,10 +239,10 @@ framer motion 是一个生产级的 React 动画库，为他们自家原型工�
 ### 弹簧阻尼 demo
 
 ```jsx
-import React from 'react'
-import { motion } from 'framer-motion'
+import React from "react";
+import { motion } from "framer-motion";
 
-import './index.css'
+import "./index.css";
 
 function index() {
   return (
@@ -256,7 +254,7 @@ function index() {
           animate={{
             x: 150,
             transition: {
-              type: 'spring',
+              type: "spring",
               damping: 0,
             },
           }}
@@ -269,7 +267,7 @@ function index() {
           animate={{
             x: 150,
             transition: {
-              type: 'spring',
+              type: "spring",
               damping: 2,
             },
           }}
@@ -282,7 +280,7 @@ function index() {
           animate={{
             x: 150,
             transition: {
-              type: 'spring',
+              type: "spring",
               damping: 100,
             },
           }}
@@ -295,7 +293,7 @@ function index() {
           animate={{
             x: 150,
             transition: {
-              type: 'spring',
+              type: "spring",
               damping: 17,
             },
           }}
@@ -308,21 +306,22 @@ function index() {
       <button
         type="button"
         onClick={() => {
-          window.location.reload()
+          window.location.reload();
         }}
       >
         reload this page
       </button>
     </>
-  )
+  );
 }
 
-export default index
+export default index;
 ```
 
-demo 页面链接 [https://gaohaoyang.github.io/framer-motion-practice/#/Spring](https://gaohaoyang.github.io/framer-motion-practice/#/Spring)
+demo 页面链接 [https://pocodingwer.github.io/POcodingWER_Blog/framer-motion-practice/#/Spring](https://pocodingwer.github.io/POcodingWER_Blog/framer-motion-practice/#/Spring)
 
 可以看到代码确实非常简洁。本质上代码分为两部分：
+
 - motion 为前缀的 HTML 或 SVG 标签结合在一起创建的基础组件
 - 通过 prop 与组件对接的 api
 
@@ -349,18 +348,18 @@ animate={{
 接下来再看一个元素展示和隐藏时的动画 demo。正常情况下，在元素消失时，我们要监听 `transitionend` 事件，然后再移除 dom 节点，但 framer-motion 也帮我们封装好了，只需要 `AnimatePresence` 这个标签即可，代码如下：
 
 ```jsx
-import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 function index() {
-  const [toggleShow, setToggleShow] = useState(true)
+  const [toggleShow, setToggleShow] = useState(true);
   return (
     <>
       <br />
       <br />
       <button
         onClick={() => {
-          setToggleShow((pre) => !pre)
+          setToggleShow((pre) => !pre);
         }}
         type="button"
       >
@@ -373,9 +372,9 @@ function index() {
         {toggleShow && (
           <motion.div
             style={{
-              backgroundColor: '#ddd',
-              width: '50vw',
-              height: '80vw',
+              backgroundColor: "#ddd",
+              width: "50vw",
+              height: "80vw",
             }}
             key="modal"
             initial={{ opacity: 0 }}
@@ -387,10 +386,10 @@ function index() {
         )}
       </AnimatePresence>
     </>
-  )
+  );
 }
 
-export default index
+export default index;
 ```
 
 <table>
@@ -399,7 +398,7 @@ export default index
     <video src="https://g.alicdn.com/ltao-fe/assets/fadeInOut.mp4" autoplay controls preload loop muted width="300px"></video>
   </td>
   <td>
-    <a href="https://gaohaoyang.github.io/framer-motion-practice/#/FadeInOut">点击或扫码体验</a> <br />
+    <a href="https://pocodingwer.github.io/POcodingWER_Blog/framer-motion-practice/#/FadeInOut">点击或扫码体验</a> <br />
     <img src="https://gw.alicdn.com/imgextra/i1/O1CN01zm3ZKY1x4D7uLkixa_!!6000000006389-2-tps-200-200.png"/>
   </td>
 </tr>
@@ -420,9 +419,9 @@ exit={{ opacity: 0, x: 0 }}
 ### drag demo
 
 ```jsx
-import React from 'react'
-import { motion } from 'framer-motion'
-import './index.css'
+import React from "react";
+import { motion } from "framer-motion";
+import "./index.css";
 
 function index() {
   return (
@@ -430,12 +429,12 @@ function index() {
       <div
         className="box"
         style={{
-          width: '300px',
-          height: '500px',
+          width: "300px",
+          height: "500px",
         }}
       >
         <motion.div
-          style={{ width: '44px', height: '44px' }}
+          style={{ width: "44px", height: "44px" }}
           className="ball"
           drag
           dragConstraints={{
@@ -448,10 +447,10 @@ function index() {
         />
       </div>
     </div>
-  )
+  );
 }
 
-export default index
+export default index;
 ```
 
 效果如下：
@@ -462,7 +461,7 @@ export default index
     <video src="https://g.alicdn.com/ltao-fe/assets/drag.mp4" autoplay controls preload loop muted width="300px"></video>
   </td>
   <td>
-    <a href="https://gaohaoyang.github.io/framer-motion-practice/#/DragBall">点击或扫码体验</a> <br />
+    <a href="https://pocodingwer.github.io/POcodingWER_Blog/framer-motion-practice/#/DragBall">点击或扫码体验</a> <br />
     <img src="https://gw.alicdn.com/imgextra/i3/O1CN01WRs9RF1MjIsVUyAcm_!!6000000001470-2-tps-200-200.png"/>
   </td>
 </tr>
@@ -476,7 +475,7 @@ export default index
 transform: translate3d(128px, 228px, 0px);
 ```
 
-其他更多 demo 请访问 [https://gaohaoyang.github.io/framer-motion-practice/](https://gaohaoyang.github.io/framer-motion-practice/)
+其他更多 demo 请访问 [https://pocodingwer.github.io/POcodingWER_Blog/framer-motion-practice/](https://pocodingwer.github.io/POcodingWER_Blog/framer-motion-practice/)
 
 或扫码：
 
@@ -492,7 +491,7 @@ framer-motion 不止拥有 spring 动画，同样也具有 tween 补间动画，
 
 ## 总结
 
-不同复杂度的动画可以使用不同的动画库。对于拟真的大面积布局/dom/svg react/rax动画可以考虑使用 framer-motion。framer-motion 具有极其简洁的 api，并支持了 spring 弹性动画，手势拖拽，hooks api 等。
+不同复杂度的动画可以使用不同的动画库。对于拟真的大面积布局/dom/svg react/rax 动画可以考虑使用 framer-motion。framer-motion 具有极其简洁的 api，并支持了 spring 弹性动画，手势拖拽，hooks api 等。
 
 这些是物理和数学的魅力，感谢伟大的科学先驱们：
 

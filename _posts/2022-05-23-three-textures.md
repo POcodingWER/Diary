@@ -1,13 +1,13 @@
 ---
 layout: post
-title:  "Three.js 之 6 Texture 纹理"
+title: "Three.js 之 6 Texture 纹理"
 categories: Three.js
-tags:  Three.js WebGL
+tags: Three.js WebGL
 author: HyG
 ---
 
-* content
-{:toc}
+- content
+  {:toc}
 
 本系列为 [Three.js journey](https://threejs-journey.com/) 教程学习笔记。
 
@@ -18,10 +18,6 @@ author: HyG
 可以前往 [https://3dtextures.me/](https://3dtextures.me/) 寻找合适的纹理贴图，这个网站是提供了具有漫反射、法线、置换、遮挡、镜面反射和粗糙度贴图的免费无缝 PBR 纹理。接下来我们将使用这个[门板纹理贴图](https://3dtextures.me/2019/04/16/door-wood-001/)
 
 PBR 原则是基于物理的渲染(Physically Based Rendering)，基于与现实世界的物理原理更相符的基本理论所构成的渲染技术。PBR 已经成为一种标准，很多设计软件和库都在使用，如 Three.js, Blender 等
-
-
-
-
 
 # 如何加载 Textures
 
@@ -60,21 +56,21 @@ const material = new THREE.MeshBasicMaterial({
 当我们需要加载很多素材、模型的时候，需要这些资源的加载进度，这时 LoadingManager 就会很方便。现在我们使用 LoadingManager 加载上一个纹理。代码如下
 
 ```js
-const loadingManager = new THREE.LoadingManager()
+const loadingManager = new THREE.LoadingManager();
 loadingManager.onStart = () => {
-  console.log('onStart')
-}
+  console.log("onStart");
+};
 loadingManager.onProgress = () => {
-  console.log('onProgress')
-}
+  console.log("onProgress");
+};
 loadingManager.onLoad = () => {
-  console.log('onLoad')
-}
+  console.log("onLoad");
+};
 loadingManager.onError = () => {
-  console.log('onError')
-}
-const textureLoader = new THREE.TextureLoader(loadingManager)
-const texture = textureLoader.load('../assets/textures/door/color.jpg')
+  console.log("onError");
+};
+const textureLoader = new THREE.TextureLoader(loadingManager);
+const texture = textureLoader.load("../assets/textures/door/color.jpg");
 ```
 
 console print
@@ -88,26 +84,34 @@ onLoad
 加载多个纹理时，onProgress 可以展示出进度
 
 ```js
-const loadingManager = new THREE.LoadingManager()
+const loadingManager = new THREE.LoadingManager();
 loadingManager.onStart = (url, itemsLoaded, itemsTotal) => {
-  console.log(`Started loading file: ${url}.\nLoaded ${itemsLoaded} of ${itemsTotal} files.`)
-}
+  console.log(
+    `Started loading file: ${url}.\nLoaded ${itemsLoaded} of ${itemsTotal} files.`
+  );
+};
 loadingManager.onProgress = (url, itemsLoaded, itemsTotal) => {
-  console.log(`Loading file: ${url}.\nLoaded ${itemsLoaded} of ${itemsTotal} files.`)
-}
+  console.log(
+    `Loading file: ${url}.\nLoaded ${itemsLoaded} of ${itemsTotal} files.`
+  );
+};
 loadingManager.onLoad = () => {
-  console.log('Loading complete!')
-}
+  console.log("Loading complete!");
+};
 loadingManager.onError = (url) => {
-  console.log(`There was an error loading ${url}`)
-}
+  console.log(`There was an error loading ${url}`);
+};
 
-const textureLoader = new THREE.TextureLoader(loadingManager)
-const colorTexture = textureLoader.load('../assets/textures/door/color.jpg')
-const alphaTexture = textureLoader.load('../assets/textures/door/alpha.jpg')
-const ambientOcclusionTexture = textureLoader.load('../assets/textures/door/ambientOcclusion.jpg')
-const heightTexture = textureLoader.load('../assets/textures/door/height.jpg')
-const metalnessTexture = textureLoader.load('../assets/textures/door/metalness.jpg')
+const textureLoader = new THREE.TextureLoader(loadingManager);
+const colorTexture = textureLoader.load("../assets/textures/door/color.jpg");
+const alphaTexture = textureLoader.load("../assets/textures/door/alpha.jpg");
+const ambientOcclusionTexture = textureLoader.load(
+  "../assets/textures/door/ambientOcclusion.jpg"
+);
+const heightTexture = textureLoader.load("../assets/textures/door/height.jpg");
+const metalnessTexture = textureLoader.load(
+  "../assets/textures/door/metalness.jpg"
+);
 ```
 
 console print
@@ -134,19 +138,19 @@ UV unwrapping 是纹理在被放置在模型上的具体对应位置的控制，
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN012eSlvf1eqK7gpplYv_!!6000000003922-2-tps-1800-1200.png)
 
-打印几何体的uv坐标，可以看到
+打印几何体的 uv 坐标，可以看到
 
 ```js
-const box = new THREE.BoxGeometry(1, 1, 1)
+const box = new THREE.BoxGeometry(1, 1, 1);
 const material = new THREE.MeshBasicMaterial({
   map: colorTexture,
-})
-console.log(box.attributes.uv)
+});
+console.log(box.attributes.uv);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01RA4NIM1CXGOgZQV9o_!!6000000000090-2-tps-921-229.png)
 
-其中 array 为 Float32Array，uv 坐标两两一组，另一个属性 itemSize 为 2 也是说明这一点。这些uv坐标描述了纹理是如何放置在几何体表面的。
+其中 array 为 Float32Array，uv 坐标两两一组，另一个属性 itemSize 为 2 也是说明这一点。这些 uv 坐标描述了纹理是如何放置在几何体表面的。
 
 上面的 UV 坐标是 Threejs 生成的。如果你创建自己的几何体，也需要自己明确 UV 坐标。如果你使用其他 3d 软件创建几何体，也需要在软件中设置 UV 展开后的贴图与模型的 UV 坐标。
 
@@ -159,10 +163,10 @@ console.log(box.attributes.uv)
 给纹理设置如下属性
 
 ```js
-const colorTexture = textureLoader.load('../assets/textures/door/color.jpg')
+const colorTexture = textureLoader.load("../assets/textures/door/color.jpg");
 
-colorTexture.repeat.x = 2
-colorTexture.repeat.y = 3
+colorTexture.repeat.x = 2;
+colorTexture.repeat.y = 3;
 ```
 
 效果如下
@@ -172,19 +176,18 @@ colorTexture.repeat.y = 3
 可以看到并没有 repeat，而是边缘的像素被拉伸了，需要再设置属性
 
 ```js
-const textureLoader = new THREE.TextureLoader(loadingManager)
-const colorTexture = textureLoader.load('../assets/textures/door/color.jpg')
+const textureLoader = new THREE.TextureLoader(loadingManager);
+const colorTexture = textureLoader.load("../assets/textures/door/color.jpg");
 
-colorTexture.repeat.x = 2
-colorTexture.repeat.y = 3
-colorTexture.wrapS = THREE.RepeatWrapping
-colorTexture.wrapT = THREE.RepeatWrapping
+colorTexture.repeat.x = 2;
+colorTexture.repeat.y = 3;
+colorTexture.wrapS = THREE.RepeatWrapping;
+colorTexture.wrapT = THREE.RepeatWrapping;
 ```
 
 效果如下
 
 ![](https://gw.alicdn.com/imgextra/i2/O1CN01CZ5bPM1pLbKXwmVsZ_!!6000000005344-1-tps-1131-581.gif)
-
 
 其中 `wrapS` 用于指定包裹模式
 
@@ -205,8 +208,8 @@ colorTexture.wrapT = THREE.RepeatWrapping
 MirroredRepeatWrapping 效果如下
 
 ```js
-colorTexture.wrapS = THREE.MirroredRepeatWrapping
-colorTexture.wrapT = THREE.MirroredRepeatWrapping
+colorTexture.wrapS = THREE.MirroredRepeatWrapping;
+colorTexture.wrapT = THREE.MirroredRepeatWrapping;
 ```
 
 ![](https://gw.alicdn.com/imgextra/i2/O1CN01hMbIo01pHwAAw82Ks_!!6000000005336-1-tps-1131-537.gif)
@@ -214,8 +217,8 @@ colorTexture.wrapT = THREE.MirroredRepeatWrapping
 ## offset 偏移
 
 ```js
-colorTexture.offset.x = 0.5
-colorTexture.offset.y = 0
+colorTexture.offset.x = 0.5;
+colorTexture.offset.y = 0;
 ```
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01irguY41kungrbdQCd_!!6000000004744-1-tps-1131-537.gif)
@@ -223,9 +226,9 @@ colorTexture.offset.y = 0
 ## rotation 旋转
 
 ```js
-colorTexture.wrapS = THREE.RepeatWrapping
-colorTexture.wrapT = THREE.RepeatWrapping
-colorTexture.rotation = Math.PI / 4
+colorTexture.wrapS = THREE.RepeatWrapping;
+colorTexture.wrapT = THREE.RepeatWrapping;
+colorTexture.rotation = Math.PI / 4;
 ```
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01FGaFg629sNzoZPY1Z_!!6000000008123-1-tps-1131-537.gif)
@@ -233,10 +236,10 @@ colorTexture.rotation = Math.PI / 4
 更改旋转中心
 
 ```js
-colorTexture.wrapS = THREE.RepeatWrapping
-colorTexture.wrapT = THREE.RepeatWrapping
-colorTexture.center = new THREE.Vector2(0.5, 0.5)
-colorTexture.rotation = Math.PI / 4
+colorTexture.wrapS = THREE.RepeatWrapping;
+colorTexture.wrapT = THREE.RepeatWrapping;
+colorTexture.center = new THREE.Vector2(0.5, 0.5);
+colorTexture.rotation = Math.PI / 4;
 ```
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN019TAeAr1yE7OwBOncC_!!6000000006546-1-tps-1131-537.gif)
@@ -262,10 +265,10 @@ colorTexture.rotation = Math.PI / 4
 - THREE.NearestMipmapLinearFilter
 - THREE.LinearFilter
 - THREE.LinearMipmapNearestFilter
-  - 默认值，它选择与被纹理化像素的尺寸最接近的两个mipmap， 并以LinearFilter为标准来从每个mipmap中生成纹理值。最终的纹理值是这两个值的加权平均值。
+  - 默认值，它选择与被纹理化像素的尺寸最接近的两个 mipmap， 并以 LinearFilter 为标准来从每个 mipmap 中生成纹理值。最终的纹理值是这两个值的加权平均值。
 - THREE.LinearMipmapLinearFilter
 
-这些常量用于纹理的 minFilter 属性，它们定义了当被纹理化的像素映射到大于1纹理元素（texel）的区域时，将要使用的纹理缩小函数。
+这些常量用于纹理的 minFilter 属性，它们定义了当被纹理化的像素映射到大于 1 纹理元素（texel）的区域时，将要使用的纹理缩小函数。
 
 > minFilter
 > 当一个纹素覆盖小于一个像素时，贴图将如何采样。默认值为 `THREE.LinearMipmapLinearFilter`， 它将使用 mipmapping 以及三次线性滤镜。
@@ -273,19 +276,19 @@ colorTexture.rotation = Math.PI / 4
 这些过滤算法背后非常复杂，我们试一下 NearestFilter 来看看实际效果
 
 ```js
-const textureLoader = new THREE.TextureLoader(loadingManager)
-const colorTexture = textureLoader.load('../assets/textures/door/color.jpg')
+const textureLoader = new THREE.TextureLoader(loadingManager);
+const colorTexture = textureLoader.load("../assets/textures/door/color.jpg");
 
-colorTexture.minFilter = THREE.NearestFilter // 清晰锐利
+colorTexture.minFilter = THREE.NearestFilter; // 清晰锐利
 
-const box = new THREE.BoxGeometry(1, 1, 1)
+const box = new THREE.BoxGeometry(1, 1, 1);
 const material = new THREE.MeshBasicMaterial({
   map: colorTexture,
-})
+});
 
 // Object
-const cubeMesh = new THREE.Mesh(box, material)
-scene.add(cubeMesh)
+const cubeMesh = new THREE.Mesh(box, material);
+scene.add(cubeMesh);
 ```
 
 效果如下，可以看到顶部纹理图片变得清晰锐利
@@ -294,13 +297,15 @@ scene.add(cubeMesh)
 
 接下来我们使用另一个纹理贴图看看效果
 
-使用 1024*1024 的棋盘格子图片
+使用 1024\*1024 的棋盘格子图片
 
 ![](https://gw.alicdn.com/imgextra/i2/O1CN01LupFke1p6wenqdSoD_!!6000000005312-2-tps-1024-1024.png)
 
 ```js
-const colorTexture = textureLoader.load('../assets/textures/checkerboard-1024x1024.png')
-colorTexture.minFilter = THREE.NearestFilter
+const colorTexture = textureLoader.load(
+  "../assets/textures/checkerboard-1024x1024.png"
+);
+colorTexture.minFilter = THREE.NearestFilter;
 ```
 
 可以看到非常多的摩尔纹
@@ -314,16 +319,18 @@ colorTexture.minFilter = THREE.NearestFilter
 - THREE.NearestFilter
 - THREE.LinearFilter 默认值
 
-这些常量用于纹理的magFilter属性，它们定义了当被纹理化的像素映射到小于或者等于1纹理元素（texel）的区域时，将要使用的纹理放大函数。
+这些常量用于纹理的 magFilter 属性，它们定义了当被纹理化的像素映射到小于或者等于 1 纹理元素（texel）的区域时，将要使用的纹理放大函数。
 
-我们换一个纹理素材 [8*8 的非常小的一张棋盘格子图片](https://gw.alicdn.com/imgextra/i4/O1CN01OJ75IC1fgzfk8u6U2_!!6000000004037-2-tps-8-8.png)
+我们换一个纹理素材 [8\*8 的非常小的一张棋盘格子图片](https://gw.alicdn.com/imgextra/i4/O1CN01OJ75IC1fgzfk8u6U2_!!6000000004037-2-tps-8-8.png)
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01OJ75IC1fgzfk8u6U2_!!6000000004037-2-tps-8-8.png)
 
 默认值 THREE.LinearFilter 的效果如下
 
 ```js
-const colorTexture = textureLoader.load('../assets/textures/checkerboard-8x8.png')
+const colorTexture = textureLoader.load(
+  "../assets/textures/checkerboard-8x8.png"
+);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01VS7hFh1DlkXmbnHah_!!6000000000257-1-tps-639-293.gif)
@@ -331,8 +338,10 @@ const colorTexture = textureLoader.load('../assets/textures/checkerboard-8x8.png
 设置为 NearestFilter 的效果如下
 
 ```js
-const colorTexture = textureLoader.load('../assets/textures/checkerboard-8x8.png')
-colorTexture.magFilter = THREE.NearestFilter
+const colorTexture = textureLoader.load(
+  "../assets/textures/checkerboard-8x8.png"
+);
+colorTexture.magFilter = THREE.NearestFilter;
 ```
 
 ![](https://gw.alicdn.com/imgextra/i2/O1CN011qv0ZK1qBM5T1E2Sz_!!6000000005457-1-tps-639-293.gif)
@@ -345,9 +354,9 @@ colorTexture.magFilter = THREE.NearestFilter
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01Ow2oCS1m9kEL8DTpD_!!6000000004912-2-tps-16-16.png)
 
-magFilter 为 LinearFilter (默认) | magFilter 为 NearestFilter
---- | ---
-![](https://gw.alicdn.com/imgextra/i3/O1CN01h3di7W1IzYYmbG8N9_!!6000000000964-1-tps-639-293.gif) | ![](https://gw.alicdn.com/imgextra/i4/O1CN01RFUflV1tEVf0SEc3J_!!6000000005870-1-tps-639-293.gif)
+| magFilter 为 LinearFilter (默认)                                                                 | magFilter 为 NearestFilter                                                                       |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| ![](https://gw.alicdn.com/imgextra/i3/O1CN01h3di7W1IzYYmbG8N9_!!6000000000964-1-tps-639-293.gif) | ![](https://gw.alicdn.com/imgextra/i4/O1CN01RFUflV1tEVf0SEc3J_!!6000000005870-1-tps-639-293.gif) |
 
 另外在放大滤镜下 NearestFilter 的性能也会更好。
 
@@ -364,13 +373,13 @@ magFilter 为 LinearFilter (默认) | magFilter 为 NearestFilter
 
 ## 尺寸
 
-纹理会被存入 GPU 缓存中，同时 mipmapping 的时候，会生成近2倍的图片，因此尽可能让图片小。
+纹理会被存入 GPU 缓存中，同时 mipmapping 的时候，会生成近 2 倍的图片，因此尽可能让图片小。
 
-mipmapping 的操作是不断的将图片缩小一倍，直到 1*1 像素，可理解为不停地除以2，所以建议使用 2 的 n 次幂的宽高尺寸图片，如 512*512、1024*1024、512*2048 等，如果不是这样的尺寸，ThreeJs 也会帮你优化，但可能会带来额外的性能损耗或渲染问题。
+mipmapping 的操作是不断的将图片缩小一倍，直到 1*1 像素，可理解为不停地除以 2，所以建议使用 2 的 n 次幂的宽高尺寸图片，如 512*512、1024*1024、512*2048 等，如果不是这样的尺寸，ThreeJs 也会帮你优化，但可能会带来额外的性能损耗或渲染问题。
 
 ## Data
 
-png 支持透明通道，而 jpg 不支持。如果想拥有1个纹理包含颜色和透明度，最好使用 png。png 也会包含更多信息
+png 支持透明通道，而 jpg 不支持。如果想拥有 1 个纹理包含颜色和透明度，最好使用 png。png 也会包含更多信息
 
 # 小结
 
@@ -384,6 +393,6 @@ Textures 资源
 
 本节的 demo 和源码
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/11-textures/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/11-textures/)
 
 [demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/11-textures)

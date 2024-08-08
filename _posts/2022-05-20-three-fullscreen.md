@@ -1,21 +1,17 @@
 ---
 layout: post
-title:  "Three.js 之 3 画布与全屏"
+title: "Three.js 之 3 画布与全屏"
 categories: Three.js
-tags:  Three.js WebGL
+tags: Three.js WebGL
 author: HyG
 ---
 
-* content
-{:toc}
+- content
+  {:toc}
 
 本系列为 [Three.js journey](https://threejs-journey.com/) 教程学习笔记。
 
 画布充满窗口，resize，像素比，双击全屏等功能
-
-
-
-
 
 # 画布充满窗口
 
@@ -47,7 +43,7 @@ js 代码如下
 const sizes = {
   width: window.innerWidth,
   height: window.innerHeight,
-}
+};
 ```
 
 使用 `innerWidth, innerHeight` 获取视口的宽高。
@@ -82,23 +78,23 @@ body {
 考虑到 resize 窗口时的处理，需要监听 resize 事件
 
 ```js
-window.addEventListener('resize', () => {
+window.addEventListener("resize", () => {
   // update sizes
-  sizes.width = window.innerWidth
-  sizes.height = window.innerHeight
+  sizes.width = window.innerWidth;
+  sizes.height = window.innerHeight;
 
   // update camera
-  camera.aspect = sizes.width / sizes.height
-  camera.updateProjectionMatrix()
+  camera.aspect = sizes.width / sizes.height;
+  camera.updateProjectionMatrix();
 
   // update renderer
-  renderer.setSize(sizes.width, sizes.height)
-})
+  renderer.setSize(sizes.width, sizes.height);
+});
 ```
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01M3QBa41mTRG2mLEwa_!!6000000004955-1-tps-924-667.gif)
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney08-fullscreenAndResizing/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney08-fullscreenAndResizing/)
 
 [demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src08-fullscreenAndResizing)
 
@@ -107,7 +103,7 @@ window.addEventListener('resize', () => {
 可以看到屏幕上立方体的边缘出现了锯齿，这是像素比问题，我们可以通过设置像素比解决这个问题
 
 ```js
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 ```
 
 不需要设置过高，过高的像素比设定可能会带来性能问题，最大值设置为 2 已经能满足绝大部分场景了。
@@ -130,7 +126,7 @@ window.addEventListener('resize', () => {
 })
 ```
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney08-fullscreenAndResizing/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney08-fullscreenAndResizing/)
 
 [demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src08-fullscreenAndResizing)
 
@@ -139,44 +135,43 @@ window.addEventListener('resize', () => {
 用户一般习惯双击全屏，所以我们要监听双击事件
 
 ```js
-window.addEventListener('dblclick', () => {
+window.addEventListener("dblclick", () => {
   if (document.fullscreenElement) {
-    document.exitFullscreen()
+    document.exitFullscreen();
   } else {
-    canvas.requestFullscreen()
+    canvas.requestFullscreen();
   }
-})
+});
 ```
 
 添加如上的代码，就完成了双击进入全屏，再次双击退出全屏。为了解决 safari 浏览器的兼容问题，需要加 `webkit` 前缀
 
 ```js
-window.addEventListener('dblclick', () => {
-  const fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement
+window.addEventListener("dblclick", () => {
+  const fullscreenElement =
+    document.fullscreenElement || document.webkitFullscreenElement;
   if (fullscreenElement) {
     if (document.exitFullscreen) {
-      document.exitFullscreen()
+      document.exitFullscreen();
     } else {
-      document.webkitExitFullscreen()
+      document.webkitExitFullscreen();
     }
   } else {
     if (canvas.requestFullscreen) {
-      canvas.requestFullscreen()
+      canvas.requestFullscreen();
     } else {
-      canvas.webkitRequestFullscreen()
+      canvas.webkitRequestFullscreen();
     }
   }
-})
+});
 ```
 
 完整代码和 demo 如下
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney08-fullscreenAndResizing/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney08-fullscreenAndResizing/)
 
 [demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src08-fullscreenAndResizing)
 
 # 小结
 
 本节我们学习了设置满屏画布、resize 时适配、高分辨率屏幕像素比、双击全屏等功能。下一节讲讲几何体。
-
-

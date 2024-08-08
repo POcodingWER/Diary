@@ -1,13 +1,13 @@
 ---
 layout: post
-title:  "Three.js 之 15 Scroll based animation 基于页面滚动的动画"
+title: "Three.js 之 15 Scroll based animation 基于页面滚动的动画"
 categories: Three.js
-tags:  Three.js WebGL
+tags: Three.js WebGL
 author: HyG
 ---
 
-* content
-{:toc}
+- content
+  {:toc}
 
 本系列为 [Three.js journey](https://threejs-journey.com/) 教程学习笔记。
 
@@ -16,10 +16,6 @@ Scroll based animation 基于页面滚动的动画
 本节我们将学习基于页面滚动的动画。很好的将之前所学的内容做一个复习和运用。
 
 我们会把 WebGL 部分固定到页面中，随着页面的滚动 WebGL 中也随之相应的产生动画效果。这种联动的效果会带来非常好的体验，并且也会让你的页面看起来很高级很有未来感。联动的效果主要是使用 camera 的角度变化来实现。并且最后会加入一些滚动到某个区域后的动画效果。
-
-
-
-
 
 # 准备
 
@@ -51,7 +47,6 @@ HTML 结构如下
     <script src="<%= path %>" charset="utf-8"></script>
   </body>
 </html>
-
 ```
 
 CSS 代码如下，我们设置了页面背景色，设置 `section` 高度为 `100vh`，设置好布局
@@ -171,18 +166,18 @@ gui.add(directionLightHelper, 'visible').name('directionLightHelper visible')
 // Meshes
 const mesh1 = new THREE.Mesh(
   new THREE.TorusGeometry(1, 0.4, 16, 60),
-  new THREE.MeshBasicMaterial({ color: '#ff0000' }),
-)
+  new THREE.MeshBasicMaterial({ color: "#ff0000" })
+);
 const mesh2 = new THREE.Mesh(
   new THREE.ConeGeometry(1, 2, 32),
-  new THREE.MeshBasicMaterial({ color: '#ff0000' }),
-)
+  new THREE.MeshBasicMaterial({ color: "#ff0000" })
+);
 const mesh3 = new THREE.Mesh(
   new THREE.TorusKnotGeometry(0.8, 0.35, 100, 16),
-  new THREE.MeshBasicMaterial({ color: '#ff0000' }),
-)
+  new THREE.MeshBasicMaterial({ color: "#ff0000" })
+);
 
-scene.add(mesh1, mesh2, mesh3)
+scene.add(mesh1, mesh2, mesh3);
 ```
 
 效果如下
@@ -199,14 +194,19 @@ scene.add(mesh1, mesh2, mesh3)
 
 ```js
 // Material
-const material = new THREE.MeshToonMaterial({ color: parameters.materialColor })
+const material = new THREE.MeshToonMaterial({
+  color: parameters.materialColor,
+});
 
 // Meshes
-const mesh1 = new THREE.Mesh(new THREE.TorusGeometry(1, 0.4, 16, 60), material)
-const mesh2 = new THREE.Mesh(new THREE.ConeGeometry(1, 2, 32), material)
-const mesh3 = new THREE.Mesh(new THREE.TorusKnotGeometry(0.8, 0.35, 100, 16), material)
+const mesh1 = new THREE.Mesh(new THREE.TorusGeometry(1, 0.4, 16, 60), material);
+const mesh2 = new THREE.Mesh(new THREE.ConeGeometry(1, 2, 32), material);
+const mesh3 = new THREE.Mesh(
+  new THREE.TorusKnotGeometry(0.8, 0.35, 100, 16),
+  material
+);
 
-scene.add(mesh1, mesh2, mesh3)
+scene.add(mesh1, mesh2, mesh3);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01lq6de21e1UAaBaXhj_!!6000000003811-2-tps-1130-584.png)
@@ -219,11 +219,11 @@ scene.add(mesh1, mesh2, mesh3)
 /**
  * Lights
  */
-const directionalLight = new THREE.DirectionalLight('#ffffff', 1)
-directionalLight.position.set(1, 1, 0)
-scene.add(directionalLight)
-const ambientLight = new THREE.AmbientLight('#ffffff', 0.28)
-scene.add(ambientLight)
+const directionalLight = new THREE.DirectionalLight("#ffffff", 1);
+directionalLight.position.set(1, 1, 0);
+scene.add(directionalLight);
+const ambientLight = new THREE.AmbientLight("#ffffff", 0.28);
+scene.add(ambientLight);
 ```
 
 现在效果好多了
@@ -231,10 +231,10 @@ scene.add(ambientLight)
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01TxEhQk1Y7XiOLqqNU_!!6000000003012-2-tps-1133-591.png)
 
 ```js
-const gui = new dat.GUI()
-gui.addColor(parameters, 'materialColor').onChange(() => {
-  material.color.set(parameters.materialColor)
-})
+const gui = new dat.GUI();
+gui.addColor(parameters, "materialColor").onChange(() => {
+  material.color.set(parameters.materialColor);
+});
 ```
 
 增加 gui 就可以在右上角调节颜色了
@@ -243,22 +243,24 @@ gui.addColor(parameters, 'materialColor').onChange(() => {
 
 ```js
 // Texture
-const textureLoader = new THREE.TextureLoader()
-const gradientTexture = textureLoader.load('https://gw.alicdn.com/imgextra/i1/O1CN01Kv3xWT1kImpSDZI8n_!!6000000004661-0-tps-5-1.jpg')
-gradientTexture.magFilter = THREE.NearestFilter
+const textureLoader = new THREE.TextureLoader();
+const gradientTexture = textureLoader.load(
+  "https://gw.alicdn.com/imgextra/i1/O1CN01Kv3xWT1kImpSDZI8n_!!6000000004661-0-tps-5-1.jpg"
+);
+gradientTexture.magFilter = THREE.NearestFilter;
 
 // Material
 const material = new THREE.MeshToonMaterial({
   color: parameters.materialColor,
   gradientMap: gradientTexture,
-})
+});
 ```
 
-这个 gradientMap 图片为5个像素点灰阶图片。如下图
+这个 gradientMap 图片为 5 个像素点灰阶图片。如下图
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN01Kv3xWT1kImpSDZI8n_!!6000000004661-0-tps-5-1.jpg)
 
-这里注意 `magFilter` 的使用，如果遗忘了复习 [Three.js 之 6 Texture 纹理](https://gaohaoyang.github.io/2022/05/23/three-textures/#minification-filter-%E7%BC%A9%E5%B0%8F%E6%BB%A4%E9%95%9C)。
+这里注意 `magFilter` 的使用，如果遗忘了复习 [Three.js 之 6 Texture 纹理](https://pocodingwer.github.io/POcodingWER_Blog/2022/05/23/three-textures/#minification-filter-%E7%BC%A9%E5%B0%8F%E6%BB%A4%E9%95%9C)。
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01xfd2sR1WS2CktnMa1_!!6000000002786-2-tps-1132-590.png)
 
@@ -269,17 +271,16 @@ Three.js 默认是根据竖直方向的高度定相机视野适配的，高度�
 例如我设置如下代码
 
 ```js
+mesh1.position.y = 4;
+mesh1.scale.set(0.5, 0.5, 0.5);
 
-mesh1.position.y = 4
-mesh1.scale.set(0.5, 0.5, 0.5)
+mesh2.visible = false;
 
-mesh2.visible = false
-
-mesh3.position.y = -4
-mesh3.scale.set(0.5, 0.5, 0.5)
+mesh3.position.y = -4;
+mesh3.scale.set(0.5, 0.5, 0.5);
 ```
 
-不管怎么移动窗口，可以看到2个物体距顶部和底部的距离比例不变。如下图
+不管怎么移动窗口，可以看到 2 个物体距顶部和底部的距离比例不变。如下图
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01xWiNBI1XcrBCejzC4_!!6000000002945-1-tps-935-783.gif)
 
@@ -288,15 +289,15 @@ mesh3.scale.set(0.5, 0.5, 0.5)
 声明一个物体距离
 
 ```js
-const objectsDistance = 4
+const objectsDistance = 4;
 ```
 
 并设置在每个物体上
 
 ```js
-mesh1.position.y = -objectsDistance * 0
-mesh2.position.y = -objectsDistance * 1
-mesh3.position.y = -objectsDistance * 2
+mesh1.position.y = -objectsDistance * 0;
+mesh2.position.y = -objectsDistance * 1;
+mesh3.position.y = -objectsDistance * 2;
 ```
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01BdLY191mQgtfo6Eq3_!!6000000004949-2-tps-1132-647.png)
@@ -308,32 +309,31 @@ mesh3.position.y = -objectsDistance * 2
 将几何体放入数组
 
 ```js
-const sectionMeshes: THREE.Mesh<THREE.BufferGeometry, THREE.MeshToonMaterial>[] = [
-  mesh1,
-  mesh2,
-  mesh3,
-]
+const sectionMeshes: THREE.Mesh<
+  THREE.BufferGeometry,
+  THREE.MeshToonMaterial
+>[] = [mesh1, mesh2, mesh3];
 ```
 
 再一起加入动画
 
 ```js
 // Animations
-const clock = new THREE.Clock()
+const clock = new THREE.Clock();
 const tick = () => {
-  stats.begin()
+  stats.begin();
 
-  const elapsedTime = clock.getElapsedTime()
+  const elapsedTime = clock.getElapsedTime();
   // Animate meshes
   sectionMeshes.forEach((mesh) => {
-    mesh.rotation.set(elapsedTime * 0.1, elapsedTime * 0.12, 0)
-  })
+    mesh.rotation.set(elapsedTime * 0.1, elapsedTime * 0.12, 0);
+  });
 
   // Render
-  renderer.render(scene, camera)
-  stats.end()
-  requestAnimationFrame(tick)
-}
+  renderer.render(scene, camera);
+  stats.end();
+  requestAnimationFrame(tick);
+};
 ```
 
 效果如下
@@ -350,11 +350,11 @@ const tick = () => {
 /**
  * Scroll
  */
-let { scrollY } = window
-window.addEventListener('scroll', () => {
-  scrollY = window.scrollY
-  console.log(scrollY)
-})
+let { scrollY } = window;
+window.addEventListener("scroll", () => {
+  scrollY = window.scrollY;
+  console.log(scrollY);
+});
 ```
 
 可以看到 log 里已经有了滚动距离
@@ -367,10 +367,10 @@ const tick = () => {
   // ...
 
   // animate camera
-  camera.position.setY((-scrollY / sizes.height) * objectsDistance)
+  camera.position.setY((-scrollY / sizes.height) * objectsDistance);
 
   // ...
-}
+};
 ```
 
 HTML 页面滚动距离与相机需要位移的距离相反，因此要添加负号。`-scrollY / sizes.height` 表示设置相机移动的每个区域为了 1 个单位。但几何体实际位置是 `objectsDistance` 单位距离，所以最终为 `-scrollY / sizes.height) * objectsDistance`。
@@ -385,9 +385,9 @@ HTML 页面滚动距离与相机需要位移的距离相反，因此要添加负
 
 ```js
 sectionMeshes.forEach((item, index) => {
-  item.position.setY(-objectsDistance * index)
-  item.position.setX(index % 2 === 0 ? 2 : -2)
-})
+  item.position.setY(-objectsDistance * index);
+  item.position.setX(index % 2 === 0 ? 2 : -2);
+});
 ```
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN018Wv7QZ1BsVA3wqxXj_!!6000000000001-1-tps-1129-629.gif)
@@ -417,12 +417,17 @@ window.addEventListener('mousemove', (event) => {
 
 ```js
 // Group
-const cameraGroup = new THREE.Group()
-scene.add(cameraGroup)
+const cameraGroup = new THREE.Group();
+scene.add(cameraGroup);
 // Camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.set(0, 0, 4)
-cameraGroup.add(camera)
+const camera = new THREE.PerspectiveCamera(
+  75,
+  sizes.width / sizes.height,
+  0.1,
+  100
+);
+camera.position.set(0, 0, 4);
+cameraGroup.add(camera);
 ```
 
 ```js
@@ -431,12 +436,12 @@ const tick = () => {
   // ...
 
   if (mouse.x && mouse.y) {
-    cameraGroup.position.setX(mouse.x)
-    cameraGroup.position.setY(mouse.y)
+    cameraGroup.position.setX(mouse.x);
+    cameraGroup.position.setY(mouse.y);
   }
 
   // ...
-}
+};
 ```
 
 效果如下
@@ -453,14 +458,14 @@ const tick = () => {
 
 ```js
 // Animations
-const clock = new THREE.Clock()
-let previousTime = 0
+const clock = new THREE.Clock();
+let previousTime = 0;
 const tick = () => {
-  stats.begin()
+  stats.begin();
 
-  const elapsedTime = clock.getElapsedTime()
-  const deltaTime = elapsedTime - previousTime
-  previousTime = elapsedTime
+  const elapsedTime = clock.getElapsedTime();
+  const deltaTime = elapsedTime - previousTime;
+  previousTime = elapsedTime;
   // const deltaTime2 = clock.getDelta()
   // console.log(deltaTime);
   // console.log(deltaTime2);
@@ -468,24 +473,26 @@ const tick = () => {
 
   // Animate meshes
   sectionMeshes.forEach((mesh) => {
-    mesh.rotation.set(elapsedTime * 0.1, elapsedTime * 0.12, 0)
-  })
+    mesh.rotation.set(elapsedTime * 0.1, elapsedTime * 0.12, 0);
+  });
 
   // animate camera
-  camera.position.setY((-scrollY / sizes.height) * objectsDistance)
+  camera.position.setY((-scrollY / sizes.height) * objectsDistance);
 
   if (mouse.x && mouse.y) {
-    const parallaxX = mouse.x * 0.5
-    const parallaxY = mouse.y * 0.5
-    cameraGroup.position.x += (parallaxX - cameraGroup.position.x) * 5 * deltaTime
-    cameraGroup.position.y += (parallaxY - cameraGroup.position.y) * 5 * deltaTime
+    const parallaxX = mouse.x * 0.5;
+    const parallaxY = mouse.y * 0.5;
+    cameraGroup.position.x +=
+      (parallaxX - cameraGroup.position.x) * 5 * deltaTime;
+    cameraGroup.position.y +=
+      (parallaxY - cameraGroup.position.y) * 5 * deltaTime;
   }
 
   // Render
-  renderer.render(scene, camera)
-  stats.end()
-  requestAnimationFrame(tick)
-}
+  renderer.render(scene, camera);
+  stats.end();
+  requestAnimationFrame(tick);
+};
 ```
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01HfsTp01UdpAUYkk3T_!!6000000002541-1-tps-1129-629.gif)
@@ -501,24 +508,27 @@ const tick = () => {
  * Particles
  */
 // Geometry
-const particlesCount = 200
-const positions = new Float32Array(particlesCount * 3)
+const particlesCount = 200;
+const positions = new Float32Array(particlesCount * 3);
 for (let i = 0; i < particlesCount; i += 1) {
-  positions[i * 3 + 0] = Math.random()
-  positions[i * 3 + 1] = Math.random()
-  positions[i * 3 + 2] = Math.random()
+  positions[i * 3 + 0] = Math.random();
+  positions[i * 3 + 1] = Math.random();
+  positions[i * 3 + 2] = Math.random();
 }
-const particlesGeometry = new THREE.BufferGeometry()
-particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+const particlesGeometry = new THREE.BufferGeometry();
+particlesGeometry.setAttribute(
+  "position",
+  new THREE.BufferAttribute(positions, 3)
+);
 // Material
 const particlesMaterial = new THREE.PointsMaterial({
   color: parameters.materialColor,
   sizeAttenuation: true,
-  size: 0.03
-})
+  size: 0.03,
+});
 // Points
-const particles = new THREE.Points(particlesGeometry, particlesMaterial)
-scene.add(particles)
+const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+scene.add(particles);
 ```
 
 效果如下
@@ -529,10 +539,11 @@ scene.add(particles)
 
 ```js
 for (let i = 0; i < particlesCount; i += 1) {
-  positions[i * 3 + 0] = (Math.random() - 0.5) * 10
+  positions[i * 3 + 0] = (Math.random() - 0.5) * 10;
   positions[i * 3 + 1] =
-    objectsDistance * 0.5 - Math.random() * objectsDistance * sectionMeshes.length
-  positions[i * 3 + 2] = (Math.random() - 0.5) * 10
+    objectsDistance * 0.5 -
+    Math.random() * objectsDistance * sectionMeshes.length;
+  positions[i * 3 + 2] = (Math.random() - 0.5) * 10;
 }
 ```
 
@@ -546,16 +557,16 @@ for (let i = 0; i < particlesCount; i += 1) {
 /**
  * Scroll
  */
-let { scrollY } = window
-let currentSection = 0
-window.addEventListener('scroll', () => {
-  scrollY = window.scrollY
-  const newSection = Math.round(scrollY / sizes.height)
+let { scrollY } = window;
+let currentSection = 0;
+window.addEventListener("scroll", () => {
+  scrollY = window.scrollY;
+  const newSection = Math.round(scrollY / sizes.height);
   if (newSection !== currentSection) {
-    currentSection = newSection
-    console.log('changed', currentSection)
+    currentSection = newSection;
+    console.log("changed", currentSection);
   }
-})
+});
 ```
 
 借助 gsap 创建旋转动画
@@ -564,38 +575,42 @@ window.addEventListener('scroll', () => {
 /**
  * Scroll
  */
-let { scrollY } = window
-let currentSection = 0
-window.addEventListener('scroll', () => {
-  scrollY = window.scrollY
-  const newSection = Math.round(scrollY / sizes.height)
+let { scrollY } = window;
+let currentSection = 0;
+window.addEventListener("scroll", () => {
+  scrollY = window.scrollY;
+  const newSection = Math.round(scrollY / sizes.height);
   if (newSection !== currentSection) {
-    currentSection = newSection
+    currentSection = newSection;
     // console.log('changed', currentSection)
     gsap.to(sectionMeshes[currentSection].rotation, {
       duration: 1.5,
-      ease: 'power2.inOut',
-      x: '+=6',
-      y: '+=3',
-    })
+      ease: "power2.inOut",
+      x: "+=6",
+      y: "+=3",
+    });
   }
-})
+});
 ```
 
 这里要注意，需要把原有的几何体自转从依赖 elapsedTime 改为 deltaTime
 
 ```js
-  // Animate meshes
-  sectionMeshes.forEach((mesh) => {
-    mesh.rotation.set(deltaTime * 0.1 + mesh.rotation.x, deltaTime * 0.1 + mesh.rotation.y, 0)
-  })
+// Animate meshes
+sectionMeshes.forEach((mesh) => {
+  mesh.rotation.set(
+    deltaTime * 0.1 + mesh.rotation.x,
+    deltaTime * 0.1 + mesh.rotation.y,
+    0
+  );
+});
 ```
 
 效果如下
 
 ![](https://gw.alicdn.com/imgextra/i2/O1CN0144tW8Q1RXSp62fmG0_!!6000000002121-1-tps-1129-629.gif)
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/21-scrollBasedAnimation/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/21-scrollBasedAnimation/)
 
 可扫码访问
 
@@ -634,27 +649,27 @@ window.addEventListener('scroll', () => {
 在 js 中我们也可以简单的判断宽高，来确实是手机
 
 ```js
-const isPortrait = sizes.width < sizes.height
+const isPortrait = sizes.width < sizes.height;
 ```
 
 针对手机的视角进行微调
 
 ```js
 if (isPortrait) {
-  camera.position.setZ(8)
-  objectsDistance = 11
+  camera.position.setZ(8);
+  objectsDistance = 11;
 }
 
 // ...
 
 sectionMeshes.forEach((item, index) => {
   if (isPortrait) {
-    item.position.setY(-objectsDistance * index)
+    item.position.setY(-objectsDistance * index);
   } else {
-    item.position.setX(index % 2 === 0 ? 2 : -2)
-    item.position.setY(-objectsDistance * index)
+    item.position.setX(index % 2 === 0 ? 2 : -2);
+    item.position.setY(-objectsDistance * index);
   }
-})
+});
 ```
 
 在手机端我们使用设备陀螺仪检测，代替 mousemove 检测
@@ -664,21 +679,21 @@ if (isPortrait) {
   /**
    * device orientation
    */
-  window.addEventListener('deviceorientation', (event) => {
-    const { beta, gamma } = event
+  window.addEventListener("deviceorientation", (event) => {
+    const { beta, gamma } = event;
     if (beta !== null && gamma !== null) {
-      const x = (gamma || 0) / 20 // -180 :: 180
-      const y = (Math.min(beta || 0, 89) - 45) / 30 //  -90 :: 90
-      console.log(x, y)
-      mouse.x = x
-      mouse.y = -y
+      const x = (gamma || 0) / 20; // -180 :: 180
+      const y = (Math.min(beta || 0, 89) - 45) / 30; //  -90 :: 90
+      console.log(x, y);
+      mouse.x = x;
+      mouse.y = -y;
     }
-  })
+  });
 } else {
-  window.addEventListener('mousemove', (event) => {
-    mouse.x = (event.clientX / sizes.width) * 2 - 1
-    mouse.y = -(event.clientY / sizes.height) * 2 + 1
-  })
+  window.addEventListener("mousemove", (event) => {
+    mouse.x = (event.clientX / sizes.width) * 2 - 1;
+    mouse.y = -(event.clientY / sizes.height) * 2 + 1;
+  });
 }
 ```
 
@@ -693,45 +708,45 @@ if (isPortrait) {
  * device orientation
  */
 const listenGyro = () => {
-  window.addEventListener('deviceorientation', (event) => {
-    const { beta, gamma } = event
+  window.addEventListener("deviceorientation", (event) => {
+    const { beta, gamma } = event;
     if (beta !== null && gamma !== null) {
-      const x = (gamma || 0) / 20 // -180 :: 180
-      const y = (Math.min(beta || 0, 89) - 45) / 30 //  -90 :: 90
-      console.log(x, y)
-      mouse.x = x
-      mouse.y = -y
+      const x = (gamma || 0) / 20; // -180 :: 180
+      const y = (Math.min(beta || 0, 89) - 45) / 30; //  -90 :: 90
+      console.log(x, y);
+      mouse.x = x;
+      mouse.y = -y;
     }
-  })
-}
+  });
+};
 
 if (isPortrait) {
   if (
-    typeof DeviceOrientationEvent !== 'undefined'
+    typeof DeviceOrientationEvent !== "undefined" &&
     // @ts-ignore
-    && typeof DeviceOrientationEvent.requestPermission === 'function'
+    typeof DeviceOrientationEvent.requestPermission === "function"
   ) {
     // @ts-ignore
     DeviceOrientationEvent.requestPermission()
       .then((permissionState: string) => {
-        if (permissionState === 'granted') {
+        if (permissionState === "granted") {
           // handle data
-          listenGyro()
+          listenGyro();
         } else {
           // handle denied
         }
       })
       .catch((err: any) => {
-        console.log(err)
-      })
+        console.log(err);
+      });
   } else {
-    listenGyro()
+    listenGyro();
   }
 } else {
-  window.addEventListener('mousemove', (event) => {
-    mouse.x = (event.clientX / sizes.width) * 2 - 1
-    mouse.y = -(event.clientY / sizes.height) * 2 + 1
-  })
+  window.addEventListener("mousemove", (event) => {
+    mouse.x = (event.clientX / sizes.width) * 2 - 1;
+    mouse.y = -(event.clientY / sizes.height) * 2 + 1;
+  });
 }
 ```
 
@@ -769,20 +784,20 @@ if (isPortrait) {
   box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.5);
 }
 
-.permissionDialog>.title {
+.permissionDialog > .title {
   width: 90%;
   text-align: center;
   margin-top: 20px;
 }
 
-.permissionDialog>.buttonArea {
+.permissionDialog > .buttonArea {
   margin-top: 16px;
   width: 90%;
   display: flex;
   justify-content: space-around;
 }
 
-.buttonArea>button {
+.buttonArea > button {
   border: none;
   outline: none;
   box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.3);
@@ -800,7 +815,7 @@ if (isPortrait) {
   -webkit-tap-highlight-color: transparent;
 }
 
-.buttonArea>button:active {
+.buttonArea > button:active {
   position: relative;
   top: 1px;
 }
@@ -930,7 +945,7 @@ const textureLoader = new THREE.TextureLoader(loadingManager)
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01RstdO31yGrn0yICzZ_!!6000000006552-1-tps-1129-629.gif)
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/21-scrollBasedAnimation/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/21-scrollBasedAnimation/)
 
 可扫码访问
 

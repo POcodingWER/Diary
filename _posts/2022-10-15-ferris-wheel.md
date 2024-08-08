@@ -1,13 +1,13 @@
 ---
 layout: post
-title:  "摩天轮动画的实现揭秘"
+title: "摩天轮动画的实现揭秘"
 categories: JavaScript
-tags:  Animation
+tags: Animation
 author: HyG
 ---
 
-* content
-{:toc}
+- content
+  {:toc}
 
 摩天轮动画的实现揭秘
 
@@ -15,15 +15,11 @@ author: HyG
 
 恰好近期业务上开发了类似这样的摩天轮动画，我将其中的实现原理分享给大家。摩天轮动画主要分为 2 部分，一个是摩天轮上每个房间位置布局，另一个就是旋转动画了。
 
-
-
-
-
 # 摩天轮布局
 
 我们需要将每个车厢均匀的布局在一个圆环上，这需要一些三角函数的知识。
 
-以圆心为原点，半径为r，则正多边形的第1个顶点坐标为 `(rcosθ, rsinθ)`，其中 `θ` 可以看做是 `360/多边形边数`。第2个顶点坐标为 `(rcos2θ, rsin2θ)`，如下图
+以圆心为原点，半径为 r，则正多边形的第 1 个顶点坐标为 `(rcosθ, rsinθ)`，其中 `θ` 可以看做是 `360/多边形边数`。第 2 个顶点坐标为 `(rcos2θ, rsin2θ)`，如下图
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN01vucWNA1GKg0lvyXPs_!!6000000000604-2-tps-807-585.png)
 
@@ -37,9 +33,9 @@ author: HyG
  * @param radius 角度
  * @returns 弧度
  */
-const getRadian = (radius: number) => (radius * Math.PI) / 180
+const getRadian = (radius: number) => (radius * Math.PI) / 180;
 
-export default getRadian
+export default getRadian;
 ```
 
 各个顶点坐标定位如下
@@ -73,27 +69,27 @@ export default getPos
 我们尝试使用其渲染一下
 
 {% raw %}
+
 ```jsx
 <div className={styles.ferris}>
   <div className={styles.wheel} ref={wheelDomRef}>
     <div className={styles.roomsArea}>
-      {
-        getPos(202 / 2, 8).map((item, index) => (
-          <div
-            key={index}
-            className={`${styles.room} wheelRooms`}
-            style={{
-              top: `${item.y}px`,
-              left: `${item.x - 20}px`,
-            }}
-          />
-        ))
-      }
+      {getPos(202 / 2, 8).map((item, index) => (
+        <div
+          key={index}
+          className={`${styles.room} wheelRooms`}
+          style={{
+            top: `${item.y}px`,
+            left: `${item.x - 20}px`,
+          }}
+        />
+      ))}
     </div>
   </div>
   <div className={styles.bottom} />
 </div>
 ```
+
 {% endraw %}
 
 注意 left 值，我们减去了自身宽度的一半保证居中
@@ -106,27 +102,28 @@ export default getPos
 
 # 摩天轮旋转动画
 
-接下来我们看看动画部分，这里动画的可以拆解为2部分，一个是主轮的旋转，另一个是周围的车厢要同步反向旋转。如下图
+接下来我们看看动画部分，这里动画的可以拆解为 2 部分，一个是主轮的旋转，另一个是周围的车厢要同步反向旋转。如下图
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN01cMfM4F1yTEVAdKWjz_!!6000000006579-2-tps-538-549.png)
 
 这里我们使用 anime.js 这个动画库来实现
 
 使用 anime 动画库的原因是：
-- 代码简洁，api完善，便于控制暂停播放
-- 时间线 api，保证2部分动画同步
+
+- 代码简洁，api 完善，便于控制暂停播放
+- 时间线 api，保证 2 部分动画同步
 - 适配高刷屏，不会出现倍速问题
-- anime.js 很小，17k，gzip后8.2k
+- anime.js 很小，17k，gzip 后 8.2k
 
 核心代码如下，可以看到代码真的非常简洁。
 
 ```js
 this.timeline = anime.timeline({
-  easing: 'linear',
+  easing: "linear",
   duration: 8000,
   loop: true,
   autoplay: autoPlay,
-})
+});
 this.timeline
   .add({
     targets: this.wheelDom,
@@ -137,8 +134,8 @@ this.timeline
       targets: this.roomsDoms,
       rotate: -360,
     },
-    0,
-  )
+    0
+  );
 ```
 
 我们使用了时间线 api，将大轮和车厢进行相反方向旋转。
@@ -159,7 +156,7 @@ transform-origin: top center;
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN01g3TIqr1SEySyIIqeC_!!6000000002216-2-tps-200-200.png)
 
-在线 [demo 链接](https://gaohaoyang.github.io/demos/#/FerrisWheel)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/demos/#/FerrisWheel)
 
 [demo 源码](https://github.com/Gaohaoyang/demos/tree/main/src/FerrisWheel)
 

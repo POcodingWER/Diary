@@ -1,21 +1,17 @@
 ---
 layout: post
-title:  "Three.js 之 13 Galaxy 银河效果生成器"
+title: "Three.js 之 13 Galaxy 银河效果生成器"
 categories: Three.js
-tags:  Three.js WebGL
+tags: Three.js WebGL
 author: HyG
 ---
 
-* content
-{:toc}
+- content
+  {:toc}
 
 本系列为 [Three.js journey](https://threejs-journey.com/) 教程学习笔记。
 
 接下来，我们学习一下如何使用粒子，本节将开发一个银河生成器，使用粒子效果生成各种各样的银河效果。
-
-
-
-
 
 # 创建粒子
 
@@ -145,23 +141,23 @@ const parameters = {
   count: 1000,
   size: 0.02,
   radius: 5,
-}
+};
 ```
 
 沿着 x 轴半径内随机渲染
 
 ```js
-  // Geometry
-  geometry = new THREE.BufferGeometry()
-  const position = new Float32Array(parameters.count * 3)
-  for (let i = 0; i < parameters.count; i += 1) {
-    const i3 = i * 3
-    const radius = Math.random() * parameters.radius
-    position[i3] = radius
-    position[i3 + 1] = 0
-    position[i3 + 2] = 0
-  }
-  geometry.setAttribute('position', new THREE.BufferAttribute(position, 3))
+// Geometry
+geometry = new THREE.BufferGeometry();
+const position = new Float32Array(parameters.count * 3);
+for (let i = 0; i < parameters.count; i += 1) {
+  const i3 = i * 3;
+  const radius = Math.random() * parameters.radius;
+  position[i3] = radius;
+  position[i3 + 1] = 0;
+  position[i3 + 2] = 0;
+}
+geometry.setAttribute("position", new THREE.BufferAttribute(position, 3));
 ```
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01ppLLEN1bt7htKGFfN_!!6000000003522-2-tps-1127-621.png)
@@ -179,24 +175,25 @@ const parameters = {
   size: 0.02,
   radius: 5,
   branches: 3,
-}
+};
 ```
 
 修改点的位置
 
 ```js
-  // Geometry
-  geometry = new THREE.BufferGeometry()
-  const position = new Float32Array(parameters.count * 3)
-  for (let i = 0; i < parameters.count; i += 1) {
-    const i3 = i * 3
-    const radius = Math.random() * parameters.radius
-    const branchesAngle = ((i % parameters.branches) / parameters.branches) * Math.PI * 2
-    position[i3] = Math.cos(branchesAngle) * radius
-    position[i3 + 1] = 0
-    position[i3 + 2] = Math.sin(branchesAngle) * radius
-  }
-  geometry.setAttribute('position', new THREE.BufferAttribute(position, 3))
+// Geometry
+geometry = new THREE.BufferGeometry();
+const position = new Float32Array(parameters.count * 3);
+for (let i = 0; i < parameters.count; i += 1) {
+  const i3 = i * 3;
+  const radius = Math.random() * parameters.radius;
+  const branchesAngle =
+    ((i % parameters.branches) / parameters.branches) * Math.PI * 2;
+  position[i3] = Math.cos(branchesAngle) * radius;
+  position[i3 + 1] = 0;
+  position[i3 + 2] = Math.sin(branchesAngle) * radius;
+}
+geometry.setAttribute("position", new THREE.BufferAttribute(position, 3));
 ```
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN010B4u8V1rda7UNKsTG_!!6000000005654-2-tps-1133-630.png)
@@ -215,26 +212,27 @@ const parameters = {
   radius: 5,
   branches: 3,
   spin: 1,
-}
+};
 ```
 
 增加偏转角度
 
 ```js
-  // Geometry
-  geometry = new THREE.BufferGeometry()
-  const position = new Float32Array(parameters.count * 3)
-  for (let i = 0; i < parameters.count; i += 1) {
-    const i3 = i * 3
-    const radius = Math.random() * parameters.radius
-    const branchesAngle = ((i % parameters.branches) / parameters.branches) * Math.PI * 2
-    const spinAngle = radius * parameters.spin
+// Geometry
+geometry = new THREE.BufferGeometry();
+const position = new Float32Array(parameters.count * 3);
+for (let i = 0; i < parameters.count; i += 1) {
+  const i3 = i * 3;
+  const radius = Math.random() * parameters.radius;
+  const branchesAngle =
+    ((i % parameters.branches) / parameters.branches) * Math.PI * 2;
+  const spinAngle = radius * parameters.spin;
 
-    position[i3] = Math.cos(branchesAngle + spinAngle) * radius
-    position[i3 + 1] = 0
-    position[i3 + 2] = Math.sin(branchesAngle + spinAngle) * radius
-  }
-  geometry.setAttribute('position', new THREE.BufferAttribute(position, 3))
+  position[i3] = Math.cos(branchesAngle + spinAngle) * radius;
+  position[i3 + 1] = 0;
+  position[i3 + 2] = Math.sin(branchesAngle + spinAngle) * radius;
+}
+geometry.setAttribute("position", new THREE.BufferAttribute(position, 3));
 ```
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN01v2DFjf1EomnJs4IEd_!!6000000000399-2-tps-1128-627.png)
@@ -248,13 +246,13 @@ const parameters = {
 ```
 
 ```js
-    const randomX = (Math.random() - 0.5) * parameters.randomness * radius
-    const randomY = (Math.random() - 0.5) * parameters.randomness * radius
-    const randomZ = (Math.random() - 0.5) * parameters.randomness * radius
+const randomX = (Math.random() - 0.5) * parameters.randomness * radius;
+const randomY = (Math.random() - 0.5) * parameters.randomness * radius;
+const randomZ = (Math.random() - 0.5) * parameters.randomness * radius;
 
-    position[i3] = Math.cos(branchesAngle + spinAngle) * radius + randomX
-    position[i3 + 1] = randomY
-    position[i3 + 2] = Math.sin(branchesAngle + spinAngle) * radius + randomZ
+position[i3] = Math.cos(branchesAngle + spinAngle) * radius + randomX;
+position[i3 + 1] = randomY;
+position[i3 + 2] = Math.sin(branchesAngle + spinAngle) * radius + randomZ;
 ```
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01f6ENoo1k7KvNNkWst_!!6000000004636-2-tps-1133-630.png)
@@ -266,18 +264,21 @@ const parameters = {
 ```
 
 ```js
-    const randomX = Math.random() ** parameters.randomnessPower
-      * (Math.random() < 0.5 ? 1 : -1)
-      * parameters.randomness
-      * radius
-    const randomY = Math.random() ** parameters.randomnessPower
-      * (Math.random() < 0.5 ? 1 : -1)
-      * parameters.randomness
-      * radius
-    const randomZ = Math.random() ** parameters.randomnessPower
-      * (Math.random() < 0.5 ? 1 : -1)
-      * parameters.randomness
-      * radius
+const randomX =
+  Math.random() ** parameters.randomnessPower *
+  (Math.random() < 0.5 ? 1 : -1) *
+  parameters.randomness *
+  radius;
+const randomY =
+  Math.random() ** parameters.randomnessPower *
+  (Math.random() < 0.5 ? 1 : -1) *
+  parameters.randomness *
+  radius;
+const randomZ =
+  Math.random() ** parameters.randomnessPower *
+  (Math.random() < 0.5 ? 1 : -1) *
+  parameters.randomness *
+  radius;
 ```
 
 效果好多了
@@ -294,28 +295,28 @@ const parameters = {
 ```
 
 ```js
-gui.addColor(parameters, 'insideColor').onFinishChange(generatorGalaxy)
-gui.addColor(parameters, 'outsideColor').onFinishChange(generatorGalaxy)
+gui.addColor(parameters, "insideColor").onFinishChange(generatorGalaxy);
+gui.addColor(parameters, "outsideColor").onFinishChange(generatorGalaxy);
 ```
 
 我们要为每个顶点设置颜色，所以需要将 `vertexColors` 设置为 true
 
 ```js
-  // Material
-  material = new THREE.PointsMaterial({
-    size: parameters.size,
-    sizeAttenuation: true,
-    depthWrite: false,
-    blending: THREE.AdditiveBlending,
-    vertexColors: true,
-  })
+// Material
+material = new THREE.PointsMaterial({
+  size: parameters.size,
+  sizeAttenuation: true,
+  depthWrite: false,
+  blending: THREE.AdditiveBlending,
+  vertexColors: true,
+});
 ```
 
 然后添加颜色属性，如上一节课学习的那样
 
 ```js
-  const position = new Float32Array(parameters.count * 3)
-  const colors = new Float32Array(parameters.count * 3)
+const position = new Float32Array(parameters.count * 3);
+const colors = new Float32Array(parameters.count * 3);
 ```
 
 ```js
@@ -337,15 +338,15 @@ gui.addColor(parameters, 'outsideColor').onFinishChange(generatorGalaxy)
 `.lerp ( color : Color, alpha : Float ) : this`
 
 color - 用于收敛的颜色。
-alpha - 介于0到1的数字。
+alpha - 介于 0 到 1 的数字。
 
-将该颜色的RGB值线性插值到传入参数的RGB值。alpha参数可以被认为是两种颜色之间的比例值，其中0是当前颜色和1.0是第一个参数的颜色。
+将该颜色的 RGB 值线性插值到传入参数的 RGB 值。alpha 参数可以被认为是两种颜色之间的比例值，其中 0 是当前颜色和 1.0 是第一个参数的颜色。
 
 `.lerpColors ( color1 : Color, color2 : Color, alpha : Float ) : this`
 
 color1 - 开始的颜色。
 color2 - 结束收敛的颜色。
-alpha - 介于0到1的数字。
+alpha - 介于 0 到 1 的数字。
 
 ```js
     const mixedColor = colorInside.clone()
@@ -364,7 +365,7 @@ alpha - 介于0到1的数字。
 
 ![](https://gw.alicdn.com/imgextra/i2/O1CN01e4GDed1v8DSaHo3dL_!!6000000006127-1-tps-510-267.gif)
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/19-galaxy-generator/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/19-galaxy-generator/)
 
 可扫码访问
 
@@ -374,6 +375,4 @@ alpha - 介于0到1的数字。
 
 # 小结
 
-本节我们学习了如何设置各种debug参数，来调节我们的银河效果。对粒子特效有了更深入的研究。动画部分我们会在后续的课程中再详细学习。
-
-
+本节我们学习了如何设置各种 debug 参数，来调节我们的银河效果。对粒子特效有了更深入的研究。动画部分我们会在后续的课程中再详细学习。

@@ -1,13 +1,13 @@
 ---
 layout: post
-title:  "Three.js 之 14 Raycaster 光线投射"
+title: "Three.js 之 14 Raycaster 光线投射"
 categories: Three.js
-tags:  Three.js WebGL
+tags: Three.js WebGL
 author: HyG
 ---
 
-* content
-{:toc}
+- content
+  {:toc}
 
 本系列为 [Three.js journey](https://threejs-journey.com/) 教程学习笔记。
 
@@ -20,10 +20,6 @@ author: HyG
 - 检测是否有什么物体在鼠标下，并模拟鼠标事件
 - 等
 
-
-
-
-
 # 创建光线投射 Raycaster
 
 我们沿着 x 轴，创建 3 个球体，从最左边发射一个射线，沿着 x 轴指向右侧
@@ -34,29 +30,29 @@ author: HyG
  */
 const object1 = new THREE.Mesh(
   new THREE.SphereGeometry(1, 32, 32),
-  new THREE.MeshBasicMaterial({ color: '#B71C1C' })
-)
-object1.position.setX(-4)
+  new THREE.MeshBasicMaterial({ color: "#B71C1C" })
+);
+object1.position.setX(-4);
 const object2 = new THREE.Mesh(
   new THREE.SphereGeometry(1, 32, 32),
-  new THREE.MeshBasicMaterial({ color: '#B71C1C' })
-)
+  new THREE.MeshBasicMaterial({ color: "#B71C1C" })
+);
 const object3 = new THREE.Mesh(
   new THREE.SphereGeometry(1, 32, 32),
-  new THREE.MeshBasicMaterial({ color: '#B71C1C' })
-)
-object3.position.setX(4)
+  new THREE.MeshBasicMaterial({ color: "#B71C1C" })
+);
+object3.position.setX(4);
 
-scene.add(object1, object2, object3)
+scene.add(object1, object2, object3);
 
 /**
  * Raycaster
  */
-const raycaster = new THREE.Raycaster()
-const rayOrigin = new THREE.Vector3(-6, 0, 0)
-const rayDirections = new THREE.Vector3(10, 0, 0)
-rayDirections.normalize()
-raycaster.set(rayOrigin, rayDirections)
+const raycaster = new THREE.Raycaster();
+const rayOrigin = new THREE.Vector3(-6, 0, 0);
+const rayDirections = new THREE.Vector3(10, 0, 0);
+rayDirections.normalize();
+raycaster.set(rayOrigin, rayDirections);
 ```
 
 [Raycaster 类](https://threejs.org/docs/index.html?q=Raycaster#api/zh/core/Raycaster)
@@ -65,8 +61,8 @@ raycaster.set(rayOrigin, rayDirections)
 
 - origin —— 光线投射的原点向量。
 - direction —— 向射线提供方向的方向向量，应当被标准化。
-- near —— 返回的所有结果比near远。near不能为负值，其默认值为0。
-- far —— 返回的所有结果都比far近。far不能小于near，其默认值为Infinity（正无穷。）
+- near —— 返回的所有结果比 near 远。near 不能为负值，其默认值为 0。
+- far —— 返回的所有结果都比 far 近。far 不能小于 near，其默认值为 Infinity（正无穷。）
 
 set 方法##
 
@@ -84,9 +80,9 @@ const arrowHelper = new THREE.ArrowHelper(
   15,
   0xff0000,
   1,
-  0.5,
-)
-scene.add(arrowHelper)
+  0.5
+);
+scene.add(arrowHelper);
 ```
 
 效果如下
@@ -102,7 +98,7 @@ scene.add(arrowHelper)
 - face —— 相交的面
 - faceIndex —— 相交的面的索引
 - object —— 相交的物体
-- uv —— 相交部分的点的UV坐标。
+- uv —— 相交部分的点的 UV 坐标。
 - uv2 —— Second set of U,V coordinates at point of intersection
 - instanceId – The index number of the instance where the ray intersects the InstancedMesh
 
@@ -113,11 +109,11 @@ scene.add(arrowHelper)
 我们加入以下代码
 
 ```js
-const intersect = raycaster.intersectObject(object1)
-const intersects = raycaster.intersectObjects([object1, object2, object3])
+const intersect = raycaster.intersectObject(object1);
+const intersects = raycaster.intersectObjects([object1, object2, object3]);
 
-console.log(intersect)
-console.log(intersects)
+console.log(intersect);
+console.log(intersects);
 ```
 
 可以看到日志
@@ -126,30 +122,30 @@ console.log(intersects)
 
 ## 动态检测
 
-我们让3个球运动起来，动态检测是否被射线穿过
+我们让 3 个球运动起来，动态检测是否被射线穿过
 
-首先给3个小球的 positionY 设置位移
+首先给 3 个小球的 positionY 设置位移
 
 ```js
 // Animations
-const clock = new THREE.Clock()
+const clock = new THREE.Clock();
 const tick = () => {
-  stats.begin()
+  stats.begin();
 
-  const elapsedTime = clock.getElapsedTime()
-  object1.position.setY(Math.sin(elapsedTime * 2) * 2)
-  object2.position.setY(Math.sin(elapsedTime * 1.5) * 2)
-  object3.position.setY(Math.sin(elapsedTime * 3) * 2)
+  const elapsedTime = clock.getElapsedTime();
+  object1.position.setY(Math.sin(elapsedTime * 2) * 2);
+  object2.position.setY(Math.sin(elapsedTime * 1.5) * 2);
+  object3.position.setY(Math.sin(elapsedTime * 3) * 2);
 
-  controls.update()
+  controls.update();
 
   // Render
-  renderer.render(scene, camera)
-  stats.end()
-  requestAnimationFrame(tick)
-}
+  renderer.render(scene, camera);
+  stats.end();
+  requestAnimationFrame(tick);
+};
 
-tick()
+tick();
 ```
 
 效果如下
@@ -180,7 +176,7 @@ tick()
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN011DDy2n1ibRjJr7abI_!!6000000004431-1-tps-349-311.gif)
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/20-raycaster/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/20-raycaster/)
 
 可扫码访问
 
@@ -197,13 +193,13 @@ tick()
 首先我们需要获取鼠标的位置，通过监听 `mousemove` 事件
 
 ```js
-const mouse = new THREE.Vector2()
+const mouse = new THREE.Vector2();
 
-window.addEventListener('mousemove', (event) => {
-  mouse.x = (event.clientX / sizes.width) * 2 - 1
-  mouse.y = -(event.clientY / sizes.height) * 2 + 1
-  console.log(mouse)
-})
+window.addEventListener("mousemove", (event) => {
+  mouse.x = (event.clientX / sizes.width) * 2 - 1;
+  mouse.y = -(event.clientY / sizes.height) * 2 + 1;
+  console.log(mouse);
+});
 ```
 
 将鼠标的坐标转换为 -1 到 1 的值。这是因为接下来我们要使用的 api 需要 -1 到 1 的值。
@@ -231,35 +227,39 @@ window.addEventListener('touchmove', (event) => {
 })
 ```
 
-我们将之前的小球增加一些，做一个三维矩阵，这里使用3次for循环实现，代码如下
+我们将之前的小球增加一些，做一个三维矩阵，这里使用 3 次 for 循环实现，代码如下
 
 ```js
-const ballNumInRow = 5
+const ballNumInRow = 5;
 
-const cubeGroup = new THREE.Group()
+const cubeGroup = new THREE.Group();
 for (let k = 0; k < ballNumInRow; k += 1) {
-  const planeGroup = new THREE.Group()
+  const planeGroup = new THREE.Group();
   for (let j = 0; j < ballNumInRow; j += 1) {
-    const rowGroup = new THREE.Group()
+    const rowGroup = new THREE.Group();
     for (let i = 0; i < ballNumInRow; i += 1) {
       const object = new THREE.Mesh(
         new THREE.SphereGeometry(1, 32, 32),
-        new THREE.MeshStandardMaterial({ color: '#fff' }),
-      )
-      object.position.setX(i * 2)
-      object.name = 'ball'
-      rowGroup.add(object)
+        new THREE.MeshStandardMaterial({ color: "#fff" })
+      );
+      object.position.setX(i * 2);
+      object.name = "ball";
+      rowGroup.add(object);
     }
-    rowGroup.position.setZ(j * 2)
-    planeGroup.add(rowGroup)
+    rowGroup.position.setZ(j * 2);
+    planeGroup.add(rowGroup);
   }
-  planeGroup.position.setY(k * 2)
-  cubeGroup.add(planeGroup)
+  planeGroup.position.setY(k * 2);
+  cubeGroup.add(planeGroup);
 }
 
-cubeGroup.position.set(-ballNumInRow / 2 - 1.5, -ballNumInRow / 2 - 1.5, -ballNumInRow / 2 - 1.5)
+cubeGroup.position.set(
+  -ballNumInRow / 2 - 1.5,
+  -ballNumInRow / 2 - 1.5,
+  -ballNumInRow / 2 - 1.5
+);
 
-scene.add(cubeGroup)
+scene.add(cubeGroup);
 ```
 
 效果如下：
@@ -269,19 +269,19 @@ scene.add(cubeGroup)
 再将这个 cubeGroup 里的所有球体扁平化，变为 1 维数组，便于后续的 Intersection 检测。这里我们使用 Three.js 提供的遍历 api `traverse`, 代码如下
 
 ```js
-const objectsToTest: THREE.Mesh[] = []
+const objectsToTest: THREE.Mesh[] = [];
 cubeGroup.traverse((obj: THREE.Mesh) => {
-  if (obj.type === 'Mesh') {
-    objectsToTest.push(obj)
+  if (obj.type === "Mesh") {
+    objectsToTest.push(obj);
   }
-})
+});
 ```
 
 想要从一个坐标从相机方向发射射线，需要使用以下 api
 
 `.setFromCamera ( coords : Vector2, camera : Camera ) : undefined`
 
-- coords —— 在标准化设备坐标中鼠标的二维坐标 —— X分量与Y分量应当在-1到1之间。
+- coords —— 在标准化设备坐标中鼠标的二维坐标 —— X 分量与 Y 分量应当在-1 到 1 之间。
 - camera —— 射线所来源的摄像机。
 
 使用一个新的原点和方向来更新射线。
@@ -289,45 +289,43 @@ cubeGroup.traverse((obj: THREE.Mesh) => {
 最后我们在 tick 中增加如下代码，增加鼠标至相机的光线投射，检查相交的物体，将第一个物体设置为随机色。
 
 ```js
-
 // Animations
 const tick = () => {
-
-  stats.begin()
+  stats.begin();
 
   if (mouse.x && mouse.y) {
-    raycaster.setFromCamera({ x: mouse.x, y: mouse.y }, camera)
+    raycaster.setFromCamera({ x: mouse.x, y: mouse.y }, camera);
   }
 
   const intersects: THREE.Intersection<
-  THREE.Mesh<THREE.SphereGeometry, THREE.MeshStandardMaterial>
-  >[] = raycaster.intersectObjects(objectsToTest)
+    THREE.Mesh<THREE.SphereGeometry, THREE.MeshStandardMaterial>
+  >[] = raycaster.intersectObjects(objectsToTest);
 
   if (
-    JSON.stringify(intersects[0]?.object.material.color)
-    === JSON.stringify(new THREE.Color(0xffffff))
+    JSON.stringify(intersects[0]?.object.material.color) ===
+    JSON.stringify(new THREE.Color(0xffffff))
   ) {
     intersects[0]?.object.material.color.set(
-      new THREE.Color(Math.random(), Math.random(), Math.random()),
-    )
+      new THREE.Color(Math.random(), Math.random(), Math.random())
+    );
   }
 
-  controls.update()
+  controls.update();
 
   // Render
-  renderer.render(scene, camera)
-  stats.end()
-  requestAnimationFrame(tick)
-}
+  renderer.render(scene, camera);
+  stats.end();
+  requestAnimationFrame(tick);
+};
 
-tick()
+tick();
 ```
 
 最终效果如下
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01aaF9aN1ccSv6XtnaY_!!6000000003621-1-tps-224-480.gif)
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/20-raycaster-mouse/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/20-raycaster-mouse/)
 
 可扫码访问
 
@@ -342,59 +340,59 @@ tick()
 我们可以使用变量控制射线是否与当前物体相交，代码如下
 
 ```js
-window.addEventListener('mousemove', (event) => {
-  mouse.x = (event.clientX / sizes.width) * 2 - 1
-  mouse.y = -(event.clientY / sizes.height) * 2 + 1
-})
+window.addEventListener("mousemove", (event) => {
+  mouse.x = (event.clientX / sizes.width) * 2 - 1;
+  mouse.y = -(event.clientY / sizes.height) * 2 + 1;
+});
 
 let currentIntersect: THREE.Intersection<
-THREE.Mesh<THREE.SphereGeometry, THREE.MeshStandardMaterial>
-> | null = null
+  THREE.Mesh<THREE.SphereGeometry, THREE.MeshStandardMaterial>
+> | null = null;
 
 // Animations
 const tick = () => {
-  stats.begin()
+  stats.begin();
 
   if (mouse.x && mouse.y) {
-    raycaster.setFromCamera({ x: mouse.x, y: mouse.y }, camera)
+    raycaster.setFromCamera({ x: mouse.x, y: mouse.y }, camera);
   }
 
-  const objectsToTest = [object1, object2, object3]
+  const objectsToTest = [object1, object2, object3];
   const intersects: THREE.Intersection<
-  THREE.Mesh<THREE.SphereGeometry, THREE.MeshStandardMaterial>
-  >[] = raycaster.intersectObjects(objectsToTest)
+    THREE.Mesh<THREE.SphereGeometry, THREE.MeshStandardMaterial>
+  >[] = raycaster.intersectObjects(objectsToTest);
 
   if (intersects.length) {
     if (!currentIntersect) {
-      console.log('mouse enter')
+      console.log("mouse enter");
     }
 
-    [currentIntersect] = intersects
+    [currentIntersect] = intersects;
   } else {
     if (currentIntersect) {
-      console.log('mouse leave')
+      console.log("mouse leave");
     }
 
-    currentIntersect = null
+    currentIntersect = null;
   }
 
   objectsToTest.forEach((item) => {
-    item.material.color.set('#B71C1C')
-  })
+    item.material.color.set("#B71C1C");
+  });
 
   intersects.forEach((item) => {
-    item.object.material.color.set('#F9A825')
-  })
+    item.object.material.color.set("#F9A825");
+  });
 
-  controls.update()
+  controls.update();
 
   // Render
-  renderer.render(scene, camera)
-  stats.end()
-  requestAnimationFrame(tick)
-}
+  renderer.render(scene, camera);
+  stats.end();
+  requestAnimationFrame(tick);
+};
 
-tick()
+tick();
 ```
 
 效果如下
@@ -449,7 +447,7 @@ window.addEventListener('click', (event) => {
 
 ![](https://gw.alicdn.com/imgextra/i2/O1CN01dWHRy91ndnqf2ER9w_!!6000000005113-1-tps-978-422.gif)
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/20-raycaster-mouse2/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/20-raycaster-mouse2/)
 
 [demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/20-raycaster-mouse2)
 

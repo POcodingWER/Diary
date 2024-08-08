@@ -1,13 +1,13 @@
 ---
 layout: post
-title:  "Three.js 之 12 Particles 粒子效果"
+title: "Three.js 之 12 Particles 粒子效果"
 categories: Three.js
-tags:  Three.js WebGL
+tags: Three.js WebGL
 author: HyG
 ---
 
-* content
-{:toc}
+- content
+  {:toc}
 
 本系列为 [Three.js journey](https://threejs-journey.com/) 教程学习笔记。
 
@@ -18,10 +18,6 @@ author: HyG
 粒子特效的优势是即使使用了成百上千的例子，也能保证比较高的帧率。缺点是每个粒子都由一个始终面向相机的平面（两个三角形）组成。
 
 创建粒子像创建几何体一样简单，我们使用 [PointsMaterial](https://threejs.org/docs/index.html#api/zh/materials/PointsMaterial) 材质，它不会创建几何体而是创建非常多的点 [Points](https://threejs.org/docs/index.html#api/zh/objects/Points)。下面我们开始吧。
-
-
-
-
 
 # 第一个粒子效果
 
@@ -34,7 +30,7 @@ author: HyG
  * Particles
  */
 // geometry
-const sphereGeometry = new THREE.SphereGeometry(1, 32, 32)
+const sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
 ```
 
 ## PointsMaterial 点材质
@@ -46,23 +42,23 @@ const sphereGeometry = new THREE.SphereGeometry(1, 32, 32)
 const pointMaterial = new THREE.PointsMaterial({
   size: 0.02,
   sizeAttenuation: true,
-})
+});
 ```
 
-有2个属性
+有 2 个属性
 
 - `.size : Number`
-  - 设置点的大小。默认值为1.0。
+  - 设置点的大小。默认值为 1.0。
 - `.sizeAttenuation : Boolean`
-  - 指定点的大小是否因相机深度而衰减。（仅限透视摄像头。）默认为true。
+  - 指定点的大小是否因相机深度而衰减。（仅限透视摄像头。）默认为 true。
 
 ## 使用 Points
 
 之前我们都是使用 Mesh 网格几何体，现在使用点 Points。
 
 ```js
-const particles = new THREE.Points(sphereGeometry, pointMaterial)
-scene.add(particles)
+const particles = new THREE.Points(sphereGeometry, pointMaterial);
+scene.add(particles);
 ```
 
 效果如下
@@ -73,7 +69,7 @@ scene.add(particles)
 
 ![](https://gw.alicdn.com/imgextra/i2/O1CN01jsLVCA1rAjANG3ca5_!!6000000005591-1-tps-927-350.gif)
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/18-particles/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/18-particles/)
 
 可扫码访问
 
@@ -175,13 +171,16 @@ gui.add(pointMaterial, 'sizeAttenuation')
 
 ```js
 // geometry
-const particlesGeometry = new THREE.BufferGeometry()
-const count = 5000
-const positions = new Float32Array(count * 3) // 每个点由三个坐标值组成（x, y, z）
+const particlesGeometry = new THREE.BufferGeometry();
+const count = 5000;
+const positions = new Float32Array(count * 3); // 每个点由三个坐标值组成（x, y, z）
 for (let i = 0; i < count * 3; i += 1) {
-  positions[i] = (Math.random() - 0.5) * 5
+  positions[i] = (Math.random() - 0.5) * 5;
 }
-particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+particlesGeometry.setAttribute(
+  "position",
+  new THREE.BufferAttribute(positions, 3)
+);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01fsW0xV1M2FkdHNt5C_!!6000000001376-2-tps-1131-635.png)
@@ -189,7 +188,7 @@ particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 
 我们尝试将粒子个数设置的更高，仍然能得到非常好的性能和帧率，如下图，将
 
 ```js
-const count = 500000
+const count = 500000;
 ```
 
 仍然满帧运行
@@ -203,7 +202,7 @@ const count = 500000
 首先为材质设置颜色
 
 ```js
-pointMaterial.color = new THREE.Color('#ff88cc')
+pointMaterial.color = new THREE.Color("#ff88cc");
 ```
 
 再增加纹理贴图，我们使用如下的贴图
@@ -214,14 +213,16 @@ pointMaterial.color = new THREE.Color('#ff88cc')
 /**
  * Textures
  */
-const textureLoader = new THREE.TextureLoader()
-const particleTexture = textureLoader.load('https://gw.alicdn.com/imgextra/i3/O1CN01DO6Ed61QtcMKsVnK2_!!6000000002034-2-tps-56-56.png')
+const textureLoader = new THREE.TextureLoader();
+const particleTexture = textureLoader.load(
+  "https://gw.alicdn.com/imgextra/i3/O1CN01DO6Ed61QtcMKsVnK2_!!6000000002034-2-tps-56-56.png"
+);
 ```
 
 赋给材质
 
 ```js
-pointMaterial.map = particleTexture
+pointMaterial.map = particleTexture;
 ```
 
 效果如下
@@ -237,8 +238,8 @@ pointMaterial.map = particleTexture
 我们设置 alphaMap 和 transparent
 
 ```js
-pointMaterial.alphaMap = particleTexture
-pointMaterial.transparent = true
+pointMaterial.alphaMap = particleTexture;
+pointMaterial.transparent = true;
 ```
 
 透明的效果有了，但还是能看到偶尔出现的边缘，如下图
@@ -251,12 +252,12 @@ pointMaterial.transparent = true
 
 `.alphaTest : Float`
 
-设置运行 [alphaTest](https://threejs.org/docs/index.html#api/zh/materials/Material.alphaTest) 时要使用的alpha值。如果不透明度低于此值，则不会渲染材质。默认值为0。
+设置运行 [alphaTest](https://threejs.org/docs/index.html#api/zh/materials/Material.alphaTest) 时要使用的 alpha 值。如果不透明度低于此值，则不会渲染材质。默认值为 0。
 
 就是让 WebGL 明白什么时候根据像素的透明度不进行渲染。默认为 0 即总是会渲染，如果我们设置一个很小的值，则如何 alpha 为 0 时不会被渲染
 
 ```js
-pointMaterial.alphaTest = 0.001
+pointMaterial.alphaTest = 0.001;
 ```
 
 ![](https://gw.alicdn.com/imgextra/i2/O1CN01e5ooIu1VmoYYjHNtf_!!6000000002696-1-tps-717-326.gif)
@@ -271,18 +272,20 @@ pointMaterial.alphaTest = 0.001
 
 ```js
 // pointMaterial.alphaTest = 0.001
-pointMaterial.depthTest = false
+pointMaterial.depthTest = false;
 ```
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01ipgMz71I5Dr30l5yv_!!6000000000841-2-tps-1118-514.png)
 
-
-看起来效果不错。但是因为我们关闭了深度测试，会导致另一个bug，如果我们创建一个几何体，那么这个几何体就会总是在这些粒子之后了。
+看起来效果不错。但是因为我们关闭了深度测试，会导致另一个 bug，如果我们创建一个几何体，那么这个几何体就会总是在这些粒子之后了。
 
 ```js
 // cube
-const cube = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial())
-scene.add(cube)
+const cube = new THREE.Mesh(
+  new THREE.BoxGeometry(),
+  new THREE.MeshStandardMaterial()
+);
+scene.add(cube);
 ```
 
 如下图，这是一个很奇怪的透视效果。如果没有其他几何体的话，使用 depthTest 关闭的方案就足够了，接下来我们再看看其他方案
@@ -296,7 +299,7 @@ scene.add(cube)
 WebGL 在渲染是会检测当前渲染的深度和之前已经渲染的物体深度的对比，已渲染的深度会被缓存在 depth buffer 中。这是我们设置 depthWrite 为 false 相当于告知发现更近的粒子时 WebGL 不要在将其写入 depth buffer 中。
 
 ```js
-pointMaterial.depthWrite = false
+pointMaterial.depthWrite = false;
 ```
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01X7CGbY1vcRbExZgmJ_!!6000000006193-2-tps-1131-537.png)
@@ -306,8 +309,8 @@ pointMaterial.depthWrite = false
 混合，设置将叠加的部分的效果
 
 ```js
-pointMaterial.depthWrite = false
-pointMaterial.blending = THREE.AdditiveBlending
+pointMaterial.depthWrite = false;
+pointMaterial.blending = THREE.AdditiveBlending;
 ```
 
 我们增加一些粒子，可以看到叠加的部分变得更加高亮，我们可以用这个效果制作烟火、火焰等
@@ -351,7 +354,7 @@ pointMaterial.vertexColors = true
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN01E6N18h1lxNXmEMiLv_!!6000000004885-2-tps-1136-537.png)
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/18-particlesCustomGeometry/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/18-particlesCustomGeometry/)
 
 可扫码访问
 
@@ -369,28 +372,28 @@ pointMaterial.vertexColors = true
 
 ```js
 // Animations
-const clock = new THREE.Clock()
+const clock = new THREE.Clock();
 const tick = () => {
-  stats.begin()
+  stats.begin();
 
-  const elapsedTime = clock.getElapsedTime()
-  particles.position.x = 0.1 * Math.sin(elapsedTime)
+  const elapsedTime = clock.getElapsedTime();
+  particles.position.x = 0.1 * Math.sin(elapsedTime);
 
-  controls.update()
-  pointMaterial.needsUpdate = true
+  controls.update();
+  pointMaterial.needsUpdate = true;
 
   // Render
-  renderer.render(scene, camera)
-  stats.end()
-  requestAnimationFrame(tick)
-}
+  renderer.render(scene, camera);
+  stats.end();
+  requestAnimationFrame(tick);
+};
 ```
 
 并增加坐标轴助手 axesHelper，便于观察
 
 ```js
-const axesHelper = new THREE.AxesHelper(1)
-scene.add(axesHelper)
+const axesHelper = new THREE.AxesHelper(1);
+scene.add(axesHelper);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i2/O1CN01cSxptR1WKFT7OUOh7_!!6000000002769-1-tps-500-236.gif)
@@ -405,28 +408,28 @@ scene.add(axesHelper)
 
 ```js
 // Animations
-const clock = new THREE.Clock()
+const clock = new THREE.Clock();
 const tick = () => {
-  stats.begin()
+  stats.begin();
 
-  const elapsedTime = clock.getElapsedTime()
+  const elapsedTime = clock.getElapsedTime();
   // particles.position.x = 0.1 * Math.sin(elapsedTime)
 
   for (let i = 0; i < count; i += 1) {
-    particlesGeometry.attributes.position.setY(i, Math.sin(elapsedTime))
+    particlesGeometry.attributes.position.setY(i, Math.sin(elapsedTime));
   }
-  particlesGeometry.attributes.position.needsUpdate = true
+  particlesGeometry.attributes.position.needsUpdate = true;
 
-  controls.update()
+  controls.update();
   // pointMaterial.needsUpdate = true
 
   // Render
-  renderer.render(scene, camera)
-  stats.end()
-  requestAnimationFrame(tick)
-}
+  renderer.render(scene, camera);
+  stats.end();
+  requestAnimationFrame(tick);
+};
 
-tick()
+tick();
 ```
 
 注意要设置 position update `particlesGeometry.attributes.position.needsUpdate = true`
@@ -439,36 +442,36 @@ tick()
 
 ```js
 // Animations
-const clock = new THREE.Clock()
+const clock = new THREE.Clock();
 const tick = () => {
-  stats.begin()
+  stats.begin();
 
-  const elapsedTime = clock.getElapsedTime()
+  const elapsedTime = clock.getElapsedTime();
   // particles.position.x = 0.1 * Math.sin(elapsedTime)
 
   for (let i = 0; i < count; i += 1) {
-    const x = particlesGeometry.attributes.position.getX(i)
-    particlesGeometry.attributes.position.setY(i, Math.sin(elapsedTime + x))
+    const x = particlesGeometry.attributes.position.getX(i);
+    particlesGeometry.attributes.position.setY(i, Math.sin(elapsedTime + x));
   }
-  particlesGeometry.attributes.position.needsUpdate = true
+  particlesGeometry.attributes.position.needsUpdate = true;
 
-  controls.update()
+  controls.update();
   // pointMaterial.needsUpdate = true
 
   // Render
-  renderer.render(scene, camera)
-  stats.end()
-  requestAnimationFrame(tick)
-}
+  renderer.render(scene, camera);
+  stats.end();
+  requestAnimationFrame(tick);
+};
 
-tick()
+tick();
 ```
 
 效果如下
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01HtxK0Q20VdnO7RxRN_!!6000000006855-1-tps-520-225.gif)
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/18-particlesAnimation/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/18-particlesAnimation/)
 
 可扫码访问
 
@@ -481,4 +484,3 @@ tick()
 # 小结
 
 本节我们学习了粒子效果，学习了 PointsMaterial/Points 类生成粒子，如何自定义粒子位置颜色等，研究了粒子的遮挡关系，最后学习了一点控制粒子的动画。Keep going!
-

@@ -1,14 +1,14 @@
 ---
 layout: post
-title:  "动画中的三角学"
+title: "动画中的三角学"
 categories: JavaScript
 tags: 动画 Canvas 三角
 author: HyG
 mathjax: true
 ---
 
-* content
-{:toc}
+- content
+  {:toc}
 
 本文将讲述一些 canvas 动画绘图中三角学的应用，其中包括：
 
@@ -18,9 +18,6 @@ mathjax: true
 - 圆与椭圆
 - 勾股定理
 - 两点间距离
-
-
-
 
 # 角
 
@@ -56,7 +53,7 @@ canvas 画布中左上角为为 `(0, 0)`。如下图：
 例如：30° 的正弦为 0.5
 
 ```js
-console.log(Math.sin(30 * Math.PI / 180)) // 0.49999999999999994
+console.log(Math.sin((30 * Math.PI) / 180)); // 0.49999999999999994
 ```
 
 不等于 0.5 的原因是 JavaScript 中浮点数存储，具体这里不做展开
@@ -64,14 +61,14 @@ console.log(Math.sin(30 * Math.PI / 180)) // 0.49999999999999994
 同样 -30° 的正弦为 -0.5 如下
 
 ```js
-console.log(Math.sin(-30 * Math.PI / 180)) // -0.49999999999999994
+console.log(Math.sin((-30 * Math.PI) / 180)); // -0.49999999999999994
 ```
 
 ### 余弦：邻边比斜边
 
 ```js
-console.log(Math.cos(30 * Math.PI / 180)) // 0.8660254037844387
-console.log(Math.cos(60 * Math.PI / 180)) // 0.5000000000000001
+console.log(Math.cos((30 * Math.PI) / 180)); // 0.8660254037844387
+console.log(Math.cos((60 * Math.PI) / 180)); // 0.5000000000000001
 ```
 
 ### 正切：对边比邻边
@@ -83,8 +80,8 @@ console.log(Math.cos(60 * Math.PI / 180)) // 0.5000000000000001
 需要注意其正负的特性
 
 ```js
-console.log(Math.tan(45 * Math.PI / 180)) // 0.9999999999999999
-console.log(Math.tan(-45 * Math.PI / 180)) // -0.9999999999999999
+console.log(Math.tan((45 * Math.PI) / 180)); // 0.9999999999999999
+console.log(Math.tan((-45 * Math.PI) / 180)); // -0.9999999999999999
 ```
 
 ### 反正弦与反余弦
@@ -94,8 +91,8 @@ console.log(Math.tan(-45 * Math.PI / 180)) // -0.9999999999999999
 例如：
 
 ```js
-console.log(Math.asin(1/2) * 180 / Math.PI) // 30.000000000000004
-console.log(Math.acos(1/2) * 180 / Math.PI) // 60.00000000000001
+console.log((Math.asin(1 / 2) * 180) / Math.PI); // 30.000000000000004
+console.log((Math.acos(1 / 2) * 180) / Math.PI); // 60.00000000000001
 ```
 
 ### 反正切
@@ -107,15 +104,15 @@ console.log(Math.acos(1/2) * 180 / Math.PI) // 60.00000000000001
 例如三角形 A 和 B 的反正切为：
 
 ```js
-console.log(Math.atan(-1/-1) * 180 / Math.PI) // 45
-console.log(Math.atan(1/1) * 180 / Math.PI) // 45
+console.log((Math.atan(-1 / -1) * 180) / Math.PI); // 45
+console.log((Math.atan(1 / 1) * 180) / Math.PI); // 45
 ```
 
-但此时我们无法区分这个反正切的值对应的角是三角形 A 还是 B。这就需要另一个可以算出方位角的反正切函数 `atan2`，其接受2个参数，对边的长度和邻边的长度，例如：
+但此时我们无法区分这个反正切的值对应的角是三角形 A 还是 B。这就需要另一个可以算出方位角的反正切函数 `atan2`，其接受 2 个参数，对边的长度和邻边的长度，例如：
 
 ```js
-console.log(Math.atan2(-1, -1) * 180 / Math.PI) // -135
-console.log(Math.atan2(1, 1) * 180 / Math.PI) // 45
+console.log((Math.atan2(-1, -1) * 180) / Math.PI); // -135
+console.log((Math.atan2(1, 1) * 180) / Math.PI); // 45
 ```
 
 可以看出第一个结果为 -135°，恰好为三角形 A 的方位角。
@@ -130,66 +127,71 @@ console.log(Math.atan2(1, 1) * 180 / Math.PI) // 45
 
 ```js
 class Arrow {
-  x: number
+  x: number;
 
-  y: number
+  y: number;
 
-  color: string
+  color: string;
 
-  rotation: number
+  rotation: number;
 
   constructor() {
-    this.x = 0
-    this.y = 0
-    this.color = '#42A5F5'
-    this.rotation = 0
+    this.x = 0;
+    this.y = 0;
+    this.color = "#42A5F5";
+    this.rotation = 0;
   }
 
   draw(context: CanvasRenderingContext2D) {
-    context.save()
-    context.translate(this.x, this.y)
-    context.rotate(this.rotation)
-    context.lineWidth = 2
-    context.fillStyle = this.color
-    context.beginPath()
-    context.moveTo(-50, -25)
-    context.lineTo(0, -25)
-    context.lineTo(0, -50)
-    context.lineTo(50, 0)
-    context.lineTo(0, 50)
-    context.lineTo(0, 25)
-    context.lineTo(-50, 25)
-    context.lineTo(-50, -25)
-    context.closePath()
-    context.fill()
-    context.stroke()
-    context.restore()
+    context.save();
+    context.translate(this.x, this.y);
+    context.rotate(this.rotation);
+    context.lineWidth = 2;
+    context.fillStyle = this.color;
+    context.beginPath();
+    context.moveTo(-50, -25);
+    context.lineTo(0, -25);
+    context.lineTo(0, -50);
+    context.lineTo(50, 0);
+    context.lineTo(0, 50);
+    context.lineTo(0, 25);
+    context.lineTo(-50, 25);
+    context.lineTo(-50, -25);
+    context.closePath();
+    context.fill();
+    context.stroke();
+    context.restore();
   }
 }
 
-export default Arrow
+export default Arrow;
 ```
 
 创建 `<canvas>` 标签，展示这个箭头
 
 ```html
-<canvas id="mainCanvas" style="background-color: #fff;" width="800" height="400"></canvas>
+<canvas
+  id="mainCanvas"
+  style="background-color: #fff;"
+  width="800"
+  height="400"
+></canvas>
 ```
 
 把箭头放置在画布的中央
 
 ```js
-import Arrow from '../common/Arrow'
+import Arrow from "../common/Arrow";
 
-const canvas: HTMLCanvasElement | null = document.querySelector('#mainCanvas')
+const canvas: HTMLCanvasElement | null = document.querySelector("#mainCanvas");
 
 if (canvas) {
-  const context = canvas.getContext('2d')
-  const arrow = new Arrow()
-  arrow.x = canvas.width / 2
-  arrow.y = canvas.height / 2
+  const context = canvas.getContext("2d");
+  const arrow = new Arrow();
+  arrow.x = canvas.width / 2;
+  arrow.y = canvas.height / 2;
   if (context) {
-    arrow.draw(context)
+    arrow.draw(context);
   }
 }
 ```
@@ -233,31 +235,31 @@ export { captureMouse }
 再将鼠标位置的监听增加到 canvas 主逻辑上
 
 ```js
-import Arrow from '../common/Arrow'
-import { captureMouse } from '../common/utils'
+import Arrow from "../common/Arrow";
+import { captureMouse } from "../common/utils";
 
-const canvas: HTMLCanvasElement | null = document.querySelector('#mainCanvas')
+const canvas: HTMLCanvasElement | null = document.querySelector("#mainCanvas");
 
 if (canvas) {
-  const context = canvas.getContext('2d')
-  const arrow = new Arrow()
-  arrow.x = canvas.width / 2
-  arrow.y = canvas.height / 2
+  const context = canvas.getContext("2d");
+  const arrow = new Arrow();
+  arrow.x = canvas.width / 2;
+  arrow.y = canvas.height / 2;
 
-  const pos = captureMouse(canvas) // 监听鼠标位置
+  const pos = captureMouse(canvas); // 监听鼠标位置
 
   if (context) {
     const drawFrame = () => {
-      window.requestAnimationFrame(drawFrame) // 每帧执行
-      context.clearRect(0, 0, canvas.width, canvas.height) // 清除画布内容
+      window.requestAnimationFrame(drawFrame); // 每帧执行
+      context.clearRect(0, 0, canvas.width, canvas.height); // 清除画布内容
       if (pos.x && pos.y) {
-        const dx = pos.x - arrow.x
-        const dy = pos.y - arrow.y
-        arrow.rotation = Math.atan2(dy, dx) // 这里计算出方位角
+        const dx = pos.x - arrow.x;
+        const dy = pos.y - arrow.y;
+        arrow.rotation = Math.atan2(dy, dx); // 这里计算出方位角
       }
-      arrow.draw(context)
-    }
-    drawFrame()
+      arrow.draw(context);
+    };
+    drawFrame();
   }
 }
 ```
@@ -266,7 +268,7 @@ if (canvas) {
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN01EsRvtO1rWFi9law2I_!!6000000005638-1-tps-787-358.gif)
 
-demo 链接 [https://gaohaoyang.github.io/canvas-practice/01-rotate-to-mouse/](https://gaohaoyang.github.io/canvas-practice/01-rotate-to-mouse/)
+demo 链接 [https://pocodingwer.github.io/POcodingWER_Blog/canvas-practice/01-rotate-to-mouse/](https://pocodingwer.github.io/POcodingWER_Blog/canvas-practice/01-rotate-to-mouse/)
 
 源码链接 [https://github.com/Gaohaoyang/canvas-practice/blob/main/src/01-rotate-to-mouse/index.ts](https://github.com/Gaohaoyang/canvas-practice/blob/main/src/01-rotate-to-mouse/index.ts)
 
@@ -323,22 +325,27 @@ export default Ball
 将其绘制到画布上看下效果
 
 ```html
-<canvas id="mainCanvas" style="background-color: #fff;" width="800" height="400"></canvas>
+<canvas
+  id="mainCanvas"
+  style="background-color: #fff;"
+  width="800"
+  height="400"
+></canvas>
 ```
 
 ```js
-import Ball from '../common/Ball'
+import Ball from "../common/Ball";
 
-const canvas: HTMLCanvasElement | null = document.querySelector('#mainCanvas')
+const canvas: HTMLCanvasElement | null = document.querySelector("#mainCanvas");
 
 if (canvas) {
-  const context = canvas.getContext('2d')
+  const context = canvas.getContext("2d");
 
   if (context) {
-    const ball = new Ball()
-    ball.x = canvas.width / 2
-    ball.y = canvas.height / 2
-    ball.draw(context)
+    const ball = new Ball();
+    ball.x = canvas.width / 2;
+    ball.y = canvas.height / 2;
+    ball.draw(context);
   }
 }
 ```
@@ -350,28 +357,28 @@ if (canvas) {
 现在我们让其在水平方向上做简谐运动
 
 ```js
-import Ball from '../common/Ball'
+import Ball from "../common/Ball";
 
-const canvas: HTMLCanvasElement | null = document.querySelector('#mainCanvas')
+const canvas: HTMLCanvasElement | null = document.querySelector("#mainCanvas");
 
 if (canvas) {
-  const context = canvas.getContext('2d')
+  const context = canvas.getContext("2d");
 
   if (context) {
-    const ball = new Ball()
-    ball.x = canvas.width / 2
-    ball.y = canvas.height / 2
-    let angle = 0
+    const ball = new Ball();
+    ball.x = canvas.width / 2;
+    ball.y = canvas.height / 2;
+    let angle = 0;
 
     const drawFrame = () => {
-      window.requestAnimationFrame(drawFrame)
-      context.clearRect(0, 0, canvas.width, canvas.height)
+      window.requestAnimationFrame(drawFrame);
+      context.clearRect(0, 0, canvas.width, canvas.height);
       // 正弦运动
-      ball.x = canvas.width / 2 + Math.sin(angle) * 50
-      angle += 0.1 // 角不断增加
-      ball.draw(context)
-    }
-    drawFrame()
+      ball.x = canvas.width / 2 + Math.sin(angle) * 50;
+      angle += 0.1; // 角不断增加
+      ball.draw(context);
+    };
+    drawFrame();
   }
 }
 ```
@@ -380,43 +387,43 @@ if (canvas) {
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN01gRXxu223bXfw9Gxeo_!!6000000007274-1-tps-787-358.gif)
 
-demo 链接 [https://gaohaoyang.github.io/canvas-practice/02-left-right-motion/](https://gaohaoyang.github.io/canvas-practice/02-left-right-motion/)
+demo 链接 [https://pocodingwer.github.io/POcodingWER_Blog/canvas-practice/02-left-right-motion/](https://pocodingwer.github.io/POcodingWER_Blog/canvas-practice/02-left-right-motion/)
 
 源码链接 [https://github.com/Gaohaoyang/canvas-practice/blob/main/src/02-left-right-motion/index.ts](https://github.com/Gaohaoyang/canvas-practice/blob/main/src/02-left-right-motion/index.ts)
 
 ## 高刷屏下保持速度一致
 
-大部分显示器的刷新率为60Hz，但随着科技的进步，120Hz、144Hz 的显示设备越来越多，我们要保证同样的速度，并保证高刷屏下的细腻感。所以上述代码如果不改的话，运动的速度在 120Hz 的屏幕下是 60Hz 屏幕下的2倍，我们可以使用每帧的时间乘速度来解决这个问题。
+大部分显示器的刷新率为 60Hz，但随着科技的进步，120Hz、144Hz 的显示设备越来越多，我们要保证同样的速度，并保证高刷屏下的细腻感。所以上述代码如果不改的话，运动的速度在 120Hz 的屏幕下是 60Hz 屏幕下的 2 倍，我们可以使用每帧的时间乘速度来解决这个问题。
 
 ```js
-import Ball from '../common/Ball'
+import Ball from "../common/Ball";
 
-const canvas: HTMLCanvasElement | null = document.querySelector('#mainCanvas')
+const canvas: HTMLCanvasElement | null = document.querySelector("#mainCanvas");
 
 if (canvas) {
-  const context = canvas.getContext('2d')
+  const context = canvas.getContext("2d");
 
   if (context) {
-    const ball = new Ball()
-    ball.x = canvas.width / 2
-    ball.y = canvas.height / 2
-    const speed = 4 // 速度
-    let angle = 0
+    const ball = new Ball();
+    ball.x = canvas.width / 2;
+    ball.y = canvas.height / 2;
+    const speed = 4; // 速度
+    let angle = 0;
 
-    let then = 0
+    let then = 0;
     // raf cb 的入参是当前帧的时间
     const drawFrame = (time: number) => {
-      const timeInSeconds = time * 0.001
-      const deltaTimeInSeconds = timeInSeconds - then // 每帧耗时，单位s
-      then = timeInSeconds
+      const timeInSeconds = time * 0.001;
+      const deltaTimeInSeconds = timeInSeconds - then; // 每帧耗时，单位s
+      then = timeInSeconds;
 
-      window.requestAnimationFrame(drawFrame)
-      context.clearRect(0, 0, canvas.width, canvas.height)
-      ball.x = canvas.width / 2 + Math.sin(angle) * 50
-      angle += speed * deltaTimeInSeconds // 位移 = 速度 * 每帧的时间
-      ball.draw(context)
-    }
-    drawFrame(0)
+      window.requestAnimationFrame(drawFrame);
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      ball.x = canvas.width / 2 + Math.sin(angle) * 50;
+      angle += speed * deltaTimeInSeconds; // 位移 = 速度 * 每帧的时间
+      ball.draw(context);
+    };
+    drawFrame(0);
   }
 }
 ```
@@ -425,7 +432,7 @@ if (canvas) {
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01GgzTri1vtOBIMQ2NK_!!6000000006230-1-tps-787-358.gif)
 
-demo 链接 [https://gaohaoyang.github.io/canvas-practice/03-left-right-motion-speed/](https://gaohaoyang.github.io/canvas-practice/03-left-right-motion-speed/)
+demo 链接 [https://pocodingwer.github.io/POcodingWER_Blog/canvas-practice/03-left-right-motion-speed/](https://pocodingwer.github.io/POcodingWER_Blog/canvas-practice/03-left-right-motion-speed/)
 
 源码链接 [https://github.com/Gaohaoyang/canvas-practice/blob/main/src/03-left-right-motion-speed/index.ts](https://github.com/Gaohaoyang/canvas-practice/blob/main/src/03-left-right-motion-speed/index.ts)
 
@@ -434,34 +441,34 @@ demo 链接 [https://gaohaoyang.github.io/canvas-practice/03-left-right-motion-s
 我们依旧使用 Ball 类，将其半径设置的很小，保留其运动轨迹
 
 ```js
-import Ball from '../common/Ball'
+import Ball from "../common/Ball";
 
-const canvas: HTMLCanvasElement | null = document.querySelector('#mainCanvas')
+const canvas: HTMLCanvasElement | null = document.querySelector("#mainCanvas");
 
 if (canvas) {
-  const context = canvas.getContext('2d')
+  const context = canvas.getContext("2d");
 
   if (context) {
-    const ball = new Ball(1)
-    ball.y = canvas.height
-    ball.x = 0
-    const speedY = 2
-    const speedX = 50
+    const ball = new Ball(1);
+    ball.y = canvas.height;
+    ball.x = 0;
+    const speedY = 2;
+    const speedX = 50;
 
-    let angle = 0
+    let angle = 0;
 
-    let then = 0
+    let then = 0;
     const drawFrame = (time: number) => {
-      const timeInSeconds = time * 0.001
-      const deltaTimeInSeconds = timeInSeconds - then
-      then = timeInSeconds
-      ball.x += speedX * deltaTimeInSeconds // 水平方向位移
-      ball.y = canvas.height / 2 + Math.sin(angle) * 50 // 垂直方向位移
-      angle += speedY * deltaTimeInSeconds
-      ball.draw(context)
-      window.requestAnimationFrame(drawFrame)
-    }
-    drawFrame(0)
+      const timeInSeconds = time * 0.001;
+      const deltaTimeInSeconds = timeInSeconds - then;
+      then = timeInSeconds;
+      ball.x += speedX * deltaTimeInSeconds; // 水平方向位移
+      ball.y = canvas.height / 2 + Math.sin(angle) * 50; // 垂直方向位移
+      angle += speedY * deltaTimeInSeconds;
+      ball.draw(context);
+      window.requestAnimationFrame(drawFrame);
+    };
+    drawFrame(0);
   }
 }
 ```
@@ -470,7 +477,7 @@ if (canvas) {
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01n8qnJ81bj2vGIkCMO_!!6000000003500-1-tps-787-358.gif)
 
-demo 链接 [https://gaohaoyang.github.io/canvas-practice/04-sin-track/](https://gaohaoyang.github.io/canvas-practice/04-sin-track/)
+demo 链接 [https://pocodingwer.github.io/POcodingWER_Blog/canvas-practice/04-sin-track/](https://pocodingwer.github.io/POcodingWER_Blog/canvas-practice/04-sin-track/)
 
 源码链接 [https://github.com/Gaohaoyang/canvas-practice/blob/main/src/04-sin-track/index.ts](https://github.com/Gaohaoyang/canvas-practice/blob/main/src/04-sin-track/index.ts)
 
@@ -492,43 +499,48 @@ y = r * sinθ
 根据上述公式，设置半径为 100，代码如下
 
 ```html
-<canvas id="mainCanvas" style="background-color: #fff;" width="800" height="400"></canvas>
+<canvas
+  id="mainCanvas"
+  style="background-color: #fff;"
+  width="800"
+  height="400"
+></canvas>
 ```
 
 ```js
-import Ball from '../common/Ball'
+import Ball from "../common/Ball";
 
-const canvas: HTMLCanvasElement | null = document.querySelector('#mainCanvas')
+const canvas: HTMLCanvasElement | null = document.querySelector("#mainCanvas");
 
 if (canvas) {
-  const context = canvas.getContext('2d')
+  const context = canvas.getContext("2d");
 
   if (context) {
-    const ball = new Ball(5)
-    const ball2 = new Ball(50, '#3949AB')
-    ball.x = canvas.width / 2
-    ball.y = canvas.height / 2
-    ball2.x = canvas.width / 2
-    ball2.y = canvas.height / 2
-    const speed = 2
-    const r = 100
+    const ball = new Ball(5);
+    const ball2 = new Ball(50, "#3949AB");
+    ball.x = canvas.width / 2;
+    ball.y = canvas.height / 2;
+    ball2.x = canvas.width / 2;
+    ball2.y = canvas.height / 2;
+    const speed = 2;
+    const r = 100;
 
-    let angle = 0
+    let angle = 0;
 
-    let then = 0
+    let then = 0;
     const drawFrame = (time: number) => {
-      context.clearRect(0, 0, canvas.width, canvas.height)
-      const timeInSeconds = time * 0.001
-      const deltaTimeInSeconds = timeInSeconds - then
-      then = timeInSeconds
-      ball.x = canvas.width / 2 + r * Math.cos(angle)
-      ball.y = canvas.height / 2 + r * Math.sin(angle)
-      angle += speed * deltaTimeInSeconds
-      ball.draw(context)
-      ball2.draw(context)
-      window.requestAnimationFrame(drawFrame)
-    }
-    drawFrame(0)
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      const timeInSeconds = time * 0.001;
+      const deltaTimeInSeconds = timeInSeconds - then;
+      then = timeInSeconds;
+      ball.x = canvas.width / 2 + r * Math.cos(angle);
+      ball.y = canvas.height / 2 + r * Math.sin(angle);
+      angle += speed * deltaTimeInSeconds;
+      ball.draw(context);
+      ball2.draw(context);
+      window.requestAnimationFrame(drawFrame);
+    };
+    drawFrame(0);
   }
 }
 ```
@@ -537,7 +549,7 @@ if (canvas) {
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN01Hu7Qfa1EXNfevsLsP_!!6000000000361-1-tps-780-361.gif)
 
-demo 链接 [https://gaohaoyang.github.io/canvas-practice/05-circle/](https://gaohaoyang.github.io/canvas-practice/05-circle/)
+demo 链接 [https://pocodingwer.github.io/POcodingWER_Blog/canvas-practice/05-circle/](https://pocodingwer.github.io/POcodingWER_Blog/canvas-practice/05-circle/)
 
 源码链接 [https://github.com/Gaohaoyang/canvas-practice/blob/main/src/05-circle/index.ts](https://github.com/Gaohaoyang/canvas-practice/blob/main/src/05-circle/index.ts)
 
@@ -546,44 +558,49 @@ demo 链接 [https://gaohaoyang.github.io/canvas-practice/05-circle/](https://ga
 椭圆周运动，需要分别设置 x 方向半径和 y 方向半径。
 
 ```html
-<canvas id="mainCanvas" style="background-color: #fff;" width="800" height="400"></canvas>
+<canvas
+  id="mainCanvas"
+  style="background-color: #fff;"
+  width="800"
+  height="400"
+></canvas>
 ```
 
 ```js
-import Ball from '../common/Ball'
+import Ball from "../common/Ball";
 
-const canvas: HTMLCanvasElement | null = document.querySelector('#mainCanvas')
+const canvas: HTMLCanvasElement | null = document.querySelector("#mainCanvas");
 
 if (canvas) {
-  const context = canvas.getContext('2d')
+  const context = canvas.getContext("2d");
 
   if (context) {
-    const ball = new Ball(5)
-    const ball2 = new Ball(50, '#3949AB')
-    ball.x = canvas.width / 2
-    ball.y = canvas.height / 2
-    ball2.x = canvas.width / 2
-    ball2.y = canvas.height / 2
-    const speed = 2
-    const rx = 100
-    const ry = 60
+    const ball = new Ball(5);
+    const ball2 = new Ball(50, "#3949AB");
+    ball.x = canvas.width / 2;
+    ball.y = canvas.height / 2;
+    ball2.x = canvas.width / 2;
+    ball2.y = canvas.height / 2;
+    const speed = 2;
+    const rx = 100;
+    const ry = 60;
 
-    let angle = 0
+    let angle = 0;
 
-    let then = 0
+    let then = 0;
     const drawFrame = (time: number) => {
-      context.clearRect(0, 0, canvas.width, canvas.height)
-      const timeInSeconds = time * 0.001
-      const deltaTimeInSeconds = timeInSeconds - then
-      then = timeInSeconds
-      ball.x = canvas.width / 2 + rx * Math.cos(angle)
-      ball.y = canvas.height / 2 + ry * Math.sin(angle)
-      angle += speed * deltaTimeInSeconds
-      ball.draw(context)
-      ball2.draw(context)
-      window.requestAnimationFrame(drawFrame)
-    }
-    drawFrame(0)
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      const timeInSeconds = time * 0.001;
+      const deltaTimeInSeconds = timeInSeconds - then;
+      then = timeInSeconds;
+      ball.x = canvas.width / 2 + rx * Math.cos(angle);
+      ball.y = canvas.height / 2 + ry * Math.sin(angle);
+      angle += speed * deltaTimeInSeconds;
+      ball.draw(context);
+      ball2.draw(context);
+      window.requestAnimationFrame(drawFrame);
+    };
+    drawFrame(0);
   }
 }
 ```
@@ -592,7 +609,7 @@ if (canvas) {
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN013nYae01tYCd8O2kIe_!!6000000005913-1-tps-780-361.gif)
 
-demo 链接 [https://gaohaoyang.github.io/canvas-practice/06-oval/](https://gaohaoyang.github.io/canvas-practice/06-oval/)
+demo 链接 [https://pocodingwer.github.io/POcodingWER_Blog/canvas-practice/06-oval/](https://pocodingwer.github.io/POcodingWER_Blog/canvas-practice/06-oval/)
 
 源码链接 [https://github.com/Gaohaoyang/canvas-practice/blob/main/src/06-oval/index.ts](https://github.com/Gaohaoyang/canvas-practice/blob/main/src/06-oval/index.ts)
 
@@ -610,49 +627,54 @@ c ^ 2 = a ^ 2 + b ^ 2
 
 ## 两点间距离
 
-声明2个小圆形，随机摆放在画布上，计算出两个圆心的距离
+声明 2 个小圆形，随机摆放在画布上，计算出两个圆心的距离
 
 ```html
-<canvas id="mainCanvas" style="background-color: #fff;" width="800" height="400"></canvas>
-<div id="distance">distance is: </div>
+<canvas
+  id="mainCanvas"
+  style="background-color: #fff;"
+  width="800"
+  height="400"
+></canvas>
+<div id="distance">distance is:</div>
 ```
 
 ```js
-import Ball from '../common/Ball'
+import Ball from "../common/Ball";
 
-const canvas: HTMLCanvasElement | null = document.querySelector('#mainCanvas')
-const distanceDom: HTMLDivElement | null = document.querySelector('#distance')
+const canvas: HTMLCanvasElement | null = document.querySelector("#mainCanvas");
+const distanceDom: HTMLDivElement | null = document.querySelector("#distance");
 
 if (canvas) {
-  const context = canvas.getContext('2d')
+  const context = canvas.getContext("2d");
 
   if (context) {
-    const ball = new Ball(5, '#AED581')
-    const ball2 = new Ball(5, '#3949AB')
+    const ball = new Ball(5, "#AED581");
+    const ball2 = new Ball(5, "#3949AB");
     const pos1 = {
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-    }
+    };
     const pos2 = {
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-    }
-    ball.x = pos1.x
-    ball.y = pos1.y
-    ball2.x = pos2.x
-    ball2.y = pos2.y
+    };
+    ball.x = pos1.x;
+    ball.y = pos1.y;
+    ball2.x = pos2.x;
+    ball2.y = pos2.y;
 
     const drawFrame = () => {
-      ball.draw(context)
-      ball2.draw(context)
-      const dx = ball.x - ball2.x
-      const dy = ball.y - ball2.y
-      const distance = Math.sqrt(dx ** 2 + dy ** 2)
+      ball.draw(context);
+      ball2.draw(context);
+      const dx = ball.x - ball2.x;
+      const dy = ball.y - ball2.y;
+      const distance = Math.sqrt(dx ** 2 + dy ** 2);
       if (distanceDom) {
-        distanceDom.insertAdjacentHTML('beforeend', String(distance))
+        distanceDom.insertAdjacentHTML("beforeend", String(distance));
       }
-    }
-    drawFrame()
+    };
+    drawFrame();
   }
 }
 ```
@@ -661,7 +683,7 @@ if (canvas) {
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01HBNVRV1uLfP5z2vc2_!!6000000006021-1-tps-816-435.gif)
 
-demo 链接 [https://gaohaoyang.github.io/canvas-practice/07-distance/](https://gaohaoyang.github.io/canvas-practice/07-distance/)
+demo 链接 [https://pocodingwer.github.io/POcodingWER_Blog/canvas-practice/07-distance/](https://pocodingwer.github.io/POcodingWER_Blog/canvas-practice/07-distance/)
 
 源码链接 [https://github.com/Gaohaoyang/canvas-practice/blob/main/src/07-distance/index.ts](https://github.com/Gaohaoyang/canvas-practice/blob/main/src/07-distance/index.ts)
 
@@ -670,51 +692,56 @@ demo 链接 [https://gaohaoyang.github.io/canvas-practice/07-distance/](https://
 为了看得更加直观，我们可以观察一下鼠标指针到点的距离，并连一条线
 
 ```html
-<canvas id="mainCanvas" style="background-color: #fff;" width="800" height="400"></canvas>
+<canvas
+  id="mainCanvas"
+  style="background-color: #fff;"
+  width="800"
+  height="400"
+></canvas>
 <div id="distance"></div>
 ```
 
 ```js
-import Ball from '../common/Ball'
-import { captureMouse } from '../common/utils'
+import Ball from "../common/Ball";
+import { captureMouse } from "../common/utils";
 
-const canvas: HTMLCanvasElement | null = document.querySelector('#mainCanvas')
-const distanceDom: HTMLDivElement | null = document.querySelector('#distance')
+const canvas: HTMLCanvasElement | null = document.querySelector("#mainCanvas");
+const distanceDom: HTMLDivElement | null = document.querySelector("#distance");
 
 if (canvas) {
-  const context = canvas.getContext('2d')
-  const mousePos = captureMouse(canvas)
+  const context = canvas.getContext("2d");
+  const mousePos = captureMouse(canvas);
 
   if (context) {
-    const ball = new Ball(5, '#AED581')
+    const ball = new Ball(5, "#AED581");
     const pos1 = {
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-    }
-    ball.x = pos1.x
-    ball.y = pos1.y
+    };
+    ball.x = pos1.x;
+    ball.y = pos1.y;
 
     const drawFrame = () => {
-      context.clearRect(0, 0, canvas.width, canvas.height)
+      context.clearRect(0, 0, canvas.width, canvas.height);
 
-      ball.draw(context)
-      const dx = ball.x - mousePos.x
-      const dy = ball.y - mousePos.y
-      const distance = Math.sqrt(dx ** 2 + dy ** 2)
+      ball.draw(context);
+      const dx = ball.x - mousePos.x;
+      const dy = ball.y - mousePos.y;
+      const distance = Math.sqrt(dx ** 2 + dy ** 2);
       if (distanceDom) {
-        distanceDom.innerHTML = String(distance)
+        distanceDom.innerHTML = String(distance);
       }
 
       // 画一条鼠标指针到指定点的线
-      context.save()
-      context.moveTo(ball.x, ball.y)
-      context.lineTo(mousePos.x, mousePos.y)
-      context.closePath()
-      context.stroke()
+      context.save();
+      context.moveTo(ball.x, ball.y);
+      context.lineTo(mousePos.x, mousePos.y);
+      context.closePath();
+      context.stroke();
 
-      window.requestAnimationFrame(drawFrame)
-    }
-    drawFrame()
+      window.requestAnimationFrame(drawFrame);
+    };
+    drawFrame();
   }
 }
 ```
@@ -723,7 +750,7 @@ if (canvas) {
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN01unMj5w1gd9uYTMne1_!!6000000004164-1-tps-816-435.gif)
 
-demo 链接 [https://gaohaoyang.github.io/canvas-practice/08-mouse-distance/](https://gaohaoyang.github.io/canvas-practice/08-mouse-distance/)
+demo 链接 [https://pocodingwer.github.io/POcodingWER_Blog/canvas-practice/08-mouse-distance/](https://pocodingwer.github.io/POcodingWER_Blog/canvas-practice/08-mouse-distance/)
 
 源码链接 [https://github.com/Gaohaoyang/canvas-practice/blob/main/src/08-mouse-distance/index.ts](https://github.com/Gaohaoyang/canvas-practice/blob/main/src/08-mouse-distance/index.ts)
 

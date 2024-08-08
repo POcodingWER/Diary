@@ -1,35 +1,31 @@
 ---
 layout: post
-title:  "Three.js 之 11 Haunted House 恐怖鬼屋"
+title: "Three.js 之 11 Haunted House 恐怖鬼屋"
 categories: Three.js
-tags:  Three.js WebGL
+tags: Three.js WebGL
 author: HyG
 ---
 
-* content
-{:toc}
+- content
+  {:toc}
 
 本系列为 [Three.js journey](https://threejs-journey.com/) 教程学习笔记。
 
 本节将使用我们之前学习的内容来创建一个鬼屋。我们会创建一个房子，有门、屋顶、和一些灌木，我们也会创建一些墓碑，还有幽灵的光飘过并产生投影。
 
-
-
-
-
-本节完成效果，在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/17-haunted-house/)
+本节完成效果，在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/17-haunted-house/)
 
 可扫码访问
 
-二维码 | 手机截图
---- | ---
-![](https://gw.alicdn.com/imgextra/i1/O1CN01LLkkbc1dluhbtAtt4_!!6000000003777-2-tps-200-200.png) | ![](https://gw.alicdn.com/imgextra/i2/O1CN01p7NrBp1gsjRfaPGeE_!!6000000004198-2-tps-750-1334.png)
+| 二维码                                                                                           | 手机截图                                                                                          |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
+| ![](https://gw.alicdn.com/imgextra/i1/O1CN01LLkkbc1dluhbtAtt4_!!6000000003777-2-tps-200-200.png) | ![](https://gw.alicdn.com/imgextra/i2/O1CN01p7NrBp1gsjRfaPGeE_!!6000000004198-2-tps-750-1334.png) |
 
 [demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/17-haunted-house)
 
 开始之前先约定一下关于长度单位的问题。
 
-根据不同场景，我们可以认为1代表的长度不同，例如创建比较宏大的场景如陆地地图可以认为1代表1km，创建房屋可以认为1代表1m，创建小场景可以认为1代表1cm。接下来就开始吧
+根据不同场景，我们可以认为 1 代表的长度不同，例如创建比较宏大的场景如陆地地图可以认为 1 代表 1km，创建房屋可以认为 1 代表 1m，创建小场景可以认为 1 代表 1cm。接下来就开始吧
 
 # 创建房屋
 
@@ -39,16 +35,16 @@ author: HyG
 
 ```js
 // house
-const house = new THREE.Group()
-scene.add(house)
+const house = new THREE.Group();
+scene.add(house);
 
 // walls
 const walls = new THREE.Mesh(
   new THREE.BoxGeometry(4, 2.5, 4),
-  new THREE.MeshStandardMaterial({ color: '#ac8e82' })
-)
-walls.position.y = 1.25
-house.add(walls)
+  new THREE.MeshStandardMaterial({ color: "#ac8e82" })
+);
+walls.position.y = 1.25;
+house.add(walls);
 ```
 
 再调整一下地面大小、光的位置和相机位置，效果和完整代码如下
@@ -150,11 +146,11 @@ tick()
 // roof
 const roof = new THREE.Mesh(
   new THREE.ConeGeometry(3.25, 1, 4),
-  new THREE.MeshStandardMaterial({ color: '#b35f45' })
-)
-roof.rotation.y = Math.PI / 4
-roof.position.y = 2.5 + 0.5
-house.add(roof)
+  new THREE.MeshStandardMaterial({ color: "#b35f45" })
+);
+roof.rotation.y = Math.PI / 4;
+roof.position.y = 2.5 + 0.5;
+house.add(roof);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN013eOAzD1PZB4HBoYmD_!!6000000001854-2-tps-1137-624.png)
@@ -168,12 +164,12 @@ house.add(roof)
 const door = new THREE.Mesh(
   new THREE.PlaneGeometry(2, 2),
   new THREE.MeshStandardMaterial({
-    color: '#FFE082',
-  }),
-)
-door.position.y = 1
-door.position.z = 2 + 0.001
-house.add(door)
+    color: "#FFE082",
+  })
+);
+door.position.y = 1;
+door.position.z = 2 + 0.001;
+house.add(door);
 ```
 
 可以看到 z 轴我们增加了一点点位移，这是因为如果相同的两个平面，WebGL 可能会产生一个 z-fighting 的 bug，导致闪动。
@@ -186,25 +182,25 @@ house.add(door)
 
 ```js
 // Bushes
-const bushGeometry = new THREE.SphereGeometry(1, 16, 16)
-const bushMaterial = new THREE.MeshStandardMaterial({ color: '#89c854' })
-const bush1 = new THREE.Mesh(bushGeometry, bushMaterial)
-bush1.scale.set(0.5, 0.5, 0.5)
-bush1.position.set(0.8, 0.2, 2.2)
+const bushGeometry = new THREE.SphereGeometry(1, 16, 16);
+const bushMaterial = new THREE.MeshStandardMaterial({ color: "#89c854" });
+const bush1 = new THREE.Mesh(bushGeometry, bushMaterial);
+bush1.scale.set(0.5, 0.5, 0.5);
+bush1.position.set(0.8, 0.2, 2.2);
 
-const bush2 = new THREE.Mesh(bushGeometry, bushMaterial)
-bush2.scale.set(0.25, 0.25, 0.25)
-bush2.position.set(1.4, 0.1, 2.1)
+const bush2 = new THREE.Mesh(bushGeometry, bushMaterial);
+bush2.scale.set(0.25, 0.25, 0.25);
+bush2.position.set(1.4, 0.1, 2.1);
 
-const bush3 = new THREE.Mesh(bushGeometry, bushMaterial)
-bush3.scale.set(0.4, 0.4, 0.4)
-bush3.position.set(-0.8, 0.1, 2.2)
+const bush3 = new THREE.Mesh(bushGeometry, bushMaterial);
+bush3.scale.set(0.4, 0.4, 0.4);
+bush3.position.set(-0.8, 0.1, 2.2);
 
-const bush4 = new THREE.Mesh(bushGeometry, bushMaterial)
-bush4.scale.set(0.15, 0.15, 0.15)
-bush4.position.set(-1, 0.05, 2.6)
+const bush4 = new THREE.Mesh(bushGeometry, bushMaterial);
+bush4.scale.set(0.15, 0.15, 0.15);
+bush4.position.set(-1, 0.05, 2.6);
 
-house.add(bush1, bush2, bush3, bush4)
+house.add(bush1, bush2, bush3, bush4);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01vuZJQo1TM8FTwOiEF_!!6000000002367-2-tps-1131-544.png)
@@ -215,24 +211,24 @@ house.add(bush1, bush2, bush3, bush4)
 
 ```js
 // graves
-const graves = new THREE.Group()
-scene.add(graves)
+const graves = new THREE.Group();
+scene.add(graves);
 
-const graveGeometry = new THREE.BoxGeometry(0.6, 0.8, 0.2)
+const graveGeometry = new THREE.BoxGeometry(0.6, 0.8, 0.2);
 const graveMaterial = new THREE.MeshStandardMaterial({
-  color: '#b2b6b1',
-})
+  color: "#b2b6b1",
+});
 
 for (let i = 0; i < 50; i += 1) {
-  const grave = new THREE.Mesh(graveGeometry, graveMaterial)
-  const angle = Math.random() * Math.PI * 2
-  const radius = 3 + Math.random() * 6
-  const x = Math.cos(angle) * radius
-  const z = Math.sin(angle) * radius
-  grave.position.set(x, 0.3, z)
-  grave.rotation.z = (Math.random() - 0.5) * 0.4
-  grave.rotation.y = (Math.random() - 0.5) * 0.4
-  graves.add(grave)
+  const grave = new THREE.Mesh(graveGeometry, graveMaterial);
+  const angle = Math.random() * Math.PI * 2;
+  const radius = 3 + Math.random() * 6;
+  const x = Math.cos(angle) * radius;
+  const z = Math.sin(angle) * radius;
+  grave.position.set(x, 0.3, z);
+  grave.rotation.z = (Math.random() - 0.5) * 0.4;
+  grave.rotation.y = (Math.random() - 0.5) * 0.4;
+  graves.add(grave);
 }
 ```
 
@@ -246,17 +242,17 @@ for (let i = 0; i < 50; i += 1) {
 /**
  * Lights
  */
-const ambientLight = new THREE.AmbientLight('#b9d5ff', 0.12)
-scene.add(ambientLight)
+const ambientLight = new THREE.AmbientLight("#b9d5ff", 0.12);
+scene.add(ambientLight);
 
-const directionalLight = new THREE.DirectionalLight('#b9d5ff', 0.12)
-directionalLight.position.set(1, 0.75, 0)
-scene.add(directionalLight)
+const directionalLight = new THREE.DirectionalLight("#b9d5ff", 0.12);
+directionalLight.position.set(1, 0.75, 0);
+scene.add(directionalLight);
 
 // Door light
-const doorLight = new THREE.PointLight('#ff7d46', 1, 7)
-doorLight.position.set(0, 2.2, 2.7)
-house.add(doorLight)
+const doorLight = new THREE.PointLight("#ff7d46", 1, 7);
+doorLight.position.set(0, 2.2, 2.7);
+house.add(doorLight);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01WFH1bz1KgRGeTIYeM_!!6000000001193-2-tps-1132-543.png)
@@ -272,11 +268,11 @@ Fog( color : Integer, near : Float, far : Float )
 ```
 
 - near 开始应用雾的最小距离。距离小于活动摄像机“near”个单位的物体将不会被雾所影响。
-- far 结束计算、应用雾的最大距离，距离大于活动摄像机“far”个单位的物体将不会被雾所影响。默认值是1000。
+- far 结束计算、应用雾的最大距离，距离大于活动摄像机“far”个单位的物体将不会被雾所影响。默认值是 1000。
 
 ```js
-const fog = new THREE.Fog('#262837', 1, 15)
-scene.fog = fog
+const fog = new THREE.Fog("#262837", 1, 15);
+scene.fog = fog;
 ```
 
 添加了 fog 后的效果
@@ -286,7 +282,7 @@ scene.fog = fog
 可以看到已经蒙上了一层雾，但画布的背景还是黑色的，我们需要改变画布背景色，将 renderer 的颜色设置为与雾相同
 
 ```js
-renderer.setClearColor('#262837')
+renderer.setClearColor("#262837");
 ```
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN01hLkOCH1YxkrcUe7BC_!!6000000003126-2-tps-1129-545.png)
@@ -309,12 +305,15 @@ const door = new THREE.Mesh(
     normalMap: doorNormalTexture,
     metalnessMap: doorMetalnessTexture,
     roughnessMap: doorRoughnessTexture,
-  }),
-)
-door.geometry.setAttribute('uv2', new THREE.Float32BufferAttribute(door.geometry.attributes.uv.array, 2))
-door.position.y = 1
-door.position.z = 2 + 0.001
-house.add(door)
+  })
+);
+door.geometry.setAttribute(
+  "uv2",
+  new THREE.Float32BufferAttribute(door.geometry.attributes.uv.array, 2)
+);
+door.position.y = 1;
+door.position.z = 2 + 0.001;
+house.add(door);
 ```
 
 看到门的贴图效果还不错
@@ -392,23 +391,23 @@ house.add(door)
 砖块可能太大了，我们可以将其 repeat，记得所有的纹理都要一起 repeat
 
 ```js
-brickColorTexture.repeat.set(3, 3)
-brickAmbientOcclusionTexture.repeat.set(3, 3)
-brickHeightTexture.repeat.set(3, 3)
-brickNormalTexture.repeat.set(3, 3)
-brickRoughnessTexture.repeat.set(3, 3)
+brickColorTexture.repeat.set(3, 3);
+brickAmbientOcclusionTexture.repeat.set(3, 3);
+brickHeightTexture.repeat.set(3, 3);
+brickNormalTexture.repeat.set(3, 3);
+brickRoughnessTexture.repeat.set(3, 3);
 
-brickColorTexture.wrapS = THREE.RepeatWrapping
-brickAmbientOcclusionTexture.wrapS = THREE.RepeatWrapping
-brickHeightTexture.wrapS = THREE.RepeatWrapping
-brickNormalTexture.wrapS = THREE.RepeatWrapping
-brickRoughnessTexture.wrapS = THREE.RepeatWrapping
+brickColorTexture.wrapS = THREE.RepeatWrapping;
+brickAmbientOcclusionTexture.wrapS = THREE.RepeatWrapping;
+brickHeightTexture.wrapS = THREE.RepeatWrapping;
+brickNormalTexture.wrapS = THREE.RepeatWrapping;
+brickRoughnessTexture.wrapS = THREE.RepeatWrapping;
 
-brickColorTexture.wrapT = THREE.RepeatWrapping
-brickAmbientOcclusionTexture.wrapT = THREE.RepeatWrapping
-brickHeightTexture.wrapT = THREE.RepeatWrapping
-brickNormalTexture.wrapT = THREE.RepeatWrapping
-brickRoughnessTexture.wrapT = THREE.RepeatWrapping
+brickColorTexture.wrapT = THREE.RepeatWrapping;
+brickAmbientOcclusionTexture.wrapT = THREE.RepeatWrapping;
+brickHeightTexture.wrapT = THREE.RepeatWrapping;
+brickNormalTexture.wrapT = THREE.RepeatWrapping;
+brickRoughnessTexture.wrapT = THREE.RepeatWrapping;
 ```
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN012GUi8L1VgrPAkgH10_!!6000000002683-2-tps-1130-546.png)
@@ -416,30 +415,38 @@ brickRoughnessTexture.wrapT = THREE.RepeatWrapping
 增加一些地面的纹理
 
 ```js
-const floorColorTexture = textureLoader.load('../assets/textures/floor/baseColor.jpg')
+const floorColorTexture = textureLoader.load(
+  "../assets/textures/floor/baseColor.jpg"
+);
 const floorAmbientOcclusionTexture = textureLoader.load(
-  '../assets/textures/floor/ambientOcclusion.jpg',
-)
-const floorHeightTexture = textureLoader.load('../assets/textures/floor/height.png')
-const floorNormalTexture = textureLoader.load('../assets/textures/floor/normal.jpg')
-const floorRoughnessTexture = textureLoader.load('../assets/textures/door2/roughness.jpg')
-floorColorTexture.repeat.set(8, 8)
-floorAmbientOcclusionTexture.repeat.set(8, 8)
-floorHeightTexture.repeat.set(8, 8)
-floorNormalTexture.repeat.set(8, 8)
-floorRoughnessTexture.repeat.set(8, 8)
+  "../assets/textures/floor/ambientOcclusion.jpg"
+);
+const floorHeightTexture = textureLoader.load(
+  "../assets/textures/floor/height.png"
+);
+const floorNormalTexture = textureLoader.load(
+  "../assets/textures/floor/normal.jpg"
+);
+const floorRoughnessTexture = textureLoader.load(
+  "../assets/textures/door2/roughness.jpg"
+);
+floorColorTexture.repeat.set(8, 8);
+floorAmbientOcclusionTexture.repeat.set(8, 8);
+floorHeightTexture.repeat.set(8, 8);
+floorNormalTexture.repeat.set(8, 8);
+floorRoughnessTexture.repeat.set(8, 8);
 
-floorColorTexture.wrapS = THREE.RepeatWrapping
-floorAmbientOcclusionTexture.wrapS = THREE.RepeatWrapping
-floorHeightTexture.wrapS = THREE.RepeatWrapping
-floorNormalTexture.wrapS = THREE.RepeatWrapping
-floorRoughnessTexture.wrapS = THREE.RepeatWrapping
+floorColorTexture.wrapS = THREE.RepeatWrapping;
+floorAmbientOcclusionTexture.wrapS = THREE.RepeatWrapping;
+floorHeightTexture.wrapS = THREE.RepeatWrapping;
+floorNormalTexture.wrapS = THREE.RepeatWrapping;
+floorRoughnessTexture.wrapS = THREE.RepeatWrapping;
 
-floorColorTexture.wrapT = THREE.RepeatWrapping
-floorAmbientOcclusionTexture.wrapT = THREE.RepeatWrapping
-floorHeightTexture.wrapT = THREE.RepeatWrapping
-floorNormalTexture.wrapT = THREE.RepeatWrapping
-floorRoughnessTexture.wrapT = THREE.RepeatWrapping
+floorColorTexture.wrapT = THREE.RepeatWrapping;
+floorAmbientOcclusionTexture.wrapT = THREE.RepeatWrapping;
+floorHeightTexture.wrapT = THREE.RepeatWrapping;
+floorNormalTexture.wrapT = THREE.RepeatWrapping;
+floorRoughnessTexture.wrapT = THREE.RepeatWrapping;
 
 // ground
 const plane = new THREE.Mesh(
@@ -451,11 +458,11 @@ const plane = new THREE.Mesh(
     displacementScale: 0.01,
     normalMap: floorNormalTexture,
     roughnessMap: floorRoughnessTexture,
-  }),
-)
-plane.rotation.set(-Math.PI / 2, 0, 0)
-plane.position.set(0, 0, 0)
-scene.add(plane)
+  })
+);
+plane.rotation.set(-Math.PI / 2, 0, 0);
+plane.position.set(0, 0, 0);
+scene.add(plane);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01vMStUI20ZIxeiBYdi_!!6000000006863-2-tps-1135-544.png)
@@ -468,49 +475,50 @@ scene.add(plane)
 /**
  * Ghosts
  */
-const ghost1 = new THREE.PointLight('#ff00ff', 2, 3)
-scene.add(ghost1)
+const ghost1 = new THREE.PointLight("#ff00ff", 2, 3);
+scene.add(ghost1);
 
-const ghost2 = new THREE.PointLight('#00ffff', 2, 3)
-scene.add(ghost2)
+const ghost2 = new THREE.PointLight("#00ffff", 2, 3);
+scene.add(ghost2);
 
-const ghost3 = new THREE.PointLight('#ffff00', 2, 3)
-scene.add(ghost3)
+const ghost3 = new THREE.PointLight("#ffff00", 2, 3);
+scene.add(ghost3);
 ```
 
 增加一些动画
 
 ```js
 // Animations
-const clock = new THREE.Clock()
+const clock = new THREE.Clock();
 const tick = () => {
-  stats.begin()
+  stats.begin();
 
-  const elapsedTime = clock.getElapsedTime()
+  const elapsedTime = clock.getElapsedTime();
 
   // Ghosts
-  const ghost1Angle = elapsedTime * 0.5
-  ghost1.position.x = Math.cos(ghost1Angle) * 4
-  ghost1.position.z = Math.sin(ghost1Angle) * 4
-  ghost1.position.y = Math.sin(elapsedTime * 3)
+  const ghost1Angle = elapsedTime * 0.5;
+  ghost1.position.x = Math.cos(ghost1Angle) * 4;
+  ghost1.position.z = Math.sin(ghost1Angle) * 4;
+  ghost1.position.y = Math.sin(elapsedTime * 3);
 
-  const ghost2Angle = -elapsedTime * 0.32
-  ghost2.position.x = Math.cos(ghost2Angle) * 5
-  ghost2.position.z = Math.sin(ghost2Angle) * 5
-  ghost2.position.y = Math.sin(elapsedTime * 4) + Math.sin(elapsedTime * 2.5)
+  const ghost2Angle = -elapsedTime * 0.32;
+  ghost2.position.x = Math.cos(ghost2Angle) * 5;
+  ghost2.position.z = Math.sin(ghost2Angle) * 5;
+  ghost2.position.y = Math.sin(elapsedTime * 4) + Math.sin(elapsedTime * 2.5);
 
-  const ghost3Angle = -elapsedTime * 0.18
-  ghost3.position.x = Math.cos(ghost3Angle) * (7 + Math.sin(elapsedTime * 0.32))
-  ghost3.position.z = Math.sin(ghost3Angle) * (7 + Math.sin(elapsedTime * 0.5))
-  ghost3.position.y = Math.sin(elapsedTime * 4) + Math.sin(elapsedTime * 2.5)
+  const ghost3Angle = -elapsedTime * 0.18;
+  ghost3.position.x =
+    Math.cos(ghost3Angle) * (7 + Math.sin(elapsedTime * 0.32));
+  ghost3.position.z = Math.sin(ghost3Angle) * (7 + Math.sin(elapsedTime * 0.5));
+  ghost3.position.y = Math.sin(elapsedTime * 4) + Math.sin(elapsedTime * 2.5);
 
-  controls.update()
+  controls.update();
 
   // Render
-  renderer.render(scene, camera)
-  stats.end()
-  requestAnimationFrame(tick)
-}
+  renderer.render(scene, camera);
+  stats.end();
+  requestAnimationFrame(tick);
+};
 ```
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN01YsHtB01O7PRGioGvX_!!6000000001658-2-tps-1135-542.png)
@@ -522,31 +530,31 @@ const tick = () => {
 renderer 打开 shadowMap
 
 ```js
-renderer.shadowMap.enabled = true
+renderer.shadowMap.enabled = true;
 ```
 
 并设置产生投影和接受投影的物体
 
 ```js
-directionalLight.castShadow = true
-doorLight.castShadow = true
-ghost1.castShadow = true
-ghost2.castShadow = true
-ghost3.castShadow = true
+directionalLight.castShadow = true;
+doorLight.castShadow = true;
+ghost1.castShadow = true;
+ghost2.castShadow = true;
+ghost3.castShadow = true;
 
-walls.castShadow = true
-bush1.castShadow = true
-bush2.castShadow = true
-bush3.castShadow = true
-bush4.castShadow = true
+walls.castShadow = true;
+bush1.castShadow = true;
+bush2.castShadow = true;
+bush3.castShadow = true;
+bush4.castShadow = true;
 
-plane.receiveShadow = true
+plane.receiveShadow = true;
 ```
 
 在 for 循环中为墓碑也打开投影
 
 ```js
-grave.castShadow = true
+grave.castShadow = true;
 ```
 
 效果如下
@@ -555,7 +563,7 @@ grave.castShadow = true
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01sa8qk51pqkGuDulDx_!!6000000005412-1-tps-600-325.gif)
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/17-haunted-house/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/17-haunted-house/)
 
 可扫码访问
 

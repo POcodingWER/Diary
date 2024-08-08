@@ -1,23 +1,19 @@
 ---
 layout: post
-title:  "Three.js 之 1 Animation 动画"
+title: "Three.js 之 1 Animation 动画"
 categories: Three.js
-tags:  Three.js WebGL
+tags: Three.js WebGL
 author: HyG
 ---
 
-* content
-{:toc}
+- content
+  {:toc}
 
 本系列为 [Three.js journey](https://threejs-journey.com/) 教程学习笔记。
 
 Animation 动画
 
 Three.js 中的动画与其他 Canvas 动画类似，都是使用了 `requestAnimationFrame` api，接下来就详细讲讲基于时间间隔动画、Threejs 内置的时钟、以及第三方动画库
-
-
-
-
 
 # 基于时间间隔
 
@@ -140,12 +136,12 @@ tick()
 该对象用于跟踪时间。如果 performance.now 可用，则 Clock 对象通过该方法实现，否则回落到使用略欠精准的 Date.now 来实现。所以基于 three.js 内置的 Clock 理论上应该会比上一个示例更加精准
 
 - `.getElapsedTime () : Float`
-获取自时钟启动后的秒数，同时将 .oldTime 设置为当前时间。
-如果 .autoStart 设置为 true 且时钟并未运行，则该方法同时启动时钟。
+  获取自时钟启动后的秒数，同时将 .oldTime 设置为当前时间。
+  如果 .autoStart 设置为 true 且时钟并未运行，则该方法同时启动时钟。
 
 - `.getDelta () : Float`
-获取自 .oldTime 设置后到当前的秒数。 同时将 .oldTime 设置为当前时间。
-如果 .autoStart 设置为 true 且时钟并未运行，则该方法同时启动时钟。
+  获取自 .oldTime 设置后到当前的秒数。 同时将 .oldTime 设置为当前时间。
+  如果 .autoStart 设置为 true 且时钟并未运行，则该方法同时启动时钟。
 
 ## `getElapsedTime()` 实现圆周运动
 
@@ -209,15 +205,15 @@ tick()
 其中核心代码是这 2 行
 
 ```js
-cube.position.y = Math.sin(elapsedTime)
-cube.position.x = Math.cos(elapsedTime)
+cube.position.y = Math.sin(elapsedTime);
+cube.position.x = Math.cos(elapsedTime);
 ```
 
 当然我们也可以让物体不动，让相机运动出现的效果相同
 
 ```js
-camera.position.y = Math.sin(elapsedTime)
-camera.position.x = Math.cos(elapsedTime)
+camera.position.y = Math.sin(elapsedTime);
+camera.position.x = Math.cos(elapsedTime);
 ```
 
 ### 让相机总是指向方块
@@ -227,19 +223,19 @@ camera.position.x = Math.cos(elapsedTime)
 ```js
 // Animations
 const tick = () => {
-  stats.begin()
+  stats.begin();
 
-  const elapsedTime = clock.getElapsedTime()
+  const elapsedTime = clock.getElapsedTime();
 
-  camera.position.y = Math.sin(elapsedTime)
-  camera.position.x = Math.cos(elapsedTime)
-  camera.lookAt(cube.position)
+  camera.position.y = Math.sin(elapsedTime);
+  camera.position.x = Math.cos(elapsedTime);
+  camera.lookAt(cube.position);
 
   // Render
-  renderer.render(scene, camera)
-  stats.end()
-  requestAnimationFrame(tick)
-}
+  renderer.render(scene, camera);
+  stats.end();
+  requestAnimationFrame(tick);
+};
 ```
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN016LKeoi1Z02piuD3Ut_!!6000000003131-1-tps-774-559.gif)
@@ -308,7 +304,7 @@ tick()
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01c9NKzu1a354heHmTI_!!6000000003273-1-tps-774-559.gif)
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/06-animation/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/06-animation/)
 
 [demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/06-animation)
 

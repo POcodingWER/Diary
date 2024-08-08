@@ -1,13 +1,13 @@
 ---
 layout: post
-title:  "Three.js 之 10 Shadow 投影"
+title: "Three.js 之 10 Shadow 投影"
 categories: Three.js
-tags:  Three.js WebGL
+tags: Three.js WebGL
 author: HyG
 ---
 
-* content
-{:toc}
+- content
+  {:toc}
 
 本系列为 [Three.js journey](https://threejs-journey.com/) 教程学习笔记。
 
@@ -15,13 +15,9 @@ Shadows 影
 
 我们已经学习了光，现在想要增加一些影。几何体的背光面确实是暗的，这被称为 core shadow，我们缺失的是 drop shadow (投影)，物体投射到其他物体上的影子。
 
-投影对于实时3D渲染来说比较挑战性能，开发者需要寻找各种 trick 的方案来合理的实现投影。
+投影对于实时 3D 渲染来说比较挑战性能，开发者需要寻找各种 trick 的方案来合理的实现投影。
 
 我们本节将学习 Three.js 内置的投影、烘焙投影（Baking Shadow）、自己绘制等方式。
-
-
-
-
 
 # Three.js 中的投影
 
@@ -159,7 +155,7 @@ const guiObj = {
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01o4S31T1PbT34Yp8y5_!!6000000001859-2-tps-1134-438.png)
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/16-shadows/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/16-shadows/)
 
 可扫码访问
 
@@ -172,7 +168,7 @@ const guiObj = {
 首先，需要在 renderer 上开启 shadowMap
 
 ```js
-renderer.shadowMap.enabled = true
+renderer.shadowMap.enabled = true;
 ```
 
 然后在几何体上开启发射投影和接受投影
@@ -186,10 +182,10 @@ plane.receiveShadow = true
 最后在光照上增加发射投影的属性
 
 ```js
-directionalLight.castShadow = true
+directionalLight.castShadow = true;
 ```
 
-需要注意的时，仅在以下3种光照中可以发射投影
+需要注意的时，仅在以下 3 种光照中可以发射投影
 
 - PointLight
 - DirectionalLight
@@ -197,7 +193,7 @@ directionalLight.castShadow = true
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN012UdgOw1SohKwm3yda_!!6000000002294-2-tps-1135-437.png)
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/16-shadows/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/16-shadows/)
 
 可扫码访问
 
@@ -212,7 +208,7 @@ directionalLight.castShadow = true
 打印 `directionalLight.shadow` 属性观察，可以看到
 
 ```js
-console.log(directionalLight.shadow)
+console.log(directionalLight.shadow);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01A8VkQ51fg4szdZ6v3_!!6000000004035-2-tps-1085-319.png)
@@ -226,8 +222,8 @@ console.log(directionalLight.shadow)
 使用 shadow.mapSize 设置更大尺寸，可以让投影贴图清晰度更高，看起来投影效果更好。
 
 ```js
-directionalLight.shadow.mapSize.width = 1024
-directionalLight.shadow.mapSize.height = 1024
+directionalLight.shadow.mapSize.width = 1024;
+directionalLight.shadow.mapSize.height = 1024;
 ```
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01btbOt81H1GonnENWL_!!6000000000697-2-tps-1139-439.png)
@@ -239,8 +235,10 @@ directionalLight.shadow.mapSize.height = 1024
 为了更清晰的看到 Camera 效果，我们使用 Helper
 
 ```js
-const directionalLightCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
-scene.add(directionalLightCameraHelper)
+const directionalLightCameraHelper = new THREE.CameraHelper(
+  directionalLight.shadow.camera
+);
+scene.add(directionalLightCameraHelper);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i2/O1CN012OtzXj2346pavznmH_!!6000000007201-2-tps-1132-440.png)
@@ -248,8 +246,8 @@ scene.add(directionalLightCameraHelper)
 添加属性后
 
 ```js
-directionalLight.shadow.camera.near = 1
-directionalLight.shadow.camera.far = 6
+directionalLight.shadow.camera.near = 1;
+directionalLight.shadow.camera.far = 6;
 ```
 
 ![](https://gw.alicdn.com/imgextra/i2/O1CN01eP1mry1I8QclwivDh_!!6000000000848-2-tps-1120-429.png)
@@ -259,10 +257,10 @@ directionalLight.shadow.camera.far = 6
 目前看，camera 的尺寸也太大，因为我们使用的平行光，所以相机也是正交相机，可以直接设置相机范围尺寸。
 
 ```js
-directionalLight.shadow.camera.top = 2
-directionalLight.shadow.camera.right = 2
-directionalLight.shadow.camera.bottom = - 2
-directionalLight.shadow.camera.left = - 2
+directionalLight.shadow.camera.top = 2;
+directionalLight.shadow.camera.right = 2;
+directionalLight.shadow.camera.bottom = -2;
+directionalLight.shadow.camera.left = -2;
 ```
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01cAa8dD1PE6qYVlWVa_!!6000000001808-2-tps-1134-435.png)
@@ -270,20 +268,20 @@ directionalLight.shadow.camera.left = - 2
 ### Blur 模糊
 
 ```js
-directionalLight.shadow.radius = 10
+directionalLight.shadow.radius = 10;
 ```
 
 ### 投影算法
 
 - BasicShadowMap 能够给出没有经过过滤的阴影映射 —— 速度最快，但质量最差。
-- PCFShadowMap 为默认值，使用Percentage-Closer Filtering (PCF)算法来过滤阴影映射。
-- PCFSoftShadowMap 和PCFShadowMap一样使用 Percentage-Closer Filtering (PCF) 算法过滤阴影映射，但在使用低分辨率阴影图时具有更好的软阴影。
-- VSMShadowMap 使用Variance Shadow Map (VSM)算法来过滤阴影映射。当使用VSMShadowMap时，所有阴影接收者也将会投射阴影。
+- PCFShadowMap 为默认值，使用 Percentage-Closer Filtering (PCF)算法来过滤阴影映射。
+- PCFSoftShadowMap 和 PCFShadowMap 一样使用 Percentage-Closer Filtering (PCF) 算法过滤阴影映射，但在使用低分辨率阴影图时具有更好的软阴影。
+- VSMShadowMap 使用 Variance Shadow Map (VSM)算法来过滤阴影映射。当使用 VSMShadowMap 时，所有阴影接收者也将会投射阴影。
 
 改变投影算法可以使用如下代码
 
 ```js
-renderer.shadowMap.type = THREE.PCFSoftShadowMap
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 ```
 
 需要注意的是 THREE.PCFSoftShadowMap 不支持 radius
@@ -291,17 +289,24 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap
 # SpotLight 聚光灯下的投影
 
 ```js
-const spotLight = new THREE.SpotLight(0x78ff00, 0.5, 10, Math.PI * 0.1, 0.25, 1)
-spotLight.distance = 6
-spotLight.position.set(0, 2, 2)
-spotLight.castShadow = true
-scene.add(spotLight)
+const spotLight = new THREE.SpotLight(
+  0x78ff00,
+  0.5,
+  10,
+  Math.PI * 0.1,
+  0.25,
+  1
+);
+spotLight.distance = 6;
+spotLight.position.set(0, 2, 2);
+spotLight.castShadow = true;
+scene.add(spotLight);
 
-const spotLightHelper = new THREE.SpotLightHelper(spotLight)
-scene.add(spotLightHelper)
+const spotLightHelper = new THREE.SpotLightHelper(spotLight);
+scene.add(spotLightHelper);
 
-const spotLightCameraHelper = new THREE.CameraHelper(spotLight.shadow.camera)
-scene.add(spotLightCameraHelper)
+const spotLightCameraHelper = new THREE.CameraHelper(spotLight.shadow.camera);
+scene.add(spotLightCameraHelper);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01KaU5xL1ar0FvrvB1w_!!6000000003382-2-tps-1134-560.png)
@@ -309,15 +314,15 @@ scene.add(spotLightCameraHelper)
 同样我们可以使用 shadow.mapSize 带来更好质量的投影
 
 ```js
-spotLight.shadow.mapSize.set(1024, 1024)
+spotLight.shadow.mapSize.set(1024, 1024);
 ```
 
 正因为我们使用的聚光灯，其投影相机为透视相机。我们可以改变其属性
 
 ```js
-spotLight.shadow.camera.fov = 30
-spotLight.shadow.camera.near = 1
-spotLight.shadow.camera.far = 6
+spotLight.shadow.camera.fov = 30;
+spotLight.shadow.camera.near = 1;
+spotLight.shadow.camera.far = 6;
 ```
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01yyLFJr1XgyjiXU2YC_!!6000000002954-2-tps-1135-564.png)
@@ -331,33 +336,33 @@ spotLight.shadow.camera.far = 6
 添加点光源与相应的 Helper
 
 ```js
-const pointLight = new THREE.PointLight(0xff9000, 0.5, 10, 2)
-pointLight.position.set(-1, 1, 0)
-pointLight.castShadow = true
-pointLight.shadow.radius = 10
-scene.add(pointLight)
+const pointLight = new THREE.PointLight(0xff9000, 0.5, 10, 2);
+pointLight.position.set(-1, 1, 0);
+pointLight.castShadow = true;
+pointLight.shadow.radius = 10;
+scene.add(pointLight);
 
-const pointLightHelper = new THREE.PointLightHelper(pointLight)
-scene.add(pointLightHelper)
+const pointLightHelper = new THREE.PointLightHelper(pointLight);
+scene.add(pointLightHelper);
 
-const pointLightCameraHelper = new THREE.CameraHelper(pointLight.shadow.camera)
-scene.add(pointLightCameraHelper)
+const pointLightCameraHelper = new THREE.CameraHelper(pointLight.shadow.camera);
+scene.add(pointLightCameraHelper);
 ```
 
 效果如下
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN013vy0yg1R0UIk22lWy_!!6000000002049-2-tps-1130-562.png)
 
-可以看到 Helper 也是投影相机，但是只有向下的，这是因为点光源的 ShadowMap 投影相机是6个面的，可以认为是个立方体，camera helper 展示的是最后一个相机的渲染。
+可以看到 Helper 也是投影相机，但是只有向下的，这是因为点光源的 ShadowMap 投影相机是 6 个面的，可以认为是个立方体，camera helper 展示的是最后一个相机的渲染。
 
 同样我们可以设置一些其他属性
 
 ```js
-pointLight.shadow.mapSize.width = 1024
-pointLight.shadow.mapSize.height = 1024
+pointLight.shadow.mapSize.width = 1024;
+pointLight.shadow.mapSize.height = 1024;
 
-pointLight.shadow.camera.near = 0.1
-pointLight.shadow.camera.far = 5
+pointLight.shadow.camera.near = 0.1;
+pointLight.shadow.camera.far = 5;
 ```
 
 最终整体效果如下
@@ -372,7 +377,7 @@ pointLight.shadow.camera.far = 5
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01lqxrjJ1qKW0ztioCK_!!6000000005477-1-tps-480-240.gif)
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/16-shadows/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/16-shadows/)
 
 可扫码访问
 
@@ -406,7 +411,7 @@ const plane = new THREE.Mesh(new THREE.PlaneGeometry(5, 5), new THREE.MeshBasicM
 
 ![](https://gw.alicdn.com/imgextra/i2/O1CN01V4w91v1gQnHYqrawN_!!6000000004137-2-tps-1132-617.png)
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/16-shadows-baking/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/16-shadows-baking/)
 
 可扫码访问
 
@@ -452,35 +457,35 @@ scene.add(sphere, plane, shadowPlane)
 
 ```js
 // Clock
-const clock = new THREE.Clock()
+const clock = new THREE.Clock();
 
 // Animations
 const tick = () => {
-  stats.begin()
-  const elapsedTime = clock.getElapsedTime()
+  stats.begin();
+  const elapsedTime = clock.getElapsedTime();
 
-  sphere.position.x = Math.sin(elapsedTime) * 1.5
-  sphere.position.z = Math.cos(elapsedTime) * 1.5
-  sphere.position.y = Math.abs(Math.sin(elapsedTime * 2.5))
+  sphere.position.x = Math.sin(elapsedTime) * 1.5;
+  sphere.position.z = Math.cos(elapsedTime) * 1.5;
+  sphere.position.y = Math.abs(Math.sin(elapsedTime * 2.5));
 
-  shadowPlane.position.x = sphere.position.x
-  shadowPlane.position.z = sphere.position.z
-  shadowPlane.material.opacity = (1 - sphere.position.y) * 0.6
+  shadowPlane.position.x = sphere.position.x;
+  shadowPlane.position.z = sphere.position.z;
+  shadowPlane.material.opacity = (1 - sphere.position.y) * 0.6;
 
-  controls.update()
+  controls.update();
 
   // Render
-  renderer.render(scene, camera)
-  stats.end()
-  requestAnimationFrame(tick)
-}
+  renderer.render(scene, camera);
+  stats.end();
+  requestAnimationFrame(tick);
+};
 ```
 
 效果如下
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01Jaa9yA1Np5b6mSjCb_!!6000000001618-1-tps-500-277.gif)
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/16-shadows-baking-simulation/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/16-shadows-baking-simulation/)
 
 可扫码访问
 

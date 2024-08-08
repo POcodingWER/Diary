@@ -1,23 +1,19 @@
 ---
 layout: post
-title:  "Three.js 之 17 Import Model 导入模型"
+title: "Three.js 之 17 Import Model 导入模型"
 categories: Three.js
-tags:  Three.js WebGL
+tags: Three.js WebGL
 author: HyG
 ---
 
-* content
-{:toc}
+- content
+  {:toc}
 
 本系列为 [Three.js journey](https://threejs-journey.com/) 教程学习笔记。
 
 导入模型
 
 Three.js 提供了很多原始模型，但如果我们需要更复杂的模型，最好使用 3D 软件建模，然后导入到场景中。本节我们就来学学如何导入一个做好的 3D 模型。
-
-
-
-
 
 # 3D 模型的各种格式
 
@@ -39,7 +35,7 @@ GLTF 是 GL Transmission Format 的缩写。由 Khronos Group 创造（他们还
 
 GLTF 在近些年已经变得越来越流行。它可以支持各种数据集，你可以在其格式中使用几何体和材质，同时也可以包含相机、光照、场景、动画、骨骼等。同时支持各种文件格式，例如 json、二进制 binary、embed texture 嵌入纹理等。
 
-GLTF 已经成为了实时渲染的标准，并且也正在成为大部分3D软件、游戏引擎和库的标准模型。这意味着你可以轻松的在各个环境中熟练使用它。
+GLTF 已经成为了实时渲染的标准，并且也正在成为大部分 3D 软件、游戏引擎和库的标准模型。这意味着你可以轻松的在各个环境中熟练使用它。
 
 但这并不是说 GLTF 可以覆盖所有场景，如果你仅仅是需要一个几何体，那么可以选择 OBJ、FBX、STL 或 PLY 格式。
 
@@ -64,7 +60,7 @@ GLTF 已经成为了实时渲染的标准，并且也正在成为大部分3D软�
 
 ### glTF
 
-glTF 是默认格式。`Duck.gltf` 是一个 JSON 文件。包含了各种信息，包含相机、光照、场景、材质等，但没有几何体或纹理贴图。`Duck0.bin` 是一个二进制文件。通常包含了几何体和UV贴图坐标、法线坐标等。`DuckCM.png` 是鸭子的纹理贴图。
+glTF 是默认格式。`Duck.gltf` 是一个 JSON 文件。包含了各种信息，包含相机、光照、场景、材质等，但没有几何体或纹理贴图。`Duck0.bin` 是一个二进制文件。通常包含了几何体和 UV 贴图坐标、法线坐标等。`DuckCM.png` 是鸭子的纹理贴图。
 
 当我们载入 `Duck.gltf` 时，它会自动载入其他两个文件。
 
@@ -203,29 +199,29 @@ gui.add(controls, 'autoRotate')
 ## 导入模型
 
 ```js
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 // ...
 
 /**
  * Models
  */
-const gltfLoader = new GLTFLoader()
+const gltfLoader = new GLTFLoader();
 gltfLoader.load(
-  '../assets/models/Duck/glTF/Duck.gltf',
+  "../assets/models/Duck/glTF/Duck.gltf",
   (gltf) => {
-    console.log('success')
-    console.log(gltf)
+    console.log("success");
+    console.log(gltf);
   },
   (progress) => {
-    console.log('progress')
-    console.log(progress)
+    console.log("progress");
+    console.log(progress);
   },
   (error) => {
-    console.log('error')
-    console.log(error)
-  },
-)
+    console.log("error");
+    console.log(error);
+  }
+);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01AXF6JY1gXfEnFkxbh_!!6000000004152-2-tps-1135-303.png)
@@ -261,23 +257,23 @@ THREE.Group: scene
 /**
  * Models
  */
-const gltfLoader = new GLTFLoader()
+const gltfLoader = new GLTFLoader();
 gltfLoader.load(
-  '../assets/models/Duck/glTF/Duck.gltf',
+  "../assets/models/Duck/glTF/Duck.gltf",
   (gltf) => {
-    console.log('success')
-    console.log(gltf)
-    scene.add(gltf.scene.children[0])
+    console.log("success");
+    console.log(gltf);
+    scene.add(gltf.scene.children[0]);
   },
   (progress) => {
-    console.log('progress')
-    console.log(progress)
+    console.log("progress");
+    console.log(progress);
   },
   (error) => {
-    console.log('error')
-    console.log(error)
-  },
-)
+    console.log("error");
+    console.log(error);
+  }
+);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01WbG8eC270DwcYIqga_!!6000000007734-2-tps-845-560.png)
@@ -288,25 +284,25 @@ gltfLoader.load(
 /**
  * Models
  */
-const gltfLoader = new GLTFLoader()
+const gltfLoader = new GLTFLoader();
 gltfLoader.load(
   // '../assets/models/Duck/glTF/Duck.gltf',
   // '../assets/models/Duck/glTF-Binary/Duck.glb',
-  '../assets/models/Duck/glTF-Embedded/Duck.gltf',
+  "../assets/models/Duck/glTF-Embedded/Duck.gltf",
   (gltf) => {
-    console.log('success')
-    console.log(gltf)
-    scene.add(gltf.scene.children[0])
+    console.log("success");
+    console.log(gltf);
+    scene.add(gltf.scene.children[0]);
   },
   (progress) => {
-    console.log('progress')
-    console.log(progress)
+    console.log("progress");
+    console.log(progress);
   },
   (error) => {
-    console.log('error')
-    console.log(error)
-  },
-)
+    console.log("error");
+    console.log(error);
+  }
+);
 ```
 
 接下来我们导入 `FlightHelmet` 飞行员头盔模型
@@ -315,23 +311,23 @@ gltfLoader.load(
 /**
  * Models
  */
-const gltfLoader = new GLTFLoader()
+const gltfLoader = new GLTFLoader();
 gltfLoader.load(
-  '../assets/models/FlightHelmet/glTF/FlightHelmet.gltf',
+  "../assets/models/FlightHelmet/glTF/FlightHelmet.gltf",
   (gltf) => {
-    console.log('success')
-    console.log(gltf)
-    scene.add(gltf.scene.children[0])
+    console.log("success");
+    console.log(gltf);
+    scene.add(gltf.scene.children[0]);
   },
   (progress) => {
-    console.log('progress')
-    console.log(progress)
+    console.log("progress");
+    console.log(progress);
   },
   (error) => {
-    console.log('error')
-    console.log(error)
-  },
-)
+    console.log("error");
+    console.log(error);
+  }
+);
 ```
 
 可以看到只导入了模型的一部分
@@ -346,24 +342,24 @@ gltfLoader.load(
 /**
  * Models
  */
-const gltfLoader = new GLTFLoader()
+const gltfLoader = new GLTFLoader();
 gltfLoader.load(
-  '../assets/models/FlightHelmet/glTF/FlightHelmet.gltf',
+  "../assets/models/FlightHelmet/glTF/FlightHelmet.gltf",
   (gltf) => {
-    console.log('success')
-    console.log(gltf)
-    gltf.scene.scale.set(10, 10, 10)
-    scene.add(gltf.scene)
+    console.log("success");
+    console.log(gltf);
+    gltf.scene.scale.set(10, 10, 10);
+    scene.add(gltf.scene);
   },
   (progress) => {
-    console.log('progress')
-    console.log(progress)
+    console.log("progress");
+    console.log(progress);
   },
   (error) => {
-    console.log('error')
-    console.log(error)
-  },
-)
+    console.log("error");
+    console.log(error);
+  }
+);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01LnDxD61Ul9VsMWeWP_!!6000000002557-2-tps-846-561.png)
@@ -386,32 +382,32 @@ gltfLoader.load(
 /**
  * Models
  */
-const gltfLoader = new GLTFLoader()
+const gltfLoader = new GLTFLoader();
 // draco
 // Optional: Provide a DRACOLoader instance to decode compressed mesh data
-const dracoLoader = new DRACOLoader()
+const dracoLoader = new DRACOLoader();
 // Specify path to a folder containing WASM/JS decoding libraries.
-dracoLoader.setDecoderPath('../assets/draco/')
+dracoLoader.setDecoderPath("../assets/draco/");
 // Optional: Pre-fetch Draco WASM/JS module.
-dracoLoader.preload()
-gltfLoader.setDRACOLoader(dracoLoader)
+dracoLoader.preload();
+gltfLoader.setDRACOLoader(dracoLoader);
 gltfLoader.load(
-  '../assets/models/Duck/glTF-Draco/Duck.gltf',
+  "../assets/models/Duck/glTF-Draco/Duck.gltf",
   (gltf) => {
-    console.log('success')
-    console.log(gltf)
+    console.log("success");
+    console.log(gltf);
     // gltf.scene.scale.set(10, 10, 10)
-    scene.add(gltf.scene)
+    scene.add(gltf.scene);
   },
   (progress) => {
-    console.log('progress')
-    console.log(progress)
+    console.log("progress");
+    console.log(progress);
   },
   (error) => {
-    console.log('error')
-    console.log(error)
-  },
-)
+    console.log("error");
+    console.log(error);
+  }
+);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i2/O1CN01xeQydZ20BwlvMtNou_!!6000000006812-2-tps-1138-601.png)
@@ -420,7 +416,7 @@ gltfLoader.load(
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01ICudIQ1cw9xRo88Xj_!!6000000003664-1-tps-716-299.gif)
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/23-importModels/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/23-importModels/)
 
 可扫码访问
 
@@ -450,23 +446,23 @@ gltfLoader.load(
 /**
  * Models
  */
-const gltfLoader = new GLTFLoader()
+const gltfLoader = new GLTFLoader();
 gltfLoader.load(
-  '../assets/models/Fox/glTF/Fox.gltf',
+  "../assets/models/Fox/glTF/Fox.gltf",
   (gltf) => {
-    console.log('success')
-    gltf.scene.scale.set(0.03, 0.03, 0.03)
-    scene.add(gltf.scene)
+    console.log("success");
+    gltf.scene.scale.set(0.03, 0.03, 0.03);
+    scene.add(gltf.scene);
   },
   (progress) => {
-    console.log('progress')
-    console.log(progress)
+    console.log("progress");
+    console.log(progress);
   },
   (error) => {
-    console.log('error')
-    console.log(error)
-  },
-)
+    console.log("error");
+    console.log(error);
+  }
+);
 ```
 
 效果如下
@@ -475,7 +471,7 @@ gltfLoader.load(
 
 ### 动画控制
 
-我们可以看到模型里返回了3个 AnimationClip 类型的对象
+我们可以看到模型里返回了 3 个 AnimationClip 类型的对象
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN014D2NQP27kwLNT705m_!!6000000007836-2-tps-989-259.png)
 
@@ -487,55 +483,55 @@ gltfLoader.load(
 /**
  * Models
  */
-let mixer: THREE.AnimationMixer | null = null
-const gltfLoader = new GLTFLoader()
+let mixer: THREE.AnimationMixer | null = null;
+const gltfLoader = new GLTFLoader();
 gltfLoader.load(
-  '../assets/models/Fox/glTF/Fox.gltf',
+  "../assets/models/Fox/glTF/Fox.gltf",
   (gltf) => {
-    console.log('success')
-    console.log(gltf)
-    gltf.scene.scale.set(0.03, 0.03, 0.03)
-    scene.add(gltf.scene)
+    console.log("success");
+    console.log(gltf);
+    gltf.scene.scale.set(0.03, 0.03, 0.03);
+    scene.add(gltf.scene);
 
-    mixer = new THREE.AnimationMixer(gltf.scene)
-    const action = mixer.clipAction(gltf.animations[0])
-    action.play()
+    mixer = new THREE.AnimationMixer(gltf.scene);
+    const action = mixer.clipAction(gltf.animations[0]);
+    action.play();
   },
   (progress) => {
-    console.log('progress')
-    console.log(progress)
+    console.log("progress");
+    console.log(progress);
   },
   (error) => {
-    console.log('error')
-    console.log(error)
-  },
-)
+    console.log("error");
+    console.log(error);
+  }
+);
 
 // ...
 
 // Animations
-const clock = new THREE.Clock()
-let previousTime = 0
+const clock = new THREE.Clock();
+let previousTime = 0;
 const tick = () => {
-  stats.begin()
-  controls.update()
+  stats.begin();
+  controls.update();
 
-  const elapsedTime = clock.getElapsedTime()
-  const deltaTime = elapsedTime - previousTime
-  previousTime = elapsedTime
+  const elapsedTime = clock.getElapsedTime();
+  const deltaTime = elapsedTime - previousTime;
+  previousTime = elapsedTime;
 
   // update mixer
   if (mixer) {
-    mixer.update(deltaTime)
+    mixer.update(deltaTime);
   }
 
   // Render
-  renderer.render(scene, camera)
-  stats.end()
-  requestAnimationFrame(tick)
-}
+  renderer.render(scene, camera);
+  stats.end();
+  requestAnimationFrame(tick);
+};
 
-tick()
+tick();
 ```
 
 效果如下
@@ -547,30 +543,27 @@ tick()
 在模型载入时将所有的动画全部开启，并将不需要的动画的权重 weight 先降为 0，在点击 GUI 按钮后，再进行权重过渡。代码如下
 
 ```js
-gltfLoader.load(
-  '../assets/models/Fox/glTF/Fox.gltf',
-  (gltf) => {
-    // ...
-    // Animations
-    mixer = new THREE.AnimationMixer(gltf.scene)
-    actionSurvey = mixer.clipAction(gltf.animations[0])
-    actionWalk = mixer.clipAction(gltf.animations[1])
-    actionRun = mixer.clipAction(gltf.animations[2])
-    actionWalk.setEffectiveWeight(0)
-    actionRun.setEffectiveWeight(0)
-    actionSurvey.play()
-    actionWalk.play()
-    actionRun.play()
+gltfLoader.load("../assets/models/Fox/glTF/Fox.gltf", (gltf) => {
+  // ...
+  // Animations
+  mixer = new THREE.AnimationMixer(gltf.scene);
+  actionSurvey = mixer.clipAction(gltf.animations[0]);
+  actionWalk = mixer.clipAction(gltf.animations[1]);
+  actionRun = mixer.clipAction(gltf.animations[2]);
+  actionWalk.setEffectiveWeight(0);
+  actionRun.setEffectiveWeight(0);
+  actionSurvey.play();
+  actionWalk.play();
+  actionRun.play();
 
-    createGUIPanel() // 创建 GUI 面板
-    //...
-  },
-)
+  createGUIPanel(); // 创建 GUI 面板
+  //...
+});
 ```
 
-在创建GUI面板函数 createGUIPanel 中，实现点击按钮过渡效果。
+在创建 GUI 面板函数 createGUIPanel 中，实现点击按钮过渡效果。
 
-我们实现4个按钮，`surveyToWalk`, `walkToRun`, `runToWalk`, `walkToSurvey` 过渡这3个动画。过渡的过程核心就是修改动画的权重 weight，代码如下：
+我们实现 4 个按钮，`surveyToWalk`, `walkToRun`, `runToWalk`, `walkToSurvey` 过渡这 3 个动画。过渡的过程核心就是修改动画的权重 weight，代码如下：
 
 ```js
 const createGUIPanel = () => {
@@ -579,39 +572,39 @@ const createGUIPanel = () => {
   const executeCrossFade = (
     startAction: THREE.AnimationAction | null,
     endAction: THREE.AnimationAction | null,
-    duration = 3,
+    duration = 3
   ) => {
-    if (!startAction || !endAction) return
-    endAction.enabled = true
-    endAction.time = 0
-    endAction.setEffectiveTimeScale(1)
-    endAction.setEffectiveWeight(1)
-    startAction.crossFadeTo(endAction, duration, true)
-  }
+    if (!startAction || !endAction) return;
+    endAction.enabled = true;
+    endAction.time = 0;
+    endAction.setEffectiveTimeScale(1);
+    endAction.setEffectiveWeight(1);
+    startAction.crossFadeTo(endAction, duration, true);
+  };
 
   const guiObj = {
     surveyToWalk: () => {
-      executeCrossFade(actionSurvey, actionWalk)
+      executeCrossFade(actionSurvey, actionWalk);
     },
     walkToRun: () => {
-      executeCrossFade(actionWalk, actionRun)
+      executeCrossFade(actionWalk, actionRun);
     },
     runToWalk: () => {
-      executeCrossFade(actionRun, actionWalk)
+      executeCrossFade(actionRun, actionWalk);
     },
     walkToSurvey: () => {
-      executeCrossFade(actionWalk, actionSurvey)
+      executeCrossFade(actionWalk, actionSurvey);
     },
-  }
+  };
 
-  const animationFolder = gui.addFolder('Animation')
-  animationFolder.add(guiObj, 'surveyToWalk')
-  animationFolder.add(guiObj, 'walkToRun')
-  animationFolder.add(guiObj, 'runToWalk')
-  animationFolder.add(guiObj, 'walkToSurvey')
+  const animationFolder = gui.addFolder("Animation");
+  animationFolder.add(guiObj, "surveyToWalk");
+  animationFolder.add(guiObj, "walkToRun");
+  animationFolder.add(guiObj, "runToWalk");
+  animationFolder.add(guiObj, "walkToSurvey");
 
   // ...
-}
+};
 ```
 
 同时在 tick 函数中，我们将动画过渡过程中，按钮置灰，避免动画错乱。同时将不可能的过渡状态也置灰处理。代码如下
@@ -655,7 +648,7 @@ const tick = () => {
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN01GdP6QR1g2yhbflAfX_!!6000000004085-1-tps-816-397.gif)
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/23-importModelsAnimation/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/23-importModelsAnimation/)
 
 可扫码访问
 
@@ -684,17 +677,17 @@ const tick = () => {
 ![](https://gw.alicdn.com/imgextra/i2/O1CN01pvYaOV2399COdD4uT_!!6000000007212-2-tps-1142-598.png)
 
 ```js
-console.log(scene)
-const fox = scene.children[0]
+console.log(scene);
+const fox = scene.children[0];
 
-const mixer = new THREE.AnimationMixer(fox)
-actionRun = mixer.clipAction(fox.animations[2])
-actionRun.play()
+const mixer = new THREE.AnimationMixer(fox);
+actionRun = mixer.clipAction(fox.animations[2]);
+actionRun.play();
 
-function update( event ) {
-	if (mixer) {
-    	mixer.update(event.delta/1000)
-	}
+function update(event) {
+  if (mixer) {
+    mixer.update(event.delta / 1000);
+  }
 }
 ```
 

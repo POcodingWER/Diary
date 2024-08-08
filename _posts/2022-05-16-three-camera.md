@@ -1,13 +1,13 @@
 ---
 layout: post
-title:  "Three.js 之 2 Camera 相机"
+title: "Three.js 之 2 Camera 相机"
 categories: Three.js
-tags:  Three.js WebGL
+tags: Three.js WebGL
 author: HyG
 ---
 
-* content
-{:toc}
+- content
+  {:toc}
 
 本系列为 [Three.js journey](https://threejs-journey.com/) 教程学习笔记。
 
@@ -15,15 +15,11 @@ Camera 相机
 
 查看 Three.js 的文档，可以看到 [Camera](https://threejs.org/docs/index.html#api/en/cameras/Camera) 是一个抽象类，一般不直接使用，其他类型的 Camera 实现了这个抽象类。有
 
-- ArrayCamera 包含着一组子摄像机，常用于多人同屏的渲染，更好地提升VR场景的渲染性能
+- ArrayCamera 包含着一组子摄像机，常用于多人同屏的渲染，更好地提升 VR 场景的渲染性能
 - StereoCamera 双透视摄像机（立体相机），常用于创建 3D 立体影像，比如 3D 电影之类或 VR
-- CubeCamera 有6个渲染，分别是立方体的6个面，常用于渲染环境、反光等
-- OrthographicCamera 正交相机，在这种投影模式下，无论物体距离相机距离远或者近，在最终渲染的图片中物体的大小都保持不变。这对于渲染2D场景或者UI元素是非常有用的。
-- PerspectiveCamera 透视相机，这一投影模式被用来模拟人眼所看到的景象，它是3D场景的渲染中使用得最普遍的投影模式。
-
-
-
-
+- CubeCamera 有 6 个渲染，分别是立方体的 6 个面，常用于渲染环境、反光等
+- OrthographicCamera 正交相机，在这种投影模式下，无论物体距离相机距离远或者近，在最终渲染的图片中物体的大小都保持不变。这对于渲染 2D 场景或者 UI 元素是非常有用的。
+- PerspectiveCamera 透视相机，这一投影模式被用来模拟人眼所看到的景象，它是 3D 场景的渲染中使用得最普遍的投影模式。
 
 # PerspectiveCamera 透视相机
 
@@ -44,7 +40,7 @@ PerspectiveCamera(fov : Number, aspect : Number, near : Number, far : Number)
 
 aspect 等于 width / height，是照相机水平方向和竖直方向长度的比值，通常设为 Canvas 的横纵比例。
 
-near 和 far 分别是照相机到视锥体最近、最远的距离，均为正值，且 fa r应大于 near。
+near 和 far 分别是照相机到视锥体最近、最远的距离，均为正值，且 fa r 应大于 near。
 
 但请注意，不要将 near 和 far 设置为比较极端的数值，如 0.0001 和 99999，这可能引起 bug，让 threejs 无法分辨物体的前后，导致闪动
 
@@ -249,18 +245,18 @@ tick()
 ```js
 // Animations
 const tick = () => {
-  stats.begin()
+  stats.begin();
 
   // Uppdate camera
-  camera.position.x = (mouse.x / canvas.clientWidth - 0.5) * 4
-  camera.position.y = -(mouse.y / canvas.clientWidth - 0.5) * 4
-  camera.lookAt(cube.position)
+  camera.position.x = (mouse.x / canvas.clientWidth - 0.5) * 4;
+  camera.position.y = -(mouse.y / canvas.clientWidth - 0.5) * 4;
+  camera.lookAt(cube.position);
 
   // Render
-  renderer.render(scene, camera)
-  stats.end()
-  requestAnimationFrame(tick)
-}
+  renderer.render(scene, camera);
+  stats.end();
+  requestAnimationFrame(tick);
+};
 ```
 
 ![](https://gw.alicdn.com/imgextra/i4/O1CN01tcaVl51ENJ19aFmxS_!!6000000000339-1-tps-774-559.gif)
@@ -269,12 +265,12 @@ const tick = () => {
 
 # Three.js 内置的控制器
 
-- `FlyControls` 启用了一种类似于数字内容创建工具（例如Blender）中飞行模式的导航方式。 你可以在3D空间中任意变换摄像机，并且无任何限制（例如，专注于一个特定的目标）。
+- `FlyControls` 启用了一种类似于数字内容创建工具（例如 Blender）中飞行模式的导航方式。 你可以在 3D 空间中任意变换摄像机，并且无任何限制（例如，专注于一个特定的目标）。
 - `FirstPersonControls` 该类是 FlyControls 的另一个实现。
-- `PointerLockControls` 该类的实现是基于Pointer Lock API的。 对于第一人称3D游戏来说， PointerLockControls 是一个非常完美的选择。
+- `PointerLockControls` 该类的实现是基于 Pointer Lock API 的。 对于第一人称 3D 游戏来说， PointerLockControls 是一个非常完美的选择。
 - `OrbitControls` （轨道控制器）可以使得相机围绕目标进行轨道运动。
-- `TrackballControls` 与 OrbitControls 相类似。然而，它不能恒定保持摄像机的up向量。 这意味着，如果摄像机绕过“北极”和“南极”，则不会翻转以保持“右侧朝上”。
-- `TransformControls` 该类可提供一种类似于在数字内容创建工具（例如Blender）中对模型进行交互的方式，来在3D空间中变换物体。 和其他控制器不同的是，变换控制器不倾向于对场景摄像机的变换进行改变。
+- `TrackballControls` 与 OrbitControls 相类似。然而，它不能恒定保持摄像机的 up 向量。 这意味着，如果摄像机绕过“北极”和“南极”，则不会翻转以保持“右侧朝上”。
+- `TransformControls` 该类可提供一种类似于在数字内容创建工具（例如 Blender）中对模型进行交互的方式，来在 3D 空间中变换物体。 和其他控制器不同的是，变换控制器不倾向于对场景摄像机的变换进行改变。
 - `DragControls` 该类被用于提供一个拖放交互。
 
 接下来我们使用 OrbitControls
@@ -329,13 +325,13 @@ tick()
 其中设置了 enableDamping 开启阻尼，需要在 requestAnimationFrame update controls
 
 ```js
-const controls = new OrbitControls(camera, canvas)
-controls.enableDamping = true
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
 ```
 
 ![](https://gw.alicdn.com/imgextra/i2/O1CN012ZXoZ31bYyGoroKdJ_!!6000000003478-1-tps-774-559.gif)
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/07-camera/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/07-camera/)
 
 [demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/07-camera)
 
@@ -344,5 +340,3 @@ controls.enableDamping = true
 我们已经学习了相机的概念和相机的一些控制器，什么时候使用内置控制器也取决于你的项目场景，不过内置的控制器已经能满足绝大部分场景了。
 
 下一节将讲讲全屏和窗口大小。
-
-

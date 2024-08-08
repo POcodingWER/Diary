@@ -1,23 +1,19 @@
 ---
 layout: post
-title:  "Three.js 之 4 Geometry 几何体"
+title: "Three.js 之 4 Geometry 几何体"
 categories: Three.js
-tags:  Three.js WebGL
+tags: Three.js WebGL
 author: HyG
 ---
 
-* content
-{:toc}
+- content
+  {:toc}
 
 本系列为 [Three.js journey](https://threejs-journey.com/) 教程学习笔记。
 
 先前我们一直使用立方体，本节我们将学习一下其他几何体。
 
 Threejs 中几何体的基类是 `BufferGeometry`，而 BufferGeometry 是面片、线或点几何体的有效表述。包括顶点位置，面片索引、法相量、颜色值、UV 坐标和自定义缓存属性值。使用 BufferGeometry 可以有效减少向 GPU 传输上述数据所需的开销。
-
-
-
-
 
 # Threejs 内置几何体
 
@@ -102,7 +98,7 @@ tick()
 
 完整代码和 demo 如下
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/09-geometry/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/09-geometry/)
 
 [demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/09-geometry)
 
@@ -112,30 +108,30 @@ tick()
 
 ```js
 // Object
-const geometry = new THREE.BufferGeometry()
+const geometry = new THREE.BufferGeometry();
 
-const triangleVertices = []
+const triangleVertices = [];
 for (let index = 0; index < 300; index += 1) {
-  triangleVertices.push(Math.random() - 0.5)
+  triangleVertices.push(Math.random() - 0.5);
 }
 
-const vertices = new Float32Array(triangleVertices)
+const vertices = new Float32Array(triangleVertices);
 
-geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3))
+geometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
 
 const material = new THREE.MeshBasicMaterial({
   color: 0x607d8b,
   wireframe: true,
-})
-const triangle = new THREE.Mesh(geometry, material)
-scene.add(triangle)
+});
+const triangle = new THREE.Mesh(geometry, material);
+scene.add(triangle);
 ```
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN01BrURqS26VzmtArZLT_!!6000000007668-1-tps-1131-581.gif)
 
 完整代码和 demo 如下
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/09-geometry2/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/09-geometry2/)
 
 [demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/09-geometry2)
 

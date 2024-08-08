@@ -1,21 +1,17 @@
 ---
 layout: post
-title:  "Three.js 之 19 realistic render 真实渲染"
+title: "Three.js 之 19 realistic render 真实渲染"
 categories: Three.js
-tags:  Three.js WebGL
+tags: Three.js WebGL
 author: HyG
 ---
 
-* content
-{:toc}
+- content
+  {:toc}
 
 本系列为 [Three.js journey](https://threejs-journey.com/) 教程学习笔记。
 
 我们上一节最后将汉堡模型导入到了 Three.js 的场景中了，但是颜色效果很奇怪。为了让它渲染的更真实，我们需要做一些额外的操作，接下来就一起看看吧~
-
-
-
-
 
 我们导入复杂一点模型进行展示，我们导入之前了解过的飞行员头盔。
 
@@ -24,34 +20,37 @@ author: HyG
 # 模型导入
 
 ```js
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 // ...
 
 /**
  * Loaders
  */
-const gltfLoader = new GLTFLoader()
+const gltfLoader = new GLTFLoader();
 
 // ...
 
 /**
  * Models
  */
-gltfLoader.load('../assets/models/FlightHelmet/glTF/FlightHelmet.gltf', (gltf) => {
-  gltf.scene.scale.set(8, 8, 8)
-  gltf.scene.position.set(0, -3.4, 0)
-  gltf.scene.rotation.set(0, Math.PI * 0.5, 0)
-  scene.add(gltf.scene)
-})
+gltfLoader.load(
+  "../assets/models/FlightHelmet/glTF/FlightHelmet.gltf",
+  (gltf) => {
+    gltf.scene.scale.set(8, 8, 8);
+    gltf.scene.position.set(0, -3.4, 0);
+    gltf.scene.rotation.set(0, Math.PI * 0.5, 0);
+    scene.add(gltf.scene);
+  }
+);
 ```
 
 再加一些灯光
 
 ```js
-const directionLight = new THREE.DirectionalLight('#ffffff', 3)
-directionLight.position.set(0.25, 3, -2.25)
-scene.add(directionLight)
+const directionLight = new THREE.DirectionalLight("#ffffff", 3);
+directionLight.position.set(0.25, 3, -2.25);
+scene.add(directionLight);
 ```
 
 <img src="https://gw.alicdn.com/imgextra/i1/O1CN01UWgK3n1OIOy7M3p9I_!!6000000001682-2-tps-1089-1308.png" width="400px" />
@@ -71,7 +70,7 @@ scene.add(directionLight)
 只需要如下设置
 
 ```js
-renderer.physicallyCorrectLights = true
+renderer.physicallyCorrectLights = true;
 ```
 
 <!-- 背后本质是通过乘以 π 将 luminous intensity(发光强度) 转化为了 luminous power(f发光功率) -->
@@ -95,21 +94,21 @@ physicallyCorrectLights false | physicallyCorrectLights true
 /**
  * Loaders
  */
-const cubeTextureLoader = new THREE.CubeTextureLoader()
+const cubeTextureLoader = new THREE.CubeTextureLoader();
 
 /**
  * Environment map
  */
 const environmentMap = cubeTextureLoader.load([
-  '../assets/textures/environmentMaps/3/px.jpg',
-  '../assets/textures/environmentMaps/3/nx.jpg',
-  '../assets/textures/environmentMaps/3/py.jpg',
-  '../assets/textures/environmentMaps/3/ny.jpg',
-  '../assets/textures/environmentMaps/3/pz.jpg',
-  '../assets/textures/environmentMaps/3/nz.jpg',
-])
+  "../assets/textures/environmentMaps/3/px.jpg",
+  "../assets/textures/environmentMaps/3/nx.jpg",
+  "../assets/textures/environmentMaps/3/py.jpg",
+  "../assets/textures/environmentMaps/3/ny.jpg",
+  "../assets/textures/environmentMaps/3/pz.jpg",
+  "../assets/textures/environmentMaps/3/nz.jpg",
+]);
 
-scene.background = environmentMap // 将环境贴图添加至场景中
+scene.background = environmentMap; // 将环境贴图添加至场景中
 ```
 
 遍历模型中的 Mesh，并添加材质的环境贴图，将环境贴图强度设置为 2.5
@@ -117,36 +116,45 @@ scene.background = environmentMap // 将环境贴图添加至场景中
 ```js
 const debugObject = {
   envMapIntensity: 2.5,
-}
+};
 /**
  * Update all materials
  */
 const updateAllMaterials = () => {
   scene.traverse((child) => {
-    if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
-      console.log(child)
-      child.material.envMap = environmentMap
-      child.material.envMapIntensity = debugObject.envMapIntensity
+    if (
+      child instanceof THREE.Mesh &&
+      child.material instanceof THREE.MeshStandardMaterial
+    ) {
+      console.log(child);
+      child.material.envMap = environmentMap;
+      child.material.envMapIntensity = debugObject.envMapIntensity;
     }
-  })
-}
+  });
+};
 
-gui.add(debugObject, 'envMapIntensity').min(0).max(10).step(0.001)
-  .onChange(updateAllMaterials)
+gui
+  .add(debugObject, "envMapIntensity")
+  .min(0)
+  .max(10)
+  .step(0.001)
+  .onChange(updateAllMaterials);
 
 /**
  * Models
  */
-gltfLoader.load('../assets/models/FlightHelmet/glTF/FlightHelmet.gltf', (gltf) => {
-  // ...
-  updateAllMaterials()
-})
-
+gltfLoader.load(
+  "../assets/models/FlightHelmet/glTF/FlightHelmet.gltf",
+  (gltf) => {
+    // ...
+    updateAllMaterials();
+  }
+);
 ```
 
-无环境贴图 | 有环境贴图
---- | ---
-<img src="https://gw.alicdn.com/imgextra/i1/O1CN012Q3zXa1hTpY91nPvn_!!6000000004279-2-tps-1125-2436.png" width="300px" /> | <img src="https://gw.alicdn.com/imgextra/i3/O1CN01aHYoHk1PyMs9ycfro_!!6000000001909-2-tps-1125-2436.png" width="300px" />
+| 无环境贴图                                                                                                                | 有环境贴图                                                                                                                |
+| ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| <img src="https://gw.alicdn.com/imgextra/i1/O1CN012Q3zXa1hTpY91nPvn_!!6000000004279-2-tps-1125-2436.png" width="300px" /> | <img src="https://gw.alicdn.com/imgextra/i3/O1CN01aHYoHk1PyMs9ycfro_!!6000000001909-2-tps-1125-2436.png" width="300px" /> |
 
 ## Renderer 渲染器相关拟真优化
 
@@ -165,20 +173,19 @@ THREE.BasicDepthPacking
 THREE.RGBADepthPacking
 ```
 
-这些常量用于纹理的encoding属性。
+这些常量用于纹理的 encoding 属性。
 
 推荐使用的是 sRGBEncoding
 
 ```js
-renderer.outputEncoding = THREE.sRGBEncoding
+renderer.outputEncoding = THREE.sRGBEncoding;
 ```
 
 对比效果
 
-outputEncoding LinearEncoding | outputEncoding sRGBEncoding
---- | ---
-<img src="https://gw.alicdn.com/imgextra/i3/O1CN01aHYoHk1PyMs9ycfro_!!6000000001909-2-tps-1125-2436.png" width="300px" />|<img src="https://gw.alicdn.com/imgextra/i1/O1CN01eUlWY01MbyfDrWlc8_!!6000000001454-2-tps-1125-2436.png" width="300px">
-
+| outputEncoding LinearEncoding                                                                                             | outputEncoding sRGBEncoding                                                                                             |
+| ------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| <img src="https://gw.alicdn.com/imgextra/i3/O1CN01aHYoHk1PyMs9ycfro_!!6000000001909-2-tps-1125-2436.png" width="300px" /> | <img src="https://gw.alicdn.com/imgextra/i1/O1CN01eUlWY01MbyfDrWlc8_!!6000000001454-2-tps-1125-2436.png" width="300px"> |
 
 可以看出纹理变得更加明亮了，这些纹理也会影响环境贴图。
 
@@ -189,6 +196,7 @@ Gamma 编码是一种存储颜色的方法，同时根据人眼敏感度优化�
 虽然有些人可能认为 GammaEncoding 比 sRGBEncoding 更好，因为我们可以控制更暗或更亮场景的 gamma 因子，但这在物理上看起来并不正确，我们稍后会看到如何以更好的方式管理“亮度”。
 
 相关资料可参考
+
 - [https://www.donmccurdy.com/2020/06/17/color-management-in-threejs/](https://www.donmccurdy.com/2020/06/17/color-management-in-threejs/)
 - [https://medium.com/game-dev-daily/the-srgb-learning-curve-773b7f68cf7a](https://medium.com/game-dev-daily/the-srgb-learning-curve-773b7f68cf7a)
 
@@ -203,16 +211,16 @@ Gamma 编码是一种存储颜色的方法，同时根据人眼敏感度优化�
 我们可以将 environmentMap 纹理编码改成 THREE.sRGBEncoding：
 
 ```js
-environmentMap.encoding = THREE.sRGBEncoding
+environmentMap.encoding = THREE.sRGBEncoding;
 ```
 
 但是模型纹理呢？幸运的是，GLTFLoader 实现了这个规则，从它加载的所有纹理都会自动进行正确的编码。
 
 对比如下
 
-environmentMap.encoding  LinearEncoding | environmentMap.encoding sRGBEncoding
---- | ---
-<img src="https://gw.alicdn.com/imgextra/i1/O1CN01eUlWY01MbyfDrWlc8_!!6000000001454-2-tps-1125-2436.png" width="300px" />|<img src="https://gw.alicdn.com/imgextra/i1/O1CN01hliATr1BzN7a2AwN1_!!6000000000016-2-tps-1125-2436.png" width="300px">
+| environmentMap.encoding LinearEncoding                                                                                    | environmentMap.encoding sRGBEncoding                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| <img src="https://gw.alicdn.com/imgextra/i1/O1CN01eUlWY01MbyfDrWlc8_!!6000000001454-2-tps-1125-2436.png" width="300px" /> | <img src="https://gw.alicdn.com/imgextra/i1/O1CN01hliATr1BzN7a2AwN1_!!6000000000016-2-tps-1125-2436.png" width="300px"> |
 
 ### toneMapping 色调映射
 
@@ -232,9 +240,9 @@ THREE.ACESFilmicToneMapping
 
 这里我们先使用 ReinhardToneMapping
 
-toneMapping NoToneMapping | toneMapping ReinhardToneMapping
---- | ---
-<img src="https://gw.alicdn.com/imgextra/i1/O1CN01hliATr1BzN7a2AwN1_!!6000000000016-2-tps-1125-2436.png" width="300px"> | <img src="https://gw.alicdn.com/imgextra/i3/O1CN01ZAftt51r8RCxq4dn9_!!6000000005586-2-tps-1125-2436.png" width="300px" />
+| toneMapping NoToneMapping                                                                                               | toneMapping ReinhardToneMapping                                                                                           |
+| ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| <img src="https://gw.alicdn.com/imgextra/i1/O1CN01hliATr1BzN7a2AwN1_!!6000000000016-2-tps-1125-2436.png" width="300px"> | <img src="https://gw.alicdn.com/imgextra/i3/O1CN01ZAftt51r8RCxq4dn9_!!6000000005586-2-tps-1125-2436.png" width="300px" /> |
 
 ### toneMappingExposure 色调映射的曝光级别
 
@@ -242,15 +250,15 @@ toneMapping NoToneMapping | toneMapping ReinhardToneMapping
 
 `.toneMappingExposure : Number`
 
-色调映射的曝光级别。默认是1
+色调映射的曝光级别。默认是 1
 
 ```js
-renderer.toneMappingExposure = 2.5
+renderer.toneMappingExposure = 2.5;
 ```
 
-toneMappingExposure 1 | toneMappingExposure 2.5
---- | ---
-<img src="https://gw.alicdn.com/imgextra/i3/O1CN01ZAftt51r8RCxq4dn9_!!6000000005586-2-tps-1125-2436.png" width="300px"> | <img src="https://gw.alicdn.com/imgextra/i3/O1CN01JF2Iu81PDeTbEnsKZ_!!6000000001807-2-tps-1125-2436.png" width="300px" />
+| toneMappingExposure 1                                                                                                   | toneMappingExposure 2.5                                                                                                   |
+| ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| <img src="https://gw.alicdn.com/imgextra/i3/O1CN01ZAftt51r8RCxq4dn9_!!6000000005586-2-tps-1125-2436.png" width="300px"> | <img src="https://gw.alicdn.com/imgextra/i3/O1CN01JF2Iu81PDeTbEnsKZ_!!6000000001807-2-tps-1125-2436.png" width="300px" /> |
 
 ### Anti Aliasing 抗锯齿
 
@@ -273,20 +281,20 @@ toneMappingExposure 1 | toneMappingExposure 2.5
 const renderer = new THREE.WebGLRenderer({
   canvas,
   antialias: true,
-})
+});
 ```
 
 锯齿消失了。放大观察会更加明显。
 
-antialias false | antialias true
---- | ---
-<img src="https://gw.alicdn.com/imgextra/i3/O1CN01JF2Iu81PDeTbEnsKZ_!!6000000001807-2-tps-1125-2436.png" width="300px"> | <img src="https://gw.alicdn.com/imgextra/i4/O1CN011ocjd71s2JWpvlETh_!!6000000005708-2-tps-1125-2436.png" width="300px" />
+| antialias false                                                                                                         | antialias true                                                                                                            |
+| ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| <img src="https://gw.alicdn.com/imgextra/i3/O1CN01JF2Iu81PDeTbEnsKZ_!!6000000001807-2-tps-1125-2436.png" width="300px"> | <img src="https://gw.alicdn.com/imgextra/i4/O1CN011ocjd71s2JWpvlETh_!!6000000005708-2-tps-1125-2436.png" width="300px" /> |
 
 局部放大
 
-antialias false | antialias true
---- | ---
-<img src="https://gw.alicdn.com/imgextra/i2/O1CN01ylYR2N25bChoKbko7_!!6000000007544-2-tps-339-339.png" width="339px"> | <img src="https://gw.alicdn.com/imgextra/i2/O1CN01lPd58w23UfpHm0IGc_!!6000000007259-2-tps-339-339.png" width="339px" />
+| antialias false                                                                                                       | antialias true                                                                                                          |
+| --------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| <img src="https://gw.alicdn.com/imgextra/i2/O1CN01ylYR2N25bChoKbko7_!!6000000007544-2-tps-339-339.png" width="339px"> | <img src="https://gw.alicdn.com/imgextra/i2/O1CN01lPd58w23UfpHm0IGc_!!6000000007259-2-tps-339-339.png" width="339px" /> |
 
 使用抗锯齿会消耗一些资源。像素比（pixel ratio）大于 1 的屏幕实际上并不需要抗锯齿。比较好的方法是只为像素比大于 2 的屏幕激活它。我们将在以后的学习中看到如何实现它，以及其他优化。
 
@@ -297,24 +305,26 @@ antialias false | antialias true
 首先将 WebGLRenderer 的 shadow 打开
 
 ```js
-renderer.shadowMap.enabled = true
-renderer.shadowMap.type = THREE.PCFSoftShadowMap
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 ```
 
 打开平行光发射投影
 
 ```js
-directionLight.castShadow = true
+directionLight.castShadow = true;
 ```
 
 添加 CameraHelper 观察一下光照范围是否将物体全部包裹住
 
 ```js
-const directionalLightCameraHelper = new THREE.CameraHelper(directionLight.shadow.camera)
-scene.add(directionalLightCameraHelper)
+const directionalLightCameraHelper = new THREE.CameraHelper(
+  directionLight.shadow.camera
+);
+scene.add(directionalLightCameraHelper);
 
-directionLight.shadow.camera.far = 15
-directionLight.shadow.mapSize.set(1024, 1024)
+directionLight.shadow.camera.far = 15;
+directionLight.shadow.mapSize.set(1024, 1024);
 ```
 
 `.mapSize : Vector2` 一个 Vector2 定义阴影贴图的宽度和高度。
@@ -333,18 +343,21 @@ directionLight.shadow.mapSize.set(1024, 1024)
  */
 const updateAllMaterials = () => {
   scene.traverse((child) => {
-    if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
+    if (
+      child instanceof THREE.Mesh &&
+      child.material instanceof THREE.MeshStandardMaterial
+    ) {
       // ...
-      child.castShadow = true
-      child.receiveShadow = true
+      child.castShadow = true;
+      child.receiveShadow = true;
     }
-  })
-}
+  });
+};
 ```
 
-no shadow | shadow
---- | ---
-<img src="https://gw.alicdn.com/imgextra/i4/O1CN011ocjd71s2JWpvlETh_!!6000000005708-2-tps-1125-2436.png" width="300px"> | <img src="https://gw.alicdn.com/imgextra/i4/O1CN013pBPL01XVWrOIZ3Ui_!!6000000002929-2-tps-1125-2436.png" width="300px" />
+| no shadow                                                                                                               | shadow                                                                                                                    |
+| ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| <img src="https://gw.alicdn.com/imgextra/i4/O1CN011ocjd71s2JWpvlETh_!!6000000005708-2-tps-1125-2436.png" width="300px"> | <img src="https://gw.alicdn.com/imgextra/i4/O1CN013pBPL01XVWrOIZ3Ui_!!6000000002929-2-tps-1125-2436.png" width="300px" /> |
 
 ## 最终微调
 
@@ -354,15 +367,15 @@ no shadow | shadow
 
 这里我调整了环境贴图的强度和光照强度，看起来和环境融合会更真实一些
 
-光照调整前 | 光照调整后
---- | ---
-<img src="https://gw.alicdn.com/imgextra/i4/O1CN013pBPL01XVWrOIZ3Ui_!!6000000002929-2-tps-1125-2436.png" width="300px"> | <img src="https://gw.alicdn.com/imgextra/i1/O1CN01r1gBJe1yvd3Z7inzX_!!6000000006641-2-tps-1125-2436.png" width="300px" />
+| 光照调整前                                                                                                              | 光照调整后                                                                                                                |
+| ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| <img src="https://gw.alicdn.com/imgextra/i4/O1CN013pBPL01XVWrOIZ3Ui_!!6000000002929-2-tps-1125-2436.png" width="300px"> | <img src="https://gw.alicdn.com/imgextra/i1/O1CN01r1gBJe1yvd3Z7inzX_!!6000000006641-2-tps-1125-2436.png" width="300px" /> |
 
 最终对比过程
 
 ![](https://gw.alicdn.com/imgextra/i2/O1CN01Ww0nWf1vntWNoZwVf_!!6000000006218-2-tps-2250-1949.png)
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/25-realisticRender/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/25-realisticRender/)
 
 [demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/25-realisticRender)
 
@@ -374,12 +387,12 @@ no shadow | shadow
 
 ![](https://gw.alicdn.com/imgextra/i3/O1CN01uAveqz1FPstdmmYK9_!!6000000000480-2-tps-374-402.png)
 
-这是因为在计算表面是否在阴影中时，出于精确原因，阴影粉刺可能会出现在光滑和平坦的表面上。 这里发生的事情是汉堡包在它自己的表面上投下了阴影。我们可以使用以下2个属性解决问题
+这是因为在计算表面是否在阴影中时，出于精确原因，阴影粉刺可能会出现在光滑和平坦的表面上。 这里发生的事情是汉堡包在它自己的表面上投下了阴影。我们可以使用以下 2 个属性解决问题
 
 `.bias : Float` 用于平面
 
 阴影贴图偏差，在确定曲面是否在阴影中时，从标准化深度添加或减去多少。
-默认值为0.此处非常小的调整（大约0.0001）可能有助于减少阴影中的伪影
+默认值为 0.此处非常小的调整（大约 0.0001）可能有助于减少阴影中的伪影
 
 `.normalBias : Float` 用于曲面
 
@@ -388,14 +401,14 @@ no shadow | shadow
 我们添加如下代码
 
 ```js
-directionLight.shadow.normalBias = 0.05
+directionLight.shadow.normalBias = 0.05;
 ```
 
 最终效果如下
 
 <img src="https://gw.alicdn.com/imgextra/i4/O1CN01P3VIFK1hpMAIHdT9h_!!6000000004326-2-tps-1125-2436.png" width="400px" />
 
-在线 [demo 链接](https://gaohaoyang.github.io/threeJourney/25-realisticRenderBurger/)
+在线 [demo 链接](https://pocodingwer.github.io/POcodingWER_Blog/threeJourney/25-realisticRenderBurger/)
 
 [demo 源码](https://github.com/Gaohaoyang/threeJourney/tree/main/src/25-realisticRenderBurger)
 
@@ -407,4 +420,4 @@ directionLight.shadow.normalBias = 0.05
 
 本节学习了如何让模型更加真实的渲染。通过添加环境贴图、renderer 拟真优化等方式完成。通过 physicallyCorrectLights, environmentMap, outputEncoding, textures encoding, toneMapping, toneMappingExposure, antialias, Shadows 等让渲染显得更加真实。
 
-让物体在3D空间中更加真实的渲染非常酷。虽然我们做了很多努力，但有时看上去还是不够真实，任重道远。
+让物体在 3D 空间中更加真实的渲染非常酷。虽然我们做了很多努力，但有时看上去还是不够真实，任重道远。
