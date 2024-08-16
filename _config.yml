@@ -8,7 +8,7 @@
 # Site settings
 title: 쿵짝쿵짝
 brief-intro: Diary
-baseurl: "/diary" # the subpath of your site, e.g. /blog
+baseurl: "/Diary" # the subpath of your site, e.g. /blog
 url: "https://POcodingWER.github.io" # the base hostname & protocol for your site
 
 permalink: /:year/:month/:day/:title/
